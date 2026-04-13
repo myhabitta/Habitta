@@ -1,0 +1,22 @@
+---
+// Molecule: ScrollHint
+// Indicador animado de scroll — track descendente + label.
+// Se posiciona de forma absoluta desde el organismo que lo contiene.
+
+interface Props {
+  label?: string;
+}
+
+const { label = 'Explora' } = Astro.props;
+---
+
+<div class="flex flex-col items-center gap-[0.6rem]">
+  <div class="relative h-12 w-px overflow-hidden bg-ink-faint">
+    <div
+      class="absolute left-0 top-0 h-[40%] w-full animate-scroll-down bg-primary motion-reduce:animate-none motion-reduce:opacity-40"
+      style="animation-delay: 1.6s"
+    >
+    </div>
+  </div>
+  <span class="text-[0.6rem] uppercase tracking-[0.2em] text-ink-subtle">{label}</span>
+</div>

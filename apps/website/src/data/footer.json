@@ -1,0 +1,37 @@
+{
+  "logo": {
+    "src": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775624499/Logotipo-positivo_s7xhks.webp",
+    "alt": "Habitta"
+  },
+  "watermark": {
+    "src": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775622469/Isotipo-2_w2vzzr.webp"
+  },
+  "tagline": "Proyectos de vivienda que definen como vivir.",
+  "social": [
+    { "name": "Instagram", "href": "https://instagram.com/habitta" },
+    { "name": "WhatsApp", "href": "https://wa.me/573000000000" }
+  ],
+  "columns": [
+    {
+      "title": "Navegacion",
+      "links": [
+        { "label": "Inicio", "href": "/" },
+        { "label": "Proyectos", "href": "/proyectos" },
+        { "label": "Acabados", "href": "/paquetes" },
+        { "label": "Nosotros", "href": "/nosotros" }
+      ]
+    },
+    {
+      "title": "Proyectos",
+      "links": [{ "label": "Bello Antioquia", "href": "/proyectos/bello-antioquia" }]
+    }
+  ],
+  "contact": {
+    "email": "info@habitta.co",
+    "phone": "+57 300 000 0000",
+    "phoneHref": "tel:+573000000000",
+    "location": "Medellin, Colombia"
+  },
+  "copyright": "Habitta. Todos los derechos reservados.",
+  "bottomTagline": "Diseñado con proposito"
+}

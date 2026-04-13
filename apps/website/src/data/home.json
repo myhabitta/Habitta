@@ -1,0 +1,164 @@
+{
+  "seo": {
+    "title": "Proyectos de Vivienda en Colombia",
+    "description": "Habitta disena proyectos residenciales con acabados personalizables en Colombia. Elige entre paquetes basico, estandar y premium para tu hogar ideal.",
+    "canonical": "https://habitta.co",
+    "robots": "index, follow",
+    "keywords": [
+      "vivienda Colombia",
+      "proyectos residenciales",
+      "acabados de vivienda",
+      "apartamentos nuevos",
+      "Habitta",
+      "vivienda Medellin",
+      "paquetes de acabados"
+    ],
+    "og": {
+      "title": "Habitta — Proyectos de Vivienda en Colombia",
+      "description": "Proyectos residenciales con acabados pensados para cada estilo de vida. Basico, estandar o premium — tu decides.",
+      "image": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775621338/Imagotipo-1_xsx5t8.webp",
+      "type": "website",
+      "locale": "es_CO",
+      "siteName": "Habitta"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Habitta — Proyectos de Vivienda en Colombia",
+      "description": "Proyectos residenciales con acabados pensados para cada estilo de vida.",
+      "image": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775621338/Imagotipo-1_xsx5t8.webp"
+    },
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Habitta",
+      "description": "Empresa inmobiliaria colombiana que comercializa proyectos de vivienda con diferentes niveles de acabados.",
+      "url": "https://habitta.co",
+      "logo": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775621338/Imagotipo-1_xsx5t8.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Medellin",
+        "addressCountry": "CO"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Colombia"
+      }
+    }
+  },
+  "hero": {
+    "eyebrow": "Proyectos de Vivienda \u00b7 Colombia",
+    "heading": ["Espacios que", "definen", "como vivir."],
+    "headingAccent": "como vivir.",
+    "subtitle": "Disenamos proyectos residenciales con acabados pensados para cada estilo de vida. Elige el tuyo.",
+    "ctaPrimary": {
+      "label": "Ver proyectos",
+      "href": "/proyectos"
+    },
+    "ctaSecondary": {
+      "label": "Conoce los acabados",
+      "href": "#paquetes"
+    },
+    "stats": [
+      { "value": "3+", "label": "Proyectos activos" },
+      { "value": "100%", "label": "Financiable" },
+      { "value": "+240", "label": "Familias confian" }
+    ],
+    "scrollHint": "Explora"
+  },
+  "aboutUs": {
+    "eyebrow": "Sobre nosotros",
+    "heading": "Construimos mas",
+    "headingAccent": "que espacios.",
+    "description": "Habitta nacio en Colombia con una conviccion: que la vivienda bien disenada no deberia ser un privilegio. Somos una inmobiliaria que parte del concepto antes que del ladrillo \u2014 pensamos en el estilo de vida que queremos posibilitar y trabajamos hacia atras desde ahi.",
+    "stats": [
+      { "value": "8+", "label": "Anos de experiencia" },
+      { "value": "+240", "label": "Familias confian en nosotros" }
+    ],
+    "pillars": [
+      {
+        "number": "01",
+        "title": "Calidad sin concesiones",
+        "description": "Cada acabado, cada material y cada detalle constructivo pasa por un proceso de seleccion riguroso. No construimos para hoy \u2014 construimos para generaciones."
+      },
+      {
+        "number": "02",
+        "title": "Diseno con proposito",
+        "description": "Los espacios que disenamos responden a como vive la gente real: luz natural, circulacion inteligente y ambientes que evolucionan con quien los habita."
+      },
+      {
+        "number": "03",
+        "title": "Acompanamiento real",
+        "description": "Desde el primer contacto hasta la entrega de llaves, nuestro equipo guia cada decision. Comprar vivienda es una de las decisiones mas importantes \u2014 no deberia sentirse sola."
+      }
+    ]
+  },
+  "packages": {
+    "eyebrow": "Paquetes de acabados",
+    "heading": "Elige como",
+    "headingAccent": "quieres vivir.",
+    "description": "Cada unidad esta disponible en tres niveles de acabados. Mismo proyecto, misma ubicacion \u2014 distinto nivel de detalle. Tu decides.",
+    "items": [
+      {
+        "number": "01",
+        "name": "Basico",
+        "tagline": "El comienzo bien hecho",
+        "price": 189000000,
+        "description": "Todo lo esencial con materiales de calidad comprobada. Ideal para quienes buscan una vivienda funcional y lista para personalizar.",
+        "features": [
+          "Porcelanato 45\u00d745 en zonas comunes",
+          "Ventaneria en aluminio estandar",
+          "Meson en granito natural",
+          "Enchape bano hasta 1.80m",
+          "Pintura basica en muros y techos",
+          "Electrica basica normativa"
+        ],
+        "highlighted": false,
+        "cta": { "label": "Ver proyecto", "href": "/proyectos" }
+      },
+      {
+        "number": "02",
+        "name": "Estandar",
+        "tagline": "El equilibrio perfecto",
+        "price": 238000000,
+        "badge": "Mas elegido",
+        "description": "Mayor refinamiento en cada detalle sin renunciar a la practicidad. El paquete mas elegido por familias que valoran el confort cotidiano.",
+        "features": [
+          "Porcelanato premium 60\u00d760",
+          "Ventaneria doble vidrio aluminio",
+          "Meson granito natural premium",
+          "Bano completo con mueble",
+          "Pintura premium mate lavable",
+          "Puntos de A/C + closets basicos en melamina"
+        ],
+        "highlighted": true,
+        "cta": { "label": "Ver proyecto", "href": "/proyectos" }
+      },
+      {
+        "number": "03",
+        "name": "Premium",
+        "tagline": "Sin concesiones",
+        "price": 310000000,
+        "description": "Materiales importados, acabados unicos y tecnologia integrada para quienes entienden la vivienda como una extension de su identidad.",
+        "features": [
+          "Porcelanato importado 80\u00d780 pulido",
+          "Vidrio laminado acustico panoramico",
+          "Cocina isla con cuarzo blanco",
+          "Ducha italiana + mueble flotante",
+          "Estuco veneciano en muros principales",
+          "Domotica (luces/persianas) + closets LED madera"
+        ],
+        "highlighted": false,
+        "cta": { "label": "Ver proyecto", "href": "/proyectos" }
+      }
+    ],
+    "disclaimer": "Precios referenciales sujetos a disponibilidad y proyecto. Incluyen acabados indicados, sin mobiliario."
+  },
+  "preCta": {
+    "heading": "Listo para encontrar",
+    "headingAccent": "tu hogar",
+    "cta": {
+      "label": "Explorar proyectos",
+      "href": "/proyectos"
+    }
+  }
+}

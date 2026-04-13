@@ -1,0 +1,19 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Hero from '@/components/organisms/Hero.astro';
+import ValueProps from '@/components/organisms/ValueProps.astro';
+import AboutUs from '@/components/organisms/AboutUs.astro';
+import PackagesSection from '@/components/organisms/PackagesSection.astro';
+import PreFooterCta from '@/components/organisms/PreFooterCta.astro';
+import homeData from '@/data/home.json';
+
+const { seo } = homeData;
+---
+
+<Layout seo={seo}>
+  <Hero />
+  <ValueProps />
+  <AboutUs />
+  <PackagesSection />
+  <PreFooterCta />
+</Layout>

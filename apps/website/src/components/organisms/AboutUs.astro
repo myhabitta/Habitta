@@ -1,0 +1,66 @@
+---
+// Organism: AboutUs
+// Seccion "quienes somos" — presentacion de Habitta y sus tres pilares de valor.
+// Datos: dummy para desarrollo, reemplazar con CMS o props cuando sea necesario.
+
+import EyebrowLabel from '@/components/atoms/EyebrowLabel.astro';
+import ValuePillar from '@/components/molecules/ValuePillar.astro';
+import homeData from '@/data/home.json';
+
+const { aboutUs } = homeData;
+const { pillars } = aboutUs;
+---
+
+<section class="bg-surface-raised px-[clamp(1.5rem,6vw,5rem)] py-[clamp(5rem,10vw,8rem)]">
+  <div class="mx-auto max-w-[1200px]">
+    <!-- Header: dos columnas en desktop -->
+    <div class="mb-20 grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
+      <!-- Left: eyebrow + titulo -->
+      <div class="flex flex-col justify-center gap-8">
+        <EyebrowLabel text={aboutUs.eyebrow} />
+
+        <h2
+          class="font-display text-[clamp(2.5rem,5vw,4rem)] font-light leading-[1.05] tracking-[-0.01em] text-ink"
+        >
+          {aboutUs.heading}<br />
+          <span class="italic text-primary">{aboutUs.headingAccent}</span>
+        </h2>
+      </div>
+
+      <!-- Right: descripcion + stat -->
+      <div class="flex flex-col justify-center gap-10">
+        <p class="text-[clamp(0.9rem,1.2vw,1rem)] font-light leading-[1.8] text-ink-muted">
+          {aboutUs.description}
+        </p>
+
+        <div class="flex items-center gap-12">
+          {aboutUs.stats.map((stat, i) => (
+            <>
+              {i > 0 && <div class="h-12 w-px bg-ink-faint"></div>}
+              <div class="flex flex-col gap-1">
+                <span class="font-display text-[2.5rem] font-semibold leading-none text-primary">{stat.value}</span>
+                <span class="text-[0.68rem] font-normal uppercase tracking-[0.12em] text-ink-subtle">{stat.label}</span>
+              </div>
+            </>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="mb-20 h-px w-full bg-ink-faint"></div>
+
+    <!-- Pilares de valor -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+      {
+        pillars.map((pillar) => (
+          <ValuePillar
+            number={pillar.number}
+            title={pillar.title}
+            description={pillar.description}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Local Fonts: Work Sans & Inter ─────────────────────────────────────── */
+@font-face {
+  font-family: 'Work Sans';
+  src: url('/fonts/worksans/WorkSans-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Work Sans';
+  src: url('/fonts/worksans/WorkSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Work Sans';
+  src: url('/fonts/worksans/WorkSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Work Sans';
+  src: url('/fonts/worksans/WorkSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/Inter-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Habitta Dashboard — Design System ────────────────────────────────────
+   Paleta sincronizada con la marca Habitta.
+
+   primary   → #424832  (olive verde — acciones principales)
+   quaternary→ #E8703A  (naranja Habitta — accent / highlights)
+   secondary → #c5b1a0  (beige — elementos secundarios)
+   ink       → #1E1A1B  (texto principal)
+   surface   → #FFFFFF / #F9F8F6 / #F3F1ED
+
+   Light mode → :root
+   Dark  mode → .dark
+   ────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    /* ── Paleta Habitta ──────────────────────────────────────────────── */
+    --primary: #424832;
+    --secondary: #c5b1a0;
+    --tertiary: #27272a;
+    --quaternary: #E8703A;
+    --quinary: #759465;
+
+    /* ── Base ─────────────────────────────────────────────────────────── */
+    --background: #f9f8f6;
+    --foreground: #1e1a1b;
+
+    --card: #ffffff;
+    --card-foreground: #1e1a1b;
+
+    --popover: #ffffff;
+    --popover-foreground: #1e1a1b;
+
+    /* ── Primary — variantes ────────────────────────────────────────── */
+    --primary-hover: #363d29;
+    --primary-light: #759465;
+    --primary-tint: #eaefe6;
+    --primary-foreground: #ffffff;
+
+    /* ── Secondary / Muted ────────────────────────────────────────────── */
+    --secondary: #f3f1ed;
+    --secondary-foreground: #424832;
+
+    --muted: #f3f1ed;
+    --muted-foreground: #6e6762;
+
+    --accent: #fef3ec;
+    --accent-foreground: #e8703a;
+
+    /* ── Semánticos ───────────────────────────────────────────────────── */
+    --success: #759465;
+    --success-tint: #eef3eb;
+    --success-foreground: #ffffff;
+
+    --warning: #e8703a;
+    --warning-tint: #fef3ec;
+    --warning-foreground: #ffffff;
+
+    --destructive: #d94040;
+    --destructive-tint: #fdecec;
+    --destructive-foreground: #ffffff;
+
+    /* ── Borders / Inputs ─────────────────────────────────────────────── */
+    --border: #e8e4de;
+    --input: #e8e4de;
+    --ring: #424832;
+
+    --radius: 0.5rem;
+
+    /* ── Habitta tokens ────────────────────────────────────────────────── */
+    --habitta-accent: #e8703a;
+    --habitta-accent-hover: #d4612e;
+    --habitta-accent-light: #f0955f;
+    --habitta-accent-tint: #fef3ec;
+    --habitta-accent-foreground: #ffffff;
+
+    --habitta-brand: #e8703a;
+    --habitta-brand-foreground: #ffffff;
+
+    /* Sidebar light ───────────────────────────────────────────────────── */
+    --habitta-sidebar-bg: #27272a;
+    --habitta-sidebar-border: #363d29;
+    --habitta-sidebar-text: #c5b1a0;
+    --habitta-sidebar-text-active: #ffffff;
+  }
+
+  .dark {
+    /* ── Paleta Habitta (dark) ───────────────────────────────────────── */
+    --primary: #759465;
+    --secondary: #c5b1a0;
+    --tertiary: #9b9490;
+    --quaternary: #E8703A;
+    --quinary: #8AA87A;
+
+    /* ── Base ─────────────────────────────────────────────────────────── */
+    --background: #1e1a1b;
+    --foreground: #f3f1ed;
+
+    --card: #2a2523;
+    --card-foreground: #f3f1ed;
+
+    --popover: #2a2523;
+    --popover-foreground: #f3f1ed;
+
+    /* ── Primary — variantes dark ────────────────────────────────────── */
+    --primary-hover: #8aa87a;
+    --primary-light: #8aa87a;
+    --primary-tint: #1f2a1c;
+    --primary-foreground: #ffffff;
+
+    /* ── Secondary / Muted ────────────────────────────────────────────── */
+    --secondary: #2a2523;
+    --secondary-foreground: #f3f1ed;
+
+    --muted: #2a2523;
+    --muted-foreground: #9b9490;
+
+    --accent: #33201a;
+    --accent-foreground: #f0955f;
+
+    /* ── Semánticos ───────────────────────────────────────────────────── */
+    --success: #759465;
+    --success-tint: #1f2a1c;
+    --success-foreground: #ffffff;
+
+    --warning: #e8703a;
+    --warning-tint: #33201a;
+    --warning-foreground: #ffffff;
+
+    --destructive: #d94040;
+    --destructive-tint: #2d1212;
+    --destructive-foreground: #ffffff;
+
+    /* ── Borders / Inputs ─────────────────────────────────────────────── */
+    --border: #3a3533;
+    --input: #3a3533;
+    --ring: #759465;
+
+    /* ── Habitta tokens dark ──────────────────────────────────────────── */
+    --habitta-accent: #e8703a;
+    --habitta-accent-hover: #f0955f;
+    --habitta-accent-light: #f0955f;
+    --habitta-accent-tint: #33201a;
+    --habitta-accent-foreground: #ffffff;
+
+    --habitta-brand: #e8703a;
+    --habitta-brand-foreground: #1e1a1b;
+
+    /* Sidebar dark ────────────────────────────────────────────────────── */
+    --habitta-sidebar-bg: #161310;
+    --habitta-sidebar-border: #2a2523;
+    --habitta-sidebar-text: #9b9490;
+    --habitta-sidebar-text-active: #f3f1ed;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

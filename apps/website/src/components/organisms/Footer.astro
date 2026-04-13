@@ -1,0 +1,121 @@
+---
+// Organism: Footer
+// Main grid (brand/columns/contact), bottom bar, decorative watermark.
+
+import footerData from '@/data/footer.json';
+import InstagramIcon from '@/icons/Instagram.astro';
+import WhatsAppIcon from '@/icons/WhatsApp.astro';
+import LinkedInIcon from '@/icons/LinkedIn.astro';
+import MailIcon from '@/icons/Mail.astro';
+import PhoneIcon from '@/icons/Phone.astro';
+import MapPinIcon from '@/icons/MapPin.astro';
+
+const { logo, watermark, tagline, social, columns, contact, copyright, bottomTagline } = footerData;
+
+const linkClass =
+  'font-secondary text-sm text-white/70 no-underline transition-colors duration-300 hover:text-white';
+const socialClass = 'text-white/40 transition-colors duration-300 hover:text-white';
+
+const socialComponents: Record<string, typeof InstagramIcon> = {
+  Instagram: InstagramIcon,
+  WhatsApp: WhatsAppIcon,
+};
+
+const year = new Date().getFullYear();
+---
+
+<footer class="relative overflow-hidden bg-dark" role="contentinfo">
+  <img
+    src={watermark.src}
+    alt=""
+    class="pointer-events-none absolute -bottom-4 -right-4 h-[14rem] w-auto select-none opacity-[0.04] md:h-[16rem]"
+    aria-hidden="true"
+    loading="lazy"
+  />
+
+  <div class="relative z-10 mx-auto w-full max-w-[1400px] px-[clamp(1.5rem,6vw,5rem)] pb-0 pt-16">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <!-- Brand -->
+      <div class="flex flex-col gap-5">
+        <a href="/" class="flex items-center" aria-label="Habitta - Inicio">
+          <img
+            src={logo.src}
+            alt={logo.alt}
+            class="h-9 w-auto"
+            width="110"
+            height="48"
+            loading="lazy"
+          />
+        </a>
+        <p class="max-w-[260px] font-secondary text-sm leading-relaxed text-white/60">{tagline}</p>
+        <div class="flex items-center gap-4 pt-1" aria-label="Redes sociales">
+          {
+            social.map((item) => {
+              const Icon = socialComponents[item.name];
+              return (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class={socialClass}
+                  aria-label={`${item.name} de Habitta`}
+                >
+                  <Icon />
+                </a>
+              );
+            })
+          }
+        </div>
+      </div>
+
+      <!-- Link columns -->
+      {
+        columns.map((col) => (
+          <div>
+            <h3 class="mb-5 font-secondary text-xs font-medium uppercase tracking-widest text-white/40">
+              {col.title}
+            </h3>
+            <ul class="flex flex-col gap-3" role="list">
+              {col.links.map((link) => (
+                <li>
+                  <a href={link.href} class={linkClass}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+
+      <!-- Contact -->
+      <div>
+        <h3 class="mb-5 font-secondary text-xs font-medium uppercase tracking-widest text-white/40">
+          Contacto
+        </h3>
+        <ul class="flex flex-col gap-4" role="list">
+          <li class="flex items-center gap-3">
+            <MailIcon class="h-4 w-4 shrink-0 text-white/40" />
+            <a href={`mailto:${contact.email}`} class={linkClass}>{contact.email}</a>
+          </li>
+          <li class="flex items-center gap-3">
+            <PhoneIcon class="h-4 w-4 shrink-0 text-white/40" />
+            <a href={contact.phoneHref} class={linkClass}>{contact.phone}</a>
+          </li>
+          <li class="flex items-start gap-3">
+            <MapPinIcon class="mt-0.5 h-4 w-4 shrink-0 text-white/40" />
+            <span class="font-secondary text-sm text-white/70">{contact.location}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div
+      class="mt-16 flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 sm:flex-row"
+    >
+      <p class="font-secondary text-xs text-white/40">&copy;{year} {copyright}</p>
+      <p class="font-secondary text-xs text-white/30">{bottomTagline}</p>
+    </div>
+  </div>
+</footer>

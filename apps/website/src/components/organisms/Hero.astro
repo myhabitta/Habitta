@@ -1,0 +1,147 @@
+---
+// Organism: Hero
+// Sección hero completa de la landing.
+// Compone: atoms/EyebrowLabel + molecules/StatItem + molecules/ScrollHint
+
+import EyebrowLabel from '@/components/atoms/EyebrowLabel.astro';
+import StatItem from '@/components/molecules/StatItem.astro';
+import ScrollHint from '@/components/molecules/ScrollHint.astro';
+import ArrowRight from '@/icons/ArrowRight.astro';
+import homeData from '@/data/home.json';
+
+const { hero } = homeData;
+---
+
+<section id="inicio" class="relative flex min-h-[100svh] items-center overflow-hidden bg-surface">
+  <!-- Background layers -->
+  <div class="absolute inset-0 z-0" aria-hidden="true">
+    <!-- Subtle warm gradient accents -->
+    <div
+      class="absolute inset-0"
+      style="background: radial-gradient(ellipse 70% 50% at 80% 30%, rgba(197,177,160,0.12) 0%, transparent 65%), radial-gradient(ellipse 50% 70% at 5% 80%, rgba(197,177,160,0.08) 0%, transparent 60%)"
+    >
+    </div>
+
+    <!-- Clean architectural grid -->
+    <div class="hero-grid absolute inset-0 bg-[length:80px_80px]"></div>
+
+    <!-- Decorative dot pattern (right side) -->
+    <div class="hero-dots absolute right-[8%] top-[20%] hidden h-[200px] w-[200px] lg:block"></div>
+  </div>
+
+  <!-- Main content -->
+  <div
+    class="relative z-10 mx-auto w-full max-w-[1200px] px-[clamp(1.5rem,6vw,5rem)] pb-[clamp(4rem,8vw,6rem)] pt-[clamp(7rem,14vw,11rem)]"
+  >
+    <!-- Eyebrow -->
+    <div
+      class="mb-10 animate-fade-up opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
+      style="animation-delay: 0.1s"
+    >
+      <EyebrowLabel text={hero.eyebrow} />
+    </div>
+
+    <!-- Title -->
+    <h1
+      class="mb-8 flex flex-col font-primary text-[clamp(3.5rem,8vw,5rem)] font-light leading-[0.95] tracking-[-0.02em] text-ink"
+    >
+      <span
+        class="block animate-fade-up opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
+        style="animation-delay: 0.25s"
+      >
+        {hero.heading[0]}
+      </span>
+      <span
+        class="block animate-fade-up italic text-primary opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
+        style="animation-delay: 0.4s"
+      >
+        {hero.heading[1]}
+      </span>
+      <span
+        class="block animate-fade-up opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
+        style="animation-delay: 0.55s"
+      >
+        {hero.heading[2]}
+      </span>
+    </h1>
+
+    <!-- Subtitle -->
+    <p
+      class="mb-14 max-w-[440px] animate-fade-up font-secondary text-[clamp(0.9rem,1.4vw,1.05rem)] font-light leading-[1.75] text-ink-muted opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
+      style="animation-delay: 0.7s"
+    >
+      {hero.subtitle}
+    </p>
+
+    <!-- CTA group -->
+    <div
+      class="flex animate-fade-up flex-wrap items-center gap-5 opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 sm:gap-6"
+      style="animation-delay: 0.85s"
+    >
+      <!-- Primary CTA Button -->
+      <a
+        href={hero.ctaPrimary.href}
+        class="group relative inline-flex items-center gap-[0.6rem] overflow-hidden bg-primary px-8 py-[0.85rem] text-[0.85rem] font-medium uppercase tracking-[0.06em] text-white no-underline transition-all duration-300 hover:gap-4 hover:shadow-lg hover:shadow-primary/20"
+      >
+        <span
+          class="absolute inset-0 -translate-x-full bg-dark transition-transform duration-[400ms] ease-[cubic-bezier(0.77,0,0.18,1)] group-hover:translate-x-0"
+        ></span>
+        <span class="relative z-10">{hero.ctaPrimary.label}</span>
+        <ArrowRight
+          class="relative z-10 h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </a>
+
+      <!-- Secondary Ghost Button -->
+      <a
+        href={hero.ctaSecondary.href}
+        class="group inline-flex items-center gap-[0.6rem] border border-primary px-8 py-[0.85rem] text-[0.85rem] font-medium uppercase tracking-[0.06em] text-primary no-underline transition-all duration-300 hover:bg-primary hover:text-white"
+      >
+        <span>{hero.ctaSecondary.label}</span>
+        <ArrowRight
+          class="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </a>
+    </div>
+
+    <!-- Stats bar -->
+    <div
+      class="mt-16 flex animate-fade-up items-center gap-8 border-t border-ink-faint pt-8 opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 sm:mt-20"
+      style="animation-delay: 1s"
+      aria-label="Estadisticas"
+    >
+      <StatItem value={hero.stats[0].value} label={hero.stats[0].label} />
+      <div class="h-8 w-px bg-ink-faint" aria-hidden="true"></div>
+      <StatItem value={hero.stats[1].value} label={hero.stats[1].label} />
+      <div class="hidden h-8 w-px bg-ink-faint sm:block" aria-hidden="true"></div>
+      <div class="hidden sm:block">
+        <StatItem value={hero.stats[2].value} label={hero.stats[2].label} />
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div
+    class="absolute bottom-10 left-1/2 z-10 hidden -translate-x-1/2 animate-fade-in opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 sm:block"
+    style="animation-delay: 1.4s"
+    aria-hidden="true"
+  >
+    <ScrollHint label={hero.scrollHint} />
+  </div>
+</section>
+
+<style>
+  /* mask-image no tiene soporte en Tailwind v3 */
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(30, 26, 27, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 26, 27, 0.03) 1px, transparent 1px);
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-dots {
+    background-image: radial-gradient(circle, rgba(66, 72, 50, 0.12) 1px, transparent 1px);
+    background-size: 16px 16px;
+    mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+  }
+</style>

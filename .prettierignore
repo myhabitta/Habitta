@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.next/
+.astro/
+packages/types/src/supabase.ts

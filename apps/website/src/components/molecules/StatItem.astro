@@ -1,0 +1,16 @@
+---
+// Molecule: StatItem
+// Valor numérico + etiqueta. Usado para métricas y stats destacadas.
+
+interface Props {
+  value: string;
+  label: string;
+}
+
+const { value, label } = Astro.props;
+---
+
+<div class="flex flex-col gap-[0.15rem]">
+  <span class="font-display text-2xl font-semibold leading-none text-ink">{value}</span>
+  <span class="text-[0.68rem] font-normal uppercase tracking-[0.12em] text-ink-muted">{label}</span>
+</div>

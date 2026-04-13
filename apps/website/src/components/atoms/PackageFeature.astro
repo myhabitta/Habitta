@@ -1,0 +1,16 @@
+---
+// Atom: PackageFeature
+// Item de caracteristica dentro de un PackageCard.
+// Decoracion: linea primary + texto.
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<li class="flex items-start gap-3">
+  <span class="mt-[0.45em] block h-px w-3 shrink-0 bg-primary"></span>
+  <span class="text-[0.85rem] font-light leading-snug text-ink-muted">{text}</span>
+</li>

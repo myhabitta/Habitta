@@ -1,0 +1,72 @@
+---
+// Organism: PackagesSection
+// Seccion de paquetes de acabados disponibles en los proyectos Habitta.
+// Compone: atoms/EyebrowLabel + molecules/PackageCard (-> atoms/PackageFeature)
+// Data: dummy — reemplazar con query a @habitta/database cuando este disponible.
+
+import EyebrowLabel from '@/components/atoms/EyebrowLabel.astro';
+import PackageCard from '@/components/molecules/PackageCard.astro';
+import homeData from '@/data/home.json';
+
+const { packages: packagesData } = homeData;
+
+const formatPrice = (price: number) =>
+  `$${price.toLocaleString('es-CO')}`;
+---
+
+<section
+  id="paquetes"
+  class="bg-surface px-[clamp(1.5rem,6vw,5rem)] py-[clamp(5rem,10vw,8rem)]"
+  aria-labelledby="packages-title"
+>
+  <div class="mx-auto flex max-w-[1200px] flex-col gap-16">
+    <!-- Header -->
+    <div class="flex max-w-xl flex-col gap-8">
+      <EyebrowLabel text={packagesData.eyebrow} />
+
+      <h2
+        id="packages-title"
+        class="font-display text-[clamp(2.5rem,5vw,4rem)] font-light leading-[1.05] tracking-[-0.01em] text-ink"
+      >
+        {packagesData.heading}<br />
+        <span class="italic text-primary">{packagesData.headingAccent}</span>
+      </h2>
+
+      <p
+        class="max-w-md text-[clamp(0.875rem,1.2vw,1rem)] font-light leading-relaxed text-ink-muted"
+      >
+        {packagesData.description}
+      </p>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {
+        packagesData.items.map((pkg) => (
+          <PackageCard
+            number={pkg.number}
+            name={pkg.name}
+            tagline={pkg.tagline}
+            description={pkg.description}
+            features={pkg.features}
+            price={formatPrice(pkg.price)}
+            href={pkg.cta.href}
+            highlighted={pkg.highlighted}
+            badge={pkg.badge}
+          />
+        ))
+      }
+    </div>
+
+    <!-- Nota legal / comparativa -->
+    <p class="text-center text-[0.72rem] font-light tracking-wide text-ink-subtle">
+      {packagesData.disclaimer}{' '}
+      <a
+        href="/proyectos"
+        class="underline underline-offset-4 transition-colors duration-200 hover:text-primary"
+      >
+        Ver proyectos disponibles
+      </a>
+    </p>
+  </div>
+</section>

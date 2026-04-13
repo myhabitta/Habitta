@@ -1,0 +1,122 @@
+---
+// Molecule: PackageCard
+// Tarjeta de un paquete de acabados. Compone PackageFeature (atom).
+// highlighted: aplica tratamiento visual premium (borde brand + sutil fondo + CTA filled).
+
+import PackageFeature from '@/components/atoms/PackageFeature.astro';
+import ArrowRight from '@/icons/ArrowRight.astro';
+
+interface Props {
+  number: string;
+  name: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  price: string;
+  href: string;
+  highlighted?: boolean;
+  badge?: string;
+}
+
+const {
+  number,
+  name,
+  tagline,
+  description,
+  features,
+  price,
+  href,
+  highlighted = false,
+  badge,
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    'group relative flex flex-col overflow-hidden rounded-sm transition-all duration-500 hover:shadow-lg hover:shadow-ink/5',
+    highlighted
+      ? 'border-2 border-primary bg-primary/[0.02]'
+      : 'border border-ink-faint bg-white hover:border-primary/30',
+  ]}
+>
+  <!-- Top accent line (highlighted only) -->
+  {
+    highlighted && (
+      <div
+        class="absolute left-0 right-0 top-0 h-[2px] bg-primary"
+        aria-hidden="true"
+      />
+    )
+  }
+
+  <!-- Badge -->
+  {
+    badge && (
+      <div class="absolute right-5 top-5">
+        <span class="rounded-sm bg-primary px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.15em] text-white">
+          {badge}
+        </span>
+      </div>
+    )
+  }
+
+  <div class="relative flex flex-1 flex-col gap-6 p-8">
+    <!-- Watermark number -->
+    <span
+      class="pointer-events-none absolute bottom-4 right-6 select-none font-display text-[7rem] font-light leading-none"
+      style="color: rgba(30, 26, 27, 0.03)"
+      aria-hidden="true"
+    >
+      {number}
+    </span>
+
+    <!-- Header -->
+    <header class="flex flex-col gap-3">
+      <span class="font-display text-[0.68rem] font-semibold tracking-[0.22em] text-primary">
+        {number}
+      </span>
+      <h3 class="font-display text-[1.75rem] font-medium leading-[1.1] text-ink">
+        {name}
+      </h3>
+      <p class="text-[0.7rem] font-medium uppercase tracking-[0.14em] text-ink-subtle">
+        {tagline}
+      </p>
+    </header>
+
+    <!-- Separator -->
+    <div class="h-px w-8 origin-left bg-primary/40 transition-all duration-500 group-hover:w-full"></div>
+
+    <!-- Description -->
+    <p class="text-[0.875rem] font-light leading-relaxed text-ink-muted">
+      {description}
+    </p>
+
+    <!-- Features -->
+    <ul class="flex flex-col gap-3" role="list" aria-label={`Caracteristicas del paquete ${name}`}>
+      {features.map((f) => <PackageFeature text={f} />)}
+    </ul>
+
+    <!-- Footer: price + CTA -->
+    <footer class="mt-auto flex flex-col gap-4 border-t border-ink-faint pt-6">
+      <div class="flex flex-col gap-0.5">
+        <span class="text-[0.65rem] font-normal uppercase tracking-[0.12em] text-ink-subtle"
+          >Precio desde</span
+        >
+        <span class="font-display text-2xl font-semibold text-ink">{price}</span>
+      </div>
+
+      <a
+        href={href}
+        class:list={[
+          'inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3 text-[0.8rem] font-medium uppercase tracking-[0.08em] transition-all duration-300',
+          highlighted
+            ? 'bg-primary text-white hover:bg-dark hover:shadow-md hover:shadow-primary/20'
+            : 'border border-ink-faint text-ink-muted hover:border-primary hover:text-primary',
+        ]}
+      >
+        Consultar disponibilidad
+        <ArrowRight class="h-4 w-4" />
+      </a>
+    </footer>
+  </div>
+</article>

@@ -1,0 +1,137 @@
+---
+import Header from '@/components/organisms/Header.astro';
+import Footer from '@/components/organisms/Footer.astro';
+
+interface SeoProps {
+  title: string;
+  description: string;
+  canonical?: string;
+  robots?: string;
+  keywords?: string[];
+  og?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    type?: string;
+    locale?: string;
+    siteName?: string;
+  };
+  twitter?: {
+    card?: string;
+    title?: string;
+    description?: string;
+    image?: string;
+  };
+  jsonLd?: Record<string, unknown>;
+}
+
+interface Props {
+  seo: SeoProps;
+}
+
+const { seo } = Astro.props;
+const { title, description, canonical, robots, keywords, og, twitter, jsonLd } = seo;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Habitta</title>
+    <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
+    {keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={og?.title || title} />
+    <meta property="og:description" content={og?.description || description} />
+    {og?.image && <meta property="og:image" content={og.image} />}
+    <meta property="og:type" content={og?.type || 'website'} />
+    {og?.locale && <meta property="og:locale" content={og.locale} />}
+    {og?.siteName && <meta property="og:site_name" content={og.siteName} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content={twitter?.card || 'summary_large_image'} />
+    <meta name="twitter:title" content={twitter?.title || title} />
+    <meta name="twitter:description" content={twitter?.description || description} />
+    {twitter?.image && <meta name="twitter:image" content={twitter.image} />}
+
+    <!-- JSON-LD Structured Data -->
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+
+
+    <!-- Local Fonts: Work Sans & Inter -->
+    <style is:global>
+      @font-face {
+        font-family: 'Work Sans';
+        src: url('/fonts/worksans/WorkSans-Thin.ttf') format('truetype');
+        font-weight: 100;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Work Sans';
+        src: url('/fonts/worksans/WorkSans-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Work Sans';
+        src: url('/fonts/worksans/WorkSans-Medium.ttf') format('truetype');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Work Sans';
+        src: url('/fonts/worksans/WorkSans-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/inter/Inter-Light.ttf') format('truetype');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/inter/Inter-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/inter/Inter-Medium.ttf') format('truetype');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/inter/Inter-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+  </head>
+  <body class="bg-surface font-sans text-ink antialiased">
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

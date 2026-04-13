@@ -1,0 +1,208 @@
+---
+// Organism: Header
+// Floating pill navigation that transitions to a sticky full-width bar on scroll.
+// Only the outer shell animates — inner content stays fixed at max-w-[1400px].
+
+import headerData from '@/data/header.json';
+
+const { logo, nav: navLinks, cta } = headerData;
+const isHome = Astro.url.pathname === '/';
+const WrapperLogo = isHome ? 'div' : 'a';
+const wrapperLogoProps = isHome ? {} : { href: '/', 'aria-label': 'Habitta - Inicio', rel: 'home' };
+const filteredNavLinks = isHome ? navLinks.filter((link) => link.href !== '/') : navLinks;
+---
+
+<div id="header-spacer" class="h-0 transition-[height] duration-500" aria-hidden="true"></div>
+
+<header id="site-header" class="fixed inset-x-0 top-0 z-50" role="banner">
+  <!-- Outer shell: this is what animates (width, radius, bg, shadow) -->
+  <div
+    id="header-shell"
+    class="mx-auto border border-ink-faint/60 bg-surface/80 backdrop-blur-xl backdrop-saturate-150 max-w-[1400px] shadow-[0_4px_16px_rgba(30,26,27,0.04),0_8px_32px_rgba(30,26,27,0.06),0_1px_2px_rgba(30,26,27,0.08)] ring-1 ring-white/40 ring-inset"
+    style="border-radius: 9999px; margin-top: 20px; transition: max-width 0.5s cubic-bezier(0.25,0.46,0.45,0.94), border-radius 0.5s cubic-bezier(0.25,0.46,0.45,0.94), margin-top 0.5s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.5s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.5s cubic-bezier(0.25,0.46,0.45,0.94), background-color 0.5s cubic-bezier(0.25,0.46,0.45,0.94);"
+  >
+    <!-- Inner content: never moves, always centered at 1400px -->
+    <div
+      class="mx-auto flex h-20 max-w-[1400px] items-center justify-between px-[clamp(1.5rem,6vw,5rem)] lg:h-[90px]"
+    >
+      <!-- Logo -->
+      <WrapperLogo {...wrapperLogoProps} class="relative z-[60] flex shrink-0 items-center">
+        <img
+          src={logo.src}
+          alt={logo.alt}
+          class="h-7 w-auto transition-all duration-300 lg:h-8"
+          width="200"
+          height="200"
+          loading="eager"
+        />
+      </WrapperLogo>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex" aria-label="Navegacion principal">
+        <ul class="flex items-center gap-9">
+          {
+            filteredNavLinks.map((link) => (
+              <li class="relative">
+                <a
+                  href={link.href}
+                  class="font-primary text-[15px] font-medium tracking-wide text-ink/70 transition-all duration-300 hover:text-ink after:absolute after:-bottom-1 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-quaternary after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:after:scale-x-100"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Desktop CTA -->
+      <div class="hidden lg:flex">
+        <a
+          href={cta.href}
+          class="inline-flex items-center rounded-full bg-quaternary px-6 py-2.5 font-secondary text-sm font-semibold tracking-wide text-white no-underline shadow-[0_2px_8px_rgba(232,112,58,0.25),0_1px_2px_rgba(232,112,58,0.15)] transition-all duration-300 hover:bg-quaternary/90 hover:shadow-[0_4px_16px_rgba(232,112,58,0.35),0_2px_4px_rgba(232,112,58,0.2)] hover:-translate-y-[1px] active:translate-y-0 active:shadow-[0_1px_4px_rgba(232,112,58,0.2)]"
+        >
+          {cta.label}
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button
+        id="mobile-menu-toggle"
+        class="group relative z-[60] flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200 hover:bg-ink/5 active:bg-ink/10 lg:hidden"
+        type="button"
+        aria-label="Abrir menu de navegacion"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <div class="flex w-5 flex-col items-end gap-[4px]">
+          <span
+            class="block h-[1.5px] w-full origin-center bg-ink transition-all duration-300 group-[.hamburger-open]:translate-y-[2.75px] group-[.hamburger-open]:rotate-45"
+          ></span>
+          <span
+            class="block h-[1.5px] w-3 origin-center bg-ink transition-all duration-300 group-[.hamburger-open]:scale-x-0 group-[.hamburger-open]:opacity-0"
+          ></span>
+          <span
+            class="block h-[1.5px] w-full origin-center bg-ink transition-all duration-300 group-[.hamburger-open]:-translate-y-[2.75px] group-[.hamburger-open]:-rotate-45"
+          ></span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div
+    id="mobile-menu"
+    class="pointer-events-none fixed inset-0 z-[55] flex flex-col items-center justify-center bg-surface/98 backdrop-blur-sm opacity-0 transition-all duration-500 lg:hidden [&.is-open]:pointer-events-auto [&.is-open]:opacity-100"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menu de navegacion"
+  >
+    <nav class="flex flex-col items-center gap-8" aria-label="Navegacion movil">
+      {
+        filteredNavLinks.map((link, i) => (
+          <a
+            href={link.href}
+            class="font-primary text-2xl font-light text-ink transition-colors duration-300 hover:text-accent"
+            style={`animation-delay: ${0.05 + i * 0.05}s`}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+
+      <a
+        href={cta.href}
+        class="mt-4 inline-flex items-center rounded-full bg-accent px-8 py-3 font-secondary text-sm font-medium text-white no-underline transition-all duration-300 hover:bg-accent/90"
+        style={`animation-delay: ${0.05 + filteredNavLinks.length * 0.05}s`}
+      >
+        {cta.label}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  #mobile-menu.is-open a {
+    animation: menuFadeUp 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes menuFadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  const shell = document.getElementById('header-shell');
+  const spacer = document.getElementById('header-spacer');
+  const SCROLL_THRESHOLD = 60;
+  let isScrolled = false;
+
+  function updateHeader() {
+    const shouldBeScrolled = window.scrollY > SCROLL_THRESHOLD;
+    if (shouldBeScrolled === isScrolled) return;
+    isScrolled = shouldBeScrolled;
+
+    if (!shell) return;
+
+    if (isScrolled) {
+      shell.style.maxWidth = '100%';
+      shell.style.borderRadius = '0';
+      shell.style.marginTop = '0';
+      shell.style.borderColor = 'transparent';
+      shell.style.boxShadow = '0 1px 3px rgba(30,26,27,0.06), 0 4px 12px rgba(30,26,27,0.04)';
+      shell.style.backgroundColor = 'rgba(255,255,255,0.92)';
+      if (spacer) spacer.style.height = '80px';
+    } else {
+      shell.style.maxWidth = '1400px';
+      shell.style.borderRadius = '9999px';
+      shell.style.marginTop = '20px';
+      shell.style.borderColor = '';
+      shell.style.boxShadow = '0 4px 16px rgba(30,26,27,0.04), 0 8px 32px rgba(30,26,27,0.06), 0 1px 2px rgba(30,26,27,0.08)';
+      shell.style.backgroundColor = '';
+      if (spacer) spacer.style.height = '0';
+    }
+  }
+
+  if (shell) {
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    updateHeader();
+  }
+
+  // Mobile menu toggle
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  let isOpen = false;
+
+  function setMenu(open: boolean) {
+    isOpen = open;
+    menu?.classList.toggle('is-open', open);
+    toggle?.classList.toggle('hamburger-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute(
+      'aria-label',
+      open ? 'Cerrar menu de navegacion' : 'Abrir menu de navegacion'
+    );
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  toggle?.addEventListener('click', () => setMenu(!isOpen));
+
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMenu(false));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen) {
+      setMenu(false);
+      toggle?.focus();
+    }
+  });
+</script>

@@ -1,0 +1,27 @@
+---
+// Molecule: ValuePillar
+// Pilar de valor — numero + titulo + descripcion.
+// Usalo para comunicar principios o propuestas de valor en secciones "quienes somos".
+
+interface Props {
+  number: string;
+  title: string;
+  description: string;
+}
+
+const { number, title, description } = Astro.props;
+---
+
+<div
+  class="group flex flex-col gap-4 rounded-sm border border-ink-faint bg-white p-8 transition-all duration-300 hover:border-primary/40 hover:shadow-md hover:shadow-primary/5"
+>
+  <span class="font-display text-[0.72rem] font-semibold tracking-[0.2em] text-primary">
+    {number}
+  </span>
+  <h3 class="font-display text-xl font-medium leading-snug text-ink">
+    {title}
+  </h3>
+  <p class="text-sm font-light leading-relaxed text-ink-muted">
+    {description}
+  </p>
+</div>

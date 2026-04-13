@@ -1,0 +1,16 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  // TODO: Obtener proyectos desde @habitta/database
+  return [];
+}
+
+const { slug } = Astro.params;
+---
+
+<Layout seo={{ title: slug ?? 'Proyecto', description: `Conoce el proyecto ${slug} de Habitta` }}>
+  <main>
+    <h1>{slug}</h1>
+  </main>
+</Layout>

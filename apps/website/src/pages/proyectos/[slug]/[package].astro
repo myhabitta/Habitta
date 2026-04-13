@@ -1,0 +1,16 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  // TODO: Obtener paquetes por proyecto desde @habitta/database
+  return [];
+}
+
+const { slug, package: pkg } = Astro.params;
+---
+
+<Layout seo={{ title: `${pkg} — ${slug}`, description: `Paquete ${pkg} del proyecto ${slug} en Habitta` }}>
+  <main>
+    <h1>{pkg}</h1>
+  </main>
+</Layout>

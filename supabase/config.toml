@@ -1,0 +1,22 @@
+# Configuración de Supabase para desarrollo local
+# Documentación: https://supabase.com/docs/reference/cli/config
+
+[api]
+port = 54321
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[studio]
+port = 54323
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:4321"]
+jwt_expiry = 3600
+enable_signup = true
+
+[storage]
+file_size_limit = "50MiB"

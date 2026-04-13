@@ -1,0 +1,16 @@
+{
+  "logo": {
+    "src": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775627558/Logotipo-1_xp4vpo.webp",
+    "alt": "Habitta"
+  },
+  "nav": [
+    { "label": "Inicio", "href": "/" },
+    { "label": "Proyectos", "href": "/proyectos" },
+    { "label": "Nosotros", "href": "/nosotros" },
+    { "label": "Contacto", "href": "/contacto" }
+  ],
+  "cta": {
+    "label": "Cotizar",
+    "href": "/contacto"
+  }
+}

@@ -23,5 +23,5 @@ export const loginAction = async (
     return { error: 'Credenciales incorrectas.' };
   }
 
-  redirect('/dashboard');
+  redirect('/');
 };

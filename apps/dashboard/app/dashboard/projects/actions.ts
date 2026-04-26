@@ -29,7 +29,7 @@ export const createProjectAction = async (
   }
 
   revalidatePath('/dashboard/projects');
-  redirect('/dashboard/projects');
+  redirect('/projects');
 };
 
 export const updateProjectAction = async (
@@ -58,7 +58,7 @@ export const updateProjectAction = async (
 
   revalidatePath('/dashboard/projects');
   revalidatePath(`/dashboard/projects/${updatedProject.slug}`);
-  redirect(`/dashboard/projects/${updatedProject.slug}`);
+  redirect(`/projects/${updatedProject.slug}`);
 };
 
 export const createPackageAction = async (
@@ -96,7 +96,7 @@ export const createPackageAction = async (
   }
 
   revalidatePath(`/dashboard/projects/${projectSlug}`);
-  redirect(`/dashboard/projects/${projectSlug}`);
+  redirect(`/projects/${projectSlug}`);
 };
 
 export const updatePackageAction = async (
@@ -133,5 +133,5 @@ export const updatePackageAction = async (
   }
 
   revalidatePath(`/dashboard/projects/${projectSlug}`);
-  redirect(`/dashboard/projects/${projectSlug}`);
+  redirect(`/projects/${projectSlug}`);
 };

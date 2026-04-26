@@ -8,7 +8,7 @@ export default function NewProjectPage() {
     <div>
       {/* Breadcrumb */}
       <nav className="mb-6 flex items-center gap-2 font-sans text-sm text-muted-foreground">
-        <Link href="/dashboard/projects" className="transition-colors hover:text-foreground">
+        <Link href="/projects" className="transition-colors hover:text-foreground">
           Proyectos
         </Link>
         <span>/</span>
@@ -19,7 +19,7 @@ export default function NewProjectPage() {
         <h1 className="mb-6 font-display text-2xl font-semibold">Nuevo proyecto</h1>
         <Card>
           <CardContent className="p-6">
-            <ProjectForm action={createProjectAction} cancelHref="/dashboard/projects" />
+            <ProjectForm action={createProjectAction} cancelHref="/projects" />
           </CardContent>
         </Card>
       </div>

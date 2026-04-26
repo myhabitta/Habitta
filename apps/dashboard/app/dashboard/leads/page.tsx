@@ -56,7 +56,7 @@ export default async function LeadsPage({
           className="gap-2 text-white hover:opacity-90 sm:shrink-0"
           style={{ backgroundColor: 'var(--habitta-accent)' }}
         >
-          <Link href="/dashboard/leads/new">
+          <Link href="/leads/new">
             <UserPlus className="h-4 w-4" />
             Nuevo lead
           </Link>

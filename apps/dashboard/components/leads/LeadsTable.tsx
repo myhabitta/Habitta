@@ -91,7 +91,7 @@ const LeadsTable = ({ leads }: LeadsTableProps) => {
             <TableRow
               key={lead.id}
               className="cursor-pointer hover:bg-muted/50"
-              onClick={() => router.push(`/dashboard/leads/${lead.short_id}`)}
+              onClick={() => router.push(`/leads/${lead.short_id}`)}
             >
               {/* Nombre con avatar */}
               <TableCell>
@@ -159,7 +159,7 @@ const LeadsTable = ({ leads }: LeadsTableProps) => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => router.push(`/dashboard/leads/${lead.short_id}`)}
+                  onClick={() => router.push(`/leads/${lead.short_id}`)}
                   aria-label={`Ver lead ${lead.first_name} ${lead.last_name}`}
                 >
                   <Eye className="h-4 w-4" />

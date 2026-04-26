@@ -91,7 +91,7 @@ export default async function LeadDetailPage({
         className="mb-6 flex items-center gap-2 font-sans text-sm text-muted-foreground"
         aria-label="Breadcrumb"
       >
-        <Link href="/dashboard/leads" className="transition-colors hover:text-foreground">
+        <Link href="/leads" className="transition-colors hover:text-foreground">
           Leads
         </Link>
         <span aria-hidden="true">/</span>
@@ -197,7 +197,7 @@ export default async function LeadDetailPage({
                   className="w-full gap-2 text-white hover:opacity-90"
                   style={{ backgroundColor: 'var(--habitta-accent)' }}
                 >
-                  <Link href={`/dashboard/leads/${lead.short_id}/convert`}>
+                  <Link href={`/leads/${lead.short_id}/convert`}>
                     <UserCheck className="h-4 w-4" />
                     Convertir a cliente
                   </Link>
@@ -210,7 +210,7 @@ export default async function LeadDetailPage({
                     Este lead ya fue convertido a cliente.
                   </p>
                   <Button asChild variant="outline" className="w-full">
-                    <Link href="/dashboard/clients">Ver clientes</Link>
+                    <Link href="/clients">Ver clientes</Link>
                   </Button>
                 </div>
               )}

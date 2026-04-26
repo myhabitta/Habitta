@@ -29,10 +29,10 @@ const LeadsFilters = ({ projects, currentStatus, currentProjectId }: LeadsFilter
     if (key !== 'project_id' && currentProjectId) params.set('project_id', currentProjectId);
     if (value) params.set(key, value);
     const query = params.toString();
-    router.push(`/dashboard/leads${query ? `?${query}` : ''}`);
+    router.push(`/leads${query ? `?${query}` : ''}`);
   };
 
-  const clearFilters = () => router.push('/dashboard/leads');
+  const clearFilters = () => router.push('/leads');
 
   return (
     <div className="mb-6 flex flex-wrap items-center gap-3">

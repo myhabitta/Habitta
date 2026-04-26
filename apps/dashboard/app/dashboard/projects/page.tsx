@@ -23,7 +23,7 @@ export default async function ProjectsPage() {
           className="gap-2 text-white hover:opacity-90"
           style={{ backgroundColor: 'var(--habitta-accent)' }}
         >
-          <Link href="/dashboard/projects/new">
+          <Link href="/projects/new">
             <Plus className="h-4 w-4" />
             Nuevo proyecto
           </Link>

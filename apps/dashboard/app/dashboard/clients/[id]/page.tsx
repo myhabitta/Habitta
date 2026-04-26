@@ -86,7 +86,7 @@ export default async function ClientDetailPage({
         className="mb-6 flex items-center gap-2 font-sans text-sm text-muted-foreground"
         aria-label="Breadcrumb"
       >
-        <Link href="/dashboard/clients" className="transition-colors hover:text-foreground">
+        <Link href="/clients" className="transition-colors hover:text-foreground">
           Clientes
         </Link>
         <span aria-hidden="true">/</span>
@@ -304,7 +304,7 @@ export default async function ClientDetailPage({
                     Proviene del lead capturado en el website.
                   </p>
                   <Button variant="outline" asChild className="w-full gap-2">
-                    <Link href={`/dashboard/leads/${client.lead.short_id}`}>
+                    <Link href={`/leads/${client.lead.short_id}`}>
                       <Users className="h-4 w-4" aria-hidden="true" />
                       Ver lead original
                     </Link>

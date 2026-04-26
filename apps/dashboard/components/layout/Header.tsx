@@ -27,11 +27,11 @@ interface HeaderProps {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const ROUTE_TITLES: Record<string, string> = {
-  '/dashboard': 'Inicio',
-  '/dashboard/projects': 'Proyectos',
-  '/dashboard/leads': 'Leads',
-  '/dashboard/clients': 'Clientes',
-  '/dashboard/metrics': 'Métricas',
+  '/': 'Inicio',
+  '/projects': 'Proyectos',
+  '/leads': 'Leads',
+  '/clients': 'Clientes',
+  '/metrics': 'Métricas',
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

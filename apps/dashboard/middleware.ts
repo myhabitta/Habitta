@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { createMiddlewareClient } from '@habitta/database';
 
 const PUBLIC_ROUTES = ['/login'];
-const ADMIN_ONLY_ROUTES = ['/dashboard/projects'];
+const ADMIN_ONLY_ROUTES = ['/projects'];
 
 export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
@@ -22,7 +22,7 @@ export const middleware = async (request: NextRequest) => {
   if (isPublicRoute) {
     // Si ya tiene sesión, redirigir al dashboard
     if (user) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
     }
     return updatedResponse;
   }
@@ -35,7 +35,7 @@ export const middleware = async (request: NextRequest) => {
   // 5. Protección por rol — /dashboard/projects solo para admin
   const isAdminRoute = ADMIN_ONLY_ROUTES.some((route) => pathname.startsWith(route));
   if (isAdminRoute && role !== 'admin') {
-    return NextResponse.redirect(new URL('/dashboard/leads', request.url));
+    return NextResponse.redirect(new URL('/leads', request.url));
   }
 
   // 6. Retornar response con cookies actualizadas (crítico para @supabase/ssr)

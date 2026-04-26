@@ -175,7 +175,7 @@ const LeadForm = ({ projects }: LeadFormProps) => {
       {/* Botones */}
       <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <Button asChild variant="outline">
-          <Link href="/dashboard/leads">Cancelar</Link>
+          <Link href="/leads">Cancelar</Link>
         </Button>
         <SubmitButton />
       </div>

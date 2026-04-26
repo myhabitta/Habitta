@@ -126,7 +126,7 @@ export default async function DashboardPage() {
       {user.role === 'admin' && (
         <div className="mt-6 text-right">
           <Link
-            href="/dashboard/metrics"
+            href="/metrics"
             className="font-sans text-sm font-medium"
             style={{ color: 'var(--habitta-accent)' }}
           >

@@ -21,17 +21,17 @@ export default async function ConvertLeadPage({
   const [lead, projects] = await Promise.all([getLeadByShortId(shortId), getProjects()]);
 
   if (!lead) notFound();
-  if (lead.status === 'converted') redirect('/dashboard/clients');
+  if (lead.status === 'converted') redirect('/clients');
 
   return (
     <div>
       <nav className="mb-6 flex items-center gap-2 font-sans text-sm text-muted-foreground">
-        <Link href="/dashboard/leads" className="transition-colors hover:text-foreground">
+        <Link href="/leads" className="transition-colors hover:text-foreground">
           Leads
         </Link>
         <span>/</span>
         <Link
-          href={`/dashboard/leads/${lead.short_id}`}
+          href={`/leads/${lead.short_id}`}
           className="transition-colors hover:text-foreground"
         >
           {lead.first_name} {lead.last_name}

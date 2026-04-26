@@ -20,12 +20,12 @@ export default async function NewPackagePage({
   return (
     <div>
       <nav className="mb-6 flex items-center gap-2 font-sans text-sm text-muted-foreground">
-        <Link href="/dashboard/projects" className="transition-colors hover:text-foreground">
+        <Link href="/projects" className="transition-colors hover:text-foreground">
           Proyectos
         </Link>
         <span>/</span>
         <Link
-          href={`/dashboard/projects/${project.slug}`}
+          href={`/projects/${project.slug}`}
           className="transition-colors hover:text-foreground"
         >
           {project.name}
@@ -40,7 +40,7 @@ export default async function NewPackagePage({
           <CardContent className="p-6">
             <PackageForm
               action={action}
-              cancelHref={`/dashboard/projects/${project.slug}`}
+              cancelHref={`/projects/${project.slug}`}
             />
           </CardContent>
         </Card>

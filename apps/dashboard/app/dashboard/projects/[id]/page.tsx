@@ -53,7 +53,7 @@ const PackagesEmptyState = ({ projectSlug }: { projectSlug: string }) => (
       className="mt-5 gap-2 text-white hover:opacity-90"
       style={{ backgroundColor: 'var(--habitta-accent)' }}
     >
-      <Link href={`/dashboard/projects/${projectSlug}/packages/new`}>
+      <Link href={`/projects/${projectSlug}/packages/new`}>
         <Plus className="h-4 w-4" />
         Agregar primer paquete
       </Link>
@@ -83,7 +83,7 @@ export default async function ProjectDetailPage({
         aria-label="Breadcrumb"
       >
         <Link
-          href="/dashboard/projects"
+          href="/projects"
           className="transition-colors hover:text-foreground"
         >
           Proyectos
@@ -122,7 +122,7 @@ export default async function ProjectDetailPage({
             </div>
             <div className="shrink-0">
               <Button asChild variant="outline" className="gap-2">
-                <Link href={`/dashboard/projects/${project.slug}/edit`}>
+                <Link href={`/projects/${project.slug}/edit`}>
                   <Pencil className="h-4 w-4" />
                   Editar proyecto
                 </Link>
@@ -169,7 +169,7 @@ export default async function ProjectDetailPage({
             className="gap-2 text-white hover:opacity-90 sm:shrink-0"
             style={{ backgroundColor: 'var(--habitta-accent)' }}
           >
-            <Link href={`/dashboard/projects/${project.slug}/packages/new`}>
+            <Link href={`/projects/${project.slug}/packages/new`}>
               <Plus className="h-4 w-4" />
               Agregar paquete
             </Link>

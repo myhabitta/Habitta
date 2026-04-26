@@ -38,7 +38,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   return (
     <Card
-      onClick={() => router.push(`/dashboard/projects/${project.slug}`)}
+      onClick={() => router.push(`/projects/${project.slug}`)}
       className="group cursor-pointer overflow-hidden transition-all duration-200 hover:shadow-lg"
       style={{
         borderColor: undefined,

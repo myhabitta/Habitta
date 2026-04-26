@@ -29,9 +29,9 @@ const ClientsEmptyState = ({ hasFilters = false }: ClientsEmptyStateProps) => (
       style={{ backgroundColor: 'var(--habitta-accent)' }}
     >
       {hasFilters ? (
-        <Link href="/dashboard/clients">Ver todos</Link>
+        <Link href="/clients">Ver todos</Link>
       ) : (
-        <Link href="/dashboard/leads">Ver leads</Link>
+        <Link href="/leads">Ver leads</Link>
       )}
     </Button>
   </div>

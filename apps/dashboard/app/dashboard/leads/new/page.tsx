@@ -9,7 +9,7 @@ export default async function NewLeadPage() {
   return (
     <div>
       <nav className="mb-6 flex items-center gap-2 font-sans text-sm text-muted-foreground">
-        <Link href="/dashboard/leads" className="transition-colors hover:text-foreground">
+        <Link href="/leads" className="transition-colors hover:text-foreground">
           Leads
         </Link>
         <span>/</span>

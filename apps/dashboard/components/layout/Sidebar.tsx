@@ -32,31 +32,31 @@ interface NavItem {
 const navItems: NavItem[] = [
   {
     label: 'Inicio',
-    href: '/dashboard',
+    href: '/',
     icon: LayoutDashboard,
     roles: ['admin', 'sales'],
   },
   {
     label: 'Proyectos',
-    href: '/dashboard/projects',
+    href: '/projects',
     icon: Building2,
     roles: ['admin'],
   },
   {
     label: 'Leads',
-    href: '/dashboard/leads',
+    href: '/leads',
     icon: Users,
     roles: ['admin', 'sales'],
   },
   {
     label: 'Clientes',
-    href: '/dashboard/clients',
+    href: '/clients',
     icon: UserCheck,
     roles: ['admin', 'sales'],
   },
   {
     label: 'Métricas',
-    href: '/dashboard/metrics',
+    href: '/metrics',
     icon: BarChart3,
     roles: ['admin'],
   },
@@ -76,8 +76,8 @@ const getInitials = (fullName: string | undefined, email: string): string => {
 };
 
 const isItemActive = (pathname: string, href: string): boolean => {
-  if (href === '/dashboard') {
-    return pathname === '/dashboard';
+  if (href === '/') {
+    return pathname === '/';
   }
   return pathname === href || pathname.startsWith(href + '/');
 };

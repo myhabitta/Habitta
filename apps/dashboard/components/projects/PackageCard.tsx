@@ -59,7 +59,7 @@ const PackageCard = ({ pkg, projectSlug }: PackageCardProps) => {
             </span>
           </div>
           <Link
-            href={`/dashboard/projects/${projectSlug}/packages/${pkg.slug}/edit`}
+            href={`/projects/${projectSlug}/packages/${pkg.slug}/edit`}
             className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-all hover:bg-muted hover:text-foreground group-hover:opacity-100"
             aria-label={`Editar ${pkg.name}`}
           >
@@ -120,7 +120,7 @@ const PackageCard = ({ pkg, projectSlug }: PackageCardProps) => {
         {/* Footer — boton editar visible en mobile */}
         <div className="mt-6 md:hidden">
           <Button asChild variant="outline" size="sm" className="w-full gap-2">
-            <Link href={`/dashboard/projects/${projectSlug}/packages/${pkg.slug}/edit`}>
+            <Link href={`/projects/${projectSlug}/packages/${pkg.slug}/edit`}>
               <Pencil className="h-3.5 w-3.5" />
               Editar paquete
             </Link>

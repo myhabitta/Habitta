@@ -34,7 +34,7 @@ const LeadsEmptyState = ({ hasFilters = false }: LeadsEmptyStateProps) => (
         className="mt-6 gap-2 text-white hover:opacity-90"
         style={{ backgroundColor: 'var(--habitta-accent)' }}
       >
-        <Link href="/dashboard/leads/new">Crear lead manualmente</Link>
+        <Link href="/leads/new">Crear lead manualmente</Link>
       </Button>
     )}
   </div>

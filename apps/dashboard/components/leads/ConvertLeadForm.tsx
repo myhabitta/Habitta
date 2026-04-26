@@ -250,7 +250,7 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
       {/* Botones */}
       <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row">
         <Button asChild variant="outline" className="flex-1">
-          <Link href={`/dashboard/leads/${lead.short_id}`}>Cancelar</Link>
+          <Link href={`/leads/${lead.short_id}`}>Cancelar</Link>
         </Button>
         <SubmitButton />
       </div>

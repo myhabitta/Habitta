@@ -18,10 +18,10 @@ const ClientsFilters = ({ projects, currentProjectId }: ClientsFiltersProps) => 
     const params = new URLSearchParams();
     if (value) params.set('project_id', value);
     const query = params.toString();
-    router.push(`/dashboard/clients${query ? `?${query}` : ''}`);
+    router.push(`/clients${query ? `?${query}` : ''}`);
   };
 
-  const clearFilters = () => router.push('/dashboard/clients');
+  const clearFilters = () => router.push('/clients');
 
   return (
     <div className="mb-6 flex flex-wrap items-center gap-3">

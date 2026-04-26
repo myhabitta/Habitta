@@ -30,7 +30,7 @@ const ProjectsEmptyState = () => {
         className="mt-6 gap-2 text-white hover:opacity-90"
         style={{ backgroundColor: 'var(--habitta-accent)' }}
       >
-        <Link href="/dashboard/projects/new">
+        <Link href="/projects/new">
           <Plus className="h-4 w-4" />
           Crear proyecto
         </Link>

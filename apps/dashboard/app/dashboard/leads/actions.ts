@@ -60,7 +60,7 @@ export const createLeadAction = async (
   }
 
   revalidatePath('/dashboard/leads');
-  redirect('/dashboard/leads');
+  redirect('/leads');
 };
 
 export const convertLeadAction = async (
@@ -102,5 +102,5 @@ export const convertLeadAction = async (
   revalidatePath('/dashboard/leads');
   revalidatePath(`/dashboard/leads/${leadShortId}`);
   revalidatePath('/dashboard/clients');
-  redirect('/dashboard/clients');
+  redirect('/clients');
 };

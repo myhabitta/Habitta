@@ -1,0 +1,30 @@
+---
+// Molecule: Ticker
+// Infinite horizontal marquee with brand keywords and dot separators.
+// Duplicates content for seamless loop. Supports reverse direction.
+
+interface Props {
+  items: string[];
+  reverse?: boolean;
+}
+
+const { items, reverse = false } = Astro.props;
+---
+
+<div class="overflow-hidden border-y border-border py-4">
+  <div
+    class={`flex w-max ${reverse ? 'animate-ticker-reverse' : 'animate-ticker'}`}
+  >
+    {/* Duplicate for seamless loop */}
+    {
+      [0, 1].map(() =>
+        items.map((item) => (
+          <span class="flex items-center gap-10 whitespace-nowrap px-10 font-display text-base font-normal italic text-ink-subtle">
+            {item}
+            <span class="h-1 w-1 shrink-0 rounded-full bg-brand" />
+          </span>
+        ))
+      )
+    }
+  </div>
+</div>

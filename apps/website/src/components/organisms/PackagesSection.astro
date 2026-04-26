@@ -1,72 +1,97 @@
 ---
 // Organism: PackagesSection
-// Seccion de paquetes de acabados disponibles en los proyectos Habitta.
-// Compone: atoms/EyebrowLabel + molecules/PackageCard (-> atoms/PackageFeature)
-// Data: dummy — reemplazar con query a @habitta/database cuando este disponible.
+// Three-column pricing grid for finishing packages.
+// Featured card has top border accent and subtle bg tint. IntersectionObserver reveal.
 
-import EyebrowLabel from '@/components/atoms/EyebrowLabel.astro';
-import PackageCard from '@/components/molecules/PackageCard.astro';
 import homeData from '@/data/home.json';
 
-const { packages: packagesData } = homeData;
-
-const formatPrice = (price: number) =>
-  `$${price.toLocaleString('es-CO')}`;
+const { packages } = homeData;
 ---
 
 <section
   id="paquetes"
-  class="bg-surface px-[clamp(1.5rem,6vw,5rem)] py-[clamp(5rem,10vw,8rem)]"
-  aria-labelledby="packages-title"
+  class="overflow-hidden px-6 py-20 md:px-12 lg:px-24 lg:py-40"
+  data-section="05"
+  data-sname="Paquetes"
 >
-  <div class="mx-auto flex max-w-[1200px] flex-col gap-16">
-    <!-- Header -->
-    <div class="flex max-w-xl flex-col gap-8">
-      <EyebrowLabel text={packagesData.eyebrow} />
-
-      <h2
-        id="packages-title"
-        class="font-display text-[clamp(2.5rem,5vw,4rem)] font-light leading-[1.05] tracking-[-0.01em] text-ink"
-      >
-        {packagesData.heading}<br />
-        <span class="italic text-primary">{packagesData.headingAccent}</span>
-      </h2>
-
-      <p
-        class="max-w-md text-[clamp(0.875rem,1.2vw,1rem)] font-light leading-relaxed text-ink-muted"
-      >
-        {packagesData.description}
-      </p>
+  <!-- Header -->
+  <div class="mb-12 lg:mb-20">
+    <div class="reveal-el mb-4 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand">
+      <span class="block h-px w-8 bg-brand"></span>
+      {packages.eyebrow}
     </div>
+    <h2
+      class="reveal-el font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05]"
+      style="max-width: 540px; transition-delay: 0.12s;"
+    >
+      {packages.heading}<br />
+      <em class="italic text-sand">{packages.headingAccent}</em>
+    </h2>
+  </div>
 
-    <!-- Cards grid -->
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      {
-        packagesData.items.map((pkg) => (
-          <PackageCard
-            number={pkg.number}
-            name={pkg.name}
-            tagline={pkg.tagline}
-            description={pkg.description}
-            features={pkg.features}
-            price={formatPrice(pkg.price)}
-            href={pkg.cta.href}
-            highlighted={pkg.highlighted}
-            badge={pkg.badge}
-          />
-        ))
-      }
-    </div>
+  <!-- Cards Grid -->
+  <div class="grid grid-cols-1 gap-0 border-t border-border md:grid-cols-3">
+    {
+      packages.items.map((pkg, i) => (
+        <div
+          class={`pcard-reveal border-b border-border p-6 opacity-0 translate-y-16 transition-all duration-[0.9s] hover:bg-sand/[0.04] md:border-b-0 lg:p-10 ${i < packages.items.length - 1 ? 'md:border-r' : ''} ${pkg.featured ? 'border-t-2 border-t-brand bg-brand/[0.03] -mt-px' : ''}`}
+          style={`transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); transition-delay: ${i * 0.14}s;`}
+        >
+          {/* Badge */}
+          {pkg.badge && (
+            <span class="mb-3 inline-block bg-brand px-3 py-1 text-[0.52rem] font-bold uppercase tracking-[0.16em] text-white">
+              {pkg.badge}
+            </span>
+          )}
 
-    <!-- Nota legal / comparativa -->
-    <p class="text-center text-[0.72rem] font-light tracking-wide text-ink-subtle">
-      {packagesData.disclaimer}{' '}
-      <a
-        href="/proyectos"
-        class="underline underline-offset-4 transition-colors duration-200 hover:text-primary"
-      >
-        Ver proyectos disponibles
-      </a>
-    </p>
+          {/* Name */}
+          <div class="mb-1 font-display text-[2rem] font-normal">{pkg.name}</div>
+
+          {/* Description */}
+          <p class="mb-6 text-xs leading-relaxed text-muted lg:mb-8 lg:text-sm">{pkg.description}</p>
+
+          {/* Feature List */}
+          <ul class="mb-8 list-none lg:mb-10">
+            {pkg.features.map((feat) => (
+              <li class="flex items-center gap-3 border-b border-sand/[0.07] py-3 text-sm text-ink/70">
+                <span class="h-1 w-1 shrink-0 rounded-full bg-brand" />
+                {feat}
+              </li>
+            ))}
+          </ul>
+
+          {/* Price */}
+          <span class="mb-1 block font-display text-[2.5rem] font-thin">{pkg.price}</span>
+          <span class="mb-5 block text-[0.62rem] tracking-[0.08em] text-muted lg:mb-6">
+            {pkg.note}
+          </span>
+
+          {/* CTA */}
+          <button
+            class={`w-full border border-sand/[0.18] py-3 font-sans text-[0.66rem] font-bold uppercase tracking-[0.14em] text-ink transition-all duration-300 hover:border-brand hover:bg-brand hover:text-white ${pkg.featured ? 'border-brand bg-brand text-white' : ''}`}
+            onclick="document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth', block: 'start' })"
+          >
+            Solicitar información
+          </button>
+        </div>
+      ))
+    }
   </div>
 </section>
+
+<script>
+  const pcardObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          entry.target.classList.remove('opacity-0', 'translate-y-16');
+          pcardObs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  document.querySelectorAll('.pcard-reveal').forEach((el) => pcardObs.observe(el));
+</script>

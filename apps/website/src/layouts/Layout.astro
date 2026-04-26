@@ -34,7 +34,7 @@ const { title, description, canonical, robots, keywords, og, twitter, jsonLd } =
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,15 +65,19 @@ const { title, description, canonical, robots, keywords, og, twitter, jsonLd } =
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}
 
+    <!-- Preload critical fonts to prevent FOUT -->
+    <link rel="preload" href="/fonts/worksans/WorkSans-Thin.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/worksans/WorkSans-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/inter/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin />
 
-    <!-- Local Fonts: Work Sans & Inter -->
+    <!-- Fonts: Work Sans (display) + Inter (body) — self-hosted -->
     <style is:global>
       @font-face {
         font-family: 'Work Sans';
         src: url('/fonts/worksans/WorkSans-Thin.ttf') format('truetype');
         font-weight: 100;
         font-style: normal;
-        font-display: swap;
+        font-display: block;
       }
       @font-face {
         font-family: 'Work Sans';
@@ -96,7 +100,6 @@ const { title, description, canonical, robots, keywords, og, twitter, jsonLd } =
         font-style: normal;
         font-display: swap;
       }
-
       @font-face {
         font-family: 'Inter';
         src: url('/fonts/inter/Inter-Light.ttf') format('truetype');
@@ -127,7 +130,7 @@ const { title, description, canonical, robots, keywords, og, twitter, jsonLd } =
       }
     </style>
   </head>
-  <body class="bg-surface font-sans text-ink antialiased">
+  <body class="bg-dark font-sans text-ink antialiased overflow-x-hidden">
     <Header />
     <main id="main-content">
       <slot />

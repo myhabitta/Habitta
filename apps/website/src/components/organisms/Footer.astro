@@ -1,84 +1,76 @@
 ---
 // Organism: Footer
-// Main grid (brand/columns/contact), bottom bar, decorative watermark.
+// Dark footer with 4-column grid (brand + 3 link columns), social icons, bottom bar.
 
-import footerData from '@/data/footer.json';
-import InstagramIcon from '@/icons/Instagram.astro';
-import WhatsAppIcon from '@/icons/WhatsApp.astro';
-import LinkedInIcon from '@/icons/LinkedIn.astro';
-import MailIcon from '@/icons/Mail.astro';
-import PhoneIcon from '@/icons/Phone.astro';
-import MapPinIcon from '@/icons/MapPin.astro';
+import homeData from '@/data/home.json';
 
-const { logo, watermark, tagline, social, columns, contact, copyright, bottomTagline } = footerData;
-
-const linkClass =
-  'font-secondary text-sm text-white/70 no-underline transition-colors duration-300 hover:text-white';
-const socialClass = 'text-white/40 transition-colors duration-300 hover:text-white';
-
-const socialComponents: Record<string, typeof InstagramIcon> = {
-  Instagram: InstagramIcon,
-  WhatsApp: WhatsAppIcon,
-};
-
-const year = new Date().getFullYear();
+const { footer } = homeData;
 ---
 
-<footer class="relative overflow-hidden bg-dark" role="contentinfo">
-  <img
-    src={watermark.src}
-    alt=""
-    class="pointer-events-none absolute -bottom-4 -right-4 h-[14rem] w-auto select-none opacity-[0.04] md:h-[16rem]"
-    aria-hidden="true"
-    loading="lazy"
-  />
-
-  <div class="relative z-10 mx-auto w-full max-w-[1400px] px-[clamp(1.5rem,6vw,5rem)] pb-0 pt-16">
-    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+<footer class="border-t border-border" role="contentinfo">
+  <div class="px-6 pb-8 pt-16 md:px-12 lg:px-24 lg:pt-20">
+    <!-- Top Grid -->
+    <div class="mb-12 grid grid-cols-1 gap-10 border-b border-border pb-12 sm:grid-cols-2 lg:mb-16 lg:grid-cols-4 lg:gap-16 lg:pb-16">
       <!-- Brand -->
-      <div class="flex flex-col gap-5">
-        <a href="/" class="flex items-center" aria-label="Habitta - Inicio">
-          <img
-            src={logo.src}
-            alt={logo.alt}
-            class="h-9 w-auto"
-            width="110"
-            height="48"
-            loading="lazy"
-          />
+      <div>
+        <a
+          href="/"
+          class="mb-4 block font-display text-3xl font-normal text-ink no-underline"
+        >
+          {footer.brand.name}
         </a>
-        <p class="max-w-[260px] font-secondary text-sm leading-relaxed text-white/60">{tagline}</p>
-        <div class="flex items-center gap-4 pt-1" aria-label="Redes sociales">
+        <p class="mb-6 max-w-[230px] text-xs leading-relaxed text-muted lg:text-sm lg:leading-[1.75]">
+          {footer.brand.description}
+        </p>
+        <div class="flex gap-5">
           {
-            social.map((item) => {
-              const Icon = socialComponents[item.name];
-              return (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class={socialClass}
-                  aria-label={`${item.name} de Habitta`}
-                >
-                  <Icon />
-                </a>
-              );
-            })
+            footer.social.map((item) => (
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-muted transition-colors duration-300 hover:text-brand"
+                aria-label={item.name}
+              >
+                {item.name === 'Instagram' && (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                )}
+                {item.name === 'LinkedIn' && (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="3" />
+                    <path d="M7 10v7M7 7v.5M12 17v-4a2 2 0 014 0v4M12 10v7" />
+                  </svg>
+                )}
+                {item.name === 'WhatsApp' && (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path d="M3 20l1.4-4A9 9 0 1012 21a9 9 0 01-4-1L3 20z" />
+                    <path d="M9 9c0 5 6.5 7.5 8 5" />
+                  </svg>
+                )}
+              </a>
+            ))
           }
         </div>
       </div>
 
-      <!-- Link columns -->
+      <!-- Link Columns -->
       {
-        columns.map((col) => (
+        footer.columns.map((col) => (
           <div>
-            <h3 class="mb-5 font-secondary text-xs font-medium uppercase tracking-widest text-white/40">
+            <h4 class="mb-5 text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-muted">
               {col.title}
-            </h3>
+            </h4>
             <ul class="flex flex-col gap-3" role="list">
               {col.links.map((link) => (
                 <li>
-                  <a href={link.href} class={linkClass}>
+                  <a
+                    href={link.href}
+                    class="text-xs text-ink-subtle no-underline transition-colors duration-300 hover:text-ink lg:text-sm"
+                  >
                     {link.label}
                   </a>
                 </li>
@@ -87,35 +79,12 @@ const year = new Date().getFullYear();
           </div>
         ))
       }
-
-      <!-- Contact -->
-      <div>
-        <h3 class="mb-5 font-secondary text-xs font-medium uppercase tracking-widest text-white/40">
-          Contacto
-        </h3>
-        <ul class="flex flex-col gap-4" role="list">
-          <li class="flex items-center gap-3">
-            <MailIcon class="h-4 w-4 shrink-0 text-white/40" />
-            <a href={`mailto:${contact.email}`} class={linkClass}>{contact.email}</a>
-          </li>
-          <li class="flex items-center gap-3">
-            <PhoneIcon class="h-4 w-4 shrink-0 text-white/40" />
-            <a href={contact.phoneHref} class={linkClass}>{contact.phone}</a>
-          </li>
-          <li class="flex items-start gap-3">
-            <MapPinIcon class="mt-0.5 h-4 w-4 shrink-0 text-white/40" />
-            <span class="font-secondary text-sm text-white/70">{contact.location}</span>
-          </li>
-        </ul>
-      </div>
     </div>
 
     <!-- Bottom Bar -->
-    <div
-      class="mt-16 flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 sm:flex-row"
-    >
-      <p class="font-secondary text-xs text-white/40">&copy;{year} {copyright}</p>
-      <p class="font-secondary text-xs text-white/30">{bottomTagline}</p>
+    <div class="flex flex-col items-center justify-between gap-3 text-[0.65rem] tracking-[0.06em] text-muted sm:flex-row">
+      <p>&copy; {footer.copyright}</p>
+      <p>{footer.bottomTagline}</p>
     </div>
   </div>
 </footer>

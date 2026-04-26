@@ -1,0 +1,67 @@
+---
+// Organism: Loader
+// Animated loading screen with counter, progress bar, and clip-path exit animation.
+// Dispatches 'loader:complete' event when done.
+---
+
+<div
+  id="loader"
+  class="fixed inset-0 z-[9800] flex flex-col items-center justify-center gap-10 bg-[#0d0d0d] transition-[clip-path] duration-1000"
+  style="clip-path: inset(0 0 0 0);"
+>
+  <div
+    id="loader-number"
+    class="font-display text-[clamp(5rem,13vw,11rem)] font-thin text-ink leading-none min-w-[3ch] text-center"
+    style="font-variant-numeric: tabular-nums;"
+  >
+    00
+  </div>
+
+  <div class="relative h-px w-60 overflow-hidden bg-ink-faint sm:w-80">
+    <div
+      id="loader-fill"
+      class="absolute left-0 top-0 h-full w-0 bg-brand transition-[width] duration-100"
+    ></div>
+  </div>
+
+  <span class="font-display text-[0.82rem] uppercase tracking-[0.55em] text-ink-ghost">
+    Habitta
+  </span>
+</div>
+
+<script>
+  const loaderNum = document.getElementById('loader-number');
+  const loaderFill = document.getElementById('loader-fill');
+  const loader = document.getElementById('loader');
+
+  if (loaderNum && loaderFill && loader) {
+    let n = 0;
+
+    const tick = () => {
+      n += Math.random() < 0.25 ? 3 : 1 + (Math.random() * 2 | 0);
+      if (n > 100) n = 100;
+
+      loaderNum.textContent = String(n).padStart(2, '0');
+      loaderFill.style.width = n + '%';
+
+      if (n < 100) {
+        setTimeout(tick, 15 + Math.random() * 20);
+      } else {
+        setTimeout(() => {
+          loader.style.clipPath = 'inset(0 0 100% 0)';
+          loader.style.pointerEvents = 'none';
+
+          setTimeout(() => {
+            loader.style.display = 'none';
+            document.dispatchEvent(new CustomEvent('loader:complete'));
+          }, 1050);
+        }, 350);
+      }
+    };
+
+    // Wait for fonts before starting — prevents FOUT on loader numbers and hero text
+    document.fonts.ready.then(() => {
+      setTimeout(tick, 100);
+    });
+  }
+</script>

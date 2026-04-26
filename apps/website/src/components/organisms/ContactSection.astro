@@ -1,0 +1,194 @@
+---
+// Organism: ContactSection
+// Two-column contact section with info on the left, form on the right.
+// Form has underline inputs, city/package selects, and a success state.
+
+import homeData from '@/data/home.json';
+
+const { contact } = homeData;
+---
+
+<section
+  id="contacto"
+  class="px-6 py-20 md:px-12 lg:px-24 lg:py-36"
+  data-section="08"
+  data-sname="Contacto"
+>
+  <div class="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-32">
+    <!-- Left: Info -->
+    <div class="reveal-el">
+      <div class="mb-4 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand">
+        <span class="block h-px w-8 bg-brand"></span>
+        {contact.eyebrow}
+      </div>
+
+      <h2 class="mb-6 font-display text-[clamp(2.2rem,4.5vw,4.2rem)] font-normal leading-none lg:mb-8">
+        {contact.heading}<br />
+        <em class="italic text-sand">{contact.headingAccent}</em>
+      </h2>
+
+      <p class="mb-8 max-w-sm text-sm leading-relaxed text-muted lg:mb-12">
+        {contact.subtitle}
+      </p>
+
+      <div class="flex flex-col gap-3">
+        {
+          contact.phones.map((phone) => (
+            <a
+              href={phone.href}
+              class="flex items-center gap-3 text-xs tracking-[0.08em] text-ink-subtle no-underline transition-colors duration-300 hover:text-ink"
+            >
+              <span class="block h-px w-4 bg-current" />
+              {phone.label}
+            </a>
+          ))
+        }
+        <a
+          href={contact.email.href}
+          class="flex items-center gap-3 text-xs tracking-[0.08em] text-ink-subtle no-underline transition-colors duration-300 hover:text-ink"
+        >
+          <span class="block h-px w-4 bg-current" />
+          {contact.email.label}
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: Form -->
+    <div class="reveal-el" style="transition-delay: 0.2s;">
+      <form id="contact-form">
+        <!-- Name Row -->
+        <div class="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
+          <div class="group relative">
+            <label class="mb-2 block text-[0.58rem] uppercase tracking-[0.2em] text-muted">
+              Nombre
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Tu nombre"
+              class="w-full border-0 border-b border-sand/[0.15] bg-transparent py-2 font-sans text-sm text-ink outline-none transition-[border-color] duration-300 placeholder:text-ink-subtle focus:border-brand"
+            />
+            <span class="absolute bottom-0 left-0 h-px w-0 bg-brand transition-[width] duration-400 group-focus-within:w-full"></span>
+          </div>
+          <div class="group relative">
+            <label class="mb-2 block text-[0.58rem] uppercase tracking-[0.2em] text-muted">
+              Apellido
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Tu apellido"
+              class="w-full border-0 border-b border-sand/[0.15] bg-transparent py-2 font-sans text-sm text-ink outline-none transition-[border-color] duration-300 placeholder:text-ink-subtle focus:border-brand"
+            />
+            <span class="absolute bottom-0 left-0 h-px w-0 bg-brand transition-[width] duration-400 group-focus-within:w-full"></span>
+          </div>
+        </div>
+
+        <!-- Email / Phone Row -->
+        <div class="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
+          <div class="group relative">
+            <label class="mb-2 block text-[0.58rem] uppercase tracking-[0.2em] text-muted">
+              Email
+            </label>
+            <input
+              type="email"
+              required
+              placeholder="tu@email.com"
+              class="w-full border-0 border-b border-sand/[0.15] bg-transparent py-2 font-sans text-sm text-ink outline-none transition-[border-color] duration-300 placeholder:text-ink-subtle focus:border-brand"
+            />
+            <span class="absolute bottom-0 left-0 h-px w-0 bg-brand transition-[width] duration-400 group-focus-within:w-full"></span>
+          </div>
+          <div class="group relative">
+            <label class="mb-2 block text-[0.58rem] uppercase tracking-[0.2em] text-muted">
+              Teléfono
+            </label>
+            <input
+              type="tel"
+              required
+              placeholder="+57 300 000 0000"
+              class="w-full border-0 border-b border-sand/[0.15] bg-transparent py-2 font-sans text-sm text-ink outline-none transition-[border-color] duration-300 placeholder:text-ink-subtle focus:border-brand"
+            />
+            <span class="absolute bottom-0 left-0 h-px w-0 bg-brand transition-[width] duration-400 group-focus-within:w-full"></span>
+          </div>
+        </div>
+
+        <!-- City -->
+        <div class="group relative mb-8">
+          <label class="mb-2 block text-[0.58rem] uppercase tracking-[0.2em] text-muted">
+            Ciudad
+          </label>
+          <select
+            class="w-full appearance-none border-0 border-b border-sand/[0.15] bg-transparent py-2 font-sans text-sm text-ink outline-none transition-[border-color] duration-300 focus:border-brand"
+          >
+            <option value="" class="bg-dark">Seleccionar</option>
+            {contact.cities.map((city) => (
+              <option value={city} class="bg-dark">{city}</option>
+            ))}
+          </select>
+          <span class="absolute bottom-0 left-0 h-px w-0 bg-brand transition-[width] duration-400 group-focus-within:w-full"></span>
+        </div>
+
+        <!-- Package -->
+        <div class="group relative mb-8">
+          <label class="mb-2 block text-[0.58rem] uppercase tracking-[0.2em] text-muted">
+            Paquete de interés
+          </label>
+          <select
+            class="w-full appearance-none border-0 border-b border-sand/[0.15] bg-transparent py-2 font-sans text-sm text-ink outline-none transition-[border-color] duration-300 focus:border-brand"
+          >
+            <option value="" class="bg-dark">Seleccionar</option>
+            {contact.packages.map((pkg) => (
+              <option value={pkg} class="bg-dark">{pkg}</option>
+            ))}
+          </select>
+          <span class="absolute bottom-0 left-0 h-px w-0 bg-brand transition-[width] duration-400 group-focus-within:w-full"></span>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="group relative mt-4 w-full overflow-hidden bg-brand py-4 font-sans text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-brand-dark"
+        >
+          Solicitar asesoría gratuita
+          <span class="absolute inset-0 -translate-x-full bg-white/10 transition-transform duration-400 group-hover:translate-x-0"></span>
+        </button>
+      </form>
+
+      <!-- Success State -->
+      <div id="contact-success" class="hidden py-16 text-center">
+        <h3 class="mb-3 font-display text-3xl font-normal">¡Gracias!</h3>
+        <p class="text-sm text-muted">
+          Un asesor te contactará en menos de 24 horas.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const success = document.getElementById('contact-success');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (form && success) {
+      form.style.display = 'none';
+      success.classList.remove('hidden');
+    }
+  });
+
+  // Reveal
+  const revObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-up');
+          revObs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll('#contacto .reveal-el').forEach((el) => revObs.observe(el));
+</script>

@@ -1,19 +1,79 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import Loader from '@/components/organisms/Loader.astro';
+import ProgressBar from '@/components/atoms/ProgressBar.astro';
 import Hero from '@/components/organisms/Hero.astro';
+import Manifesto from '@/components/organisms/Manifesto.astro';
 import ValueProps from '@/components/organisms/ValueProps.astro';
-import AboutUs from '@/components/organisms/AboutUs.astro';
+import Ticker from '@/components/molecules/Ticker.astro';
+import ProjectsShowcase from '@/components/organisms/ProjectsShowcase.astro';
 import PackagesSection from '@/components/organisms/PackagesSection.astro';
-import PreFooterCta from '@/components/organisms/PreFooterCta.astro';
+import ProcessSection from '@/components/organisms/ProcessSection.astro';
+import Testimonials from '@/components/organisms/Testimonials.astro';
+import ContactSection from '@/components/organisms/ContactSection.astro';
 import homeData from '@/data/home.json';
 
-const { seo } = homeData;
+const { seo, ticker } = homeData;
 ---
 
 <Layout seo={seo}>
+  <Loader />
+  <ProgressBar />
+
   <Hero />
+  <Manifesto />
   <ValueProps />
-  <AboutUs />
+
+  <Ticker items={ticker.row1} />
+
+  <ProjectsShowcase />
+
+  <Ticker items={ticker.row2} reverse />
+
   <PackagesSection />
-  <PreFooterCta />
+  <ProcessSection />
+  <Testimonials />
+  <ContactSection />
 </Layout>
+
+<script>
+  // Global reveal observer for elements with .reveal-el class
+  const globalRevObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          (entry.target as HTMLElement).style.opacity = '1';
+          (entry.target as HTMLElement).style.transform = 'translateY(0)';
+          globalRevObs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll('.reveal-el').forEach((el) => {
+    const htmlEl = el as HTMLElement;
+    if (!htmlEl.style.opacity) {
+      htmlEl.style.opacity = '0';
+      htmlEl.style.transform = 'translateY(36px)';
+      htmlEl.style.transition = 'opacity 0.9s ease, transform 0.9s ease';
+    }
+    globalRevObs.observe(el);
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      const href = (anchor as HTMLAnchorElement).getAttribute('href');
+      if (!href) return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.scrollY - 80,
+          behavior: 'smooth',
+        });
+      }
+    });
+  });
+</script>

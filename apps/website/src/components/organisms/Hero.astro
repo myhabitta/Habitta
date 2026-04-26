@@ -1,147 +1,174 @@
 ---
 // Organism: Hero
-// Sección hero completa de la landing.
-// Compone: atoms/EyebrowLabel + molecules/StatItem + molecules/ScrollHint
+// Sticky parallax hero with watermark text, diagonal line, scroll-driven reveal.
+// Three phases: watermark visible → overlay fades → content appears.
 
-import EyebrowLabel from '@/components/atoms/EyebrowLabel.astro';
-import StatItem from '@/components/molecules/StatItem.astro';
-import ScrollHint from '@/components/molecules/ScrollHint.astro';
-import ArrowRight from '@/icons/ArrowRight.astro';
 import homeData from '@/data/home.json';
 
 const { hero } = homeData;
 ---
 
-<section id="inicio" class="relative flex min-h-[100svh] items-center overflow-hidden bg-surface">
-  <!-- Background layers -->
-  <div class="absolute inset-0 z-0" aria-hidden="true">
-    <!-- Subtle warm gradient accents -->
+<section
+  id="s-hero"
+  class="relative"
+  data-section="01"
+  data-sname="Hero"
+  style="height: 300vh;"
+>
+  <div class="sticky top-0 h-screen overflow-hidden">
+    <!-- Background Image -->
     <div
-      class="absolute inset-0"
-      style="background: radial-gradient(ellipse 70% 50% at 80% 30%, rgba(197,177,160,0.12) 0%, transparent 65%), radial-gradient(ellipse 50% 70% at 5% 80%, rgba(197,177,160,0.08) 0%, transparent 60%)"
-    >
-    </div>
+      id="hero-bg"
+      class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out"
+      style={`background-image: url('${hero.bgImage}'); will-change: transform; transform: scale(1.1);`}
+    ></div>
 
-    <!-- Clean architectural grid -->
-    <div class="hero-grid absolute inset-0 bg-[length:80px_80px]"></div>
-
-    <!-- Decorative dot pattern (right side) -->
-    <div class="hero-dots absolute right-[8%] top-[20%] hidden h-[200px] w-[200px] lg:block"></div>
-  </div>
-
-  <!-- Main content -->
-  <div
-    class="relative z-10 mx-auto w-full max-w-[1200px] px-[clamp(1.5rem,6vw,5rem)] pb-[clamp(4rem,8vw,6rem)] pt-[clamp(7rem,14vw,11rem)]"
-  >
-    <!-- Eyebrow -->
+    <!-- Dark Overlay -->
     <div
-      class="mb-10 animate-fade-up opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
-      style="animation-delay: 0.1s"
-    >
-      <EyebrowLabel text={hero.eyebrow} />
-    </div>
+      id="hero-overlay"
+      class="absolute inset-0 bg-dark"
+      style="opacity: 0.9; will-change: opacity;"
+    ></div>
 
-    <!-- Title -->
-    <h1
-      class="mb-8 flex flex-col font-primary text-[clamp(3.5rem,8vw,5rem)] font-light leading-[0.95] tracking-[-0.02em] text-ink"
+    <!-- Watermark -->
+    <div
+      id="hero-watermark"
+      class="absolute inset-0 flex items-center justify-center"
+      style="will-change: opacity, transform; transform: scale(0.85);"
     >
       <span
-        class="block animate-fade-up opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
-        style="animation-delay: 0.25s"
+        class="whitespace-nowrap font-display text-[clamp(5rem,14vw,13rem)] font-thin uppercase tracking-[0.15em] text-ink"
       >
-        {hero.heading[0]}
+        HABITTA
       </span>
-      <span
-        class="block animate-fade-up italic text-primary opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
-        style="animation-delay: 0.4s"
-      >
-        {hero.heading[1]}
-      </span>
-      <span
-        class="block animate-fade-up opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
-        style="animation-delay: 0.55s"
-      >
-        {hero.heading[2]}
-      </span>
-    </h1>
-
-    <!-- Subtitle -->
-    <p
-      class="mb-14 max-w-[440px] animate-fade-up font-secondary text-[clamp(0.9rem,1.4vw,1.05rem)] font-light leading-[1.75] text-ink-muted opacity-0 motion-reduce:animate-none motion-reduce:opacity-100"
-      style="animation-delay: 0.7s"
-    >
-      {hero.subtitle}
-    </p>
-
-    <!-- CTA group -->
-    <div
-      class="flex animate-fade-up flex-wrap items-center gap-5 opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 sm:gap-6"
-      style="animation-delay: 0.85s"
-    >
-      <!-- Primary CTA Button -->
-      <a
-        href={hero.ctaPrimary.href}
-        class="group relative inline-flex items-center gap-[0.6rem] overflow-hidden bg-primary px-8 py-[0.85rem] text-[0.85rem] font-medium uppercase tracking-[0.06em] text-white no-underline transition-all duration-300 hover:gap-4 hover:shadow-lg hover:shadow-primary/20"
-      >
-        <span
-          class="absolute inset-0 -translate-x-full bg-dark transition-transform duration-[400ms] ease-[cubic-bezier(0.77,0,0.18,1)] group-hover:translate-x-0"
-        ></span>
-        <span class="relative z-10">{hero.ctaPrimary.label}</span>
-        <ArrowRight
-          class="relative z-10 h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1"
-        />
-      </a>
-
-      <!-- Secondary Ghost Button -->
-      <a
-        href={hero.ctaSecondary.href}
-        class="group inline-flex items-center gap-[0.6rem] border border-primary px-8 py-[0.85rem] text-[0.85rem] font-medium uppercase tracking-[0.06em] text-primary no-underline transition-all duration-300 hover:bg-primary hover:text-white"
-      >
-        <span>{hero.ctaSecondary.label}</span>
-        <ArrowRight
-          class="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1"
-        />
-      </a>
     </div>
 
-    <!-- Stats bar -->
+    <!-- Diagonal Line -->
     <div
-      class="mt-16 flex animate-fade-up items-center gap-8 border-t border-ink-faint pt-8 opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 sm:mt-20"
-      style="animation-delay: 1s"
-      aria-label="Estadisticas"
+      id="hero-line"
+      class="absolute left-0 right-0 h-px"
+      style="top: 42%; background: linear-gradient(90deg, transparent 0%, rgba(232,112,58,0.4) 50%, transparent 100%); will-change: transform, opacity; transform: scaleX(0); transform-origin: center;"
+    ></div>
+
+    <!-- Content -->
+    <div
+      id="hero-content"
+      class="absolute inset-x-0 bottom-0 px-6 pb-20 md:px-12 lg:px-24 lg:pb-28"
+      style="will-change: opacity, transform; opacity: 0; transform: translateY(40px);"
     >
-      <StatItem value={hero.stats[0].value} label={hero.stats[0].label} />
-      <div class="h-8 w-px bg-ink-faint" aria-hidden="true"></div>
-      <StatItem value={hero.stats[1].value} label={hero.stats[1].label} />
-      <div class="hidden h-8 w-px bg-ink-faint sm:block" aria-hidden="true"></div>
-      <div class="hidden sm:block">
-        <StatItem value={hero.stats[2].value} label={hero.stats[2].label} />
+      <!-- Tag -->
+      <p class="mb-4 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.25em] text-brand lg:mb-6">
+        <span class="block h-px w-8 bg-brand"></span>
+        {hero.tag}
+      </p>
+
+      <!-- Heading -->
+      <h1 class="mb-4 font-display text-[clamp(2.5rem,6vw,5.8rem)] font-normal leading-[0.95] tracking-tight lg:mb-6">
+        {hero.heading}<br />
+        <em class="not-italic text-sand">{hero.headingAccent}</em>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="mb-6 max-w-sm text-sm leading-relaxed text-ink-muted lg:mb-10 lg:max-w-md lg:text-base">
+        {hero.subtitle}
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
+        <a
+          href={hero.ctaPrimary.href}
+          class="inline-flex items-center gap-3 bg-brand px-6 py-3 font-sans text-[0.73rem] font-bold uppercase tracking-[0.14em] text-white no-underline transition-colors duration-300 hover:bg-brand-dark lg:px-10 lg:py-4"
+        >
+          {hero.ctaPrimary.label}
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+            <path d="M9 1l4 4-4 4M0 5h13" stroke="currentColor" stroke-width="1.2" />
+          </svg>
+        </a>
+        <a
+          href={hero.ctaSecondary.href}
+          class="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.16em] text-ink-subtle no-underline transition-colors duration-300 hover:text-ink"
+        >
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1" />
+            <path d="M5 3v2.5l1.5 1.5" stroke="currentColor" stroke-width="1" />
+          </svg>
+          {hero.ctaSecondary.label}
+        </a>
       </div>
     </div>
-  </div>
 
-  <!-- Scroll indicator -->
-  <div
-    class="absolute bottom-10 left-1/2 z-10 hidden -translate-x-1/2 animate-fade-in opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 sm:block"
-    style="animation-delay: 1.4s"
-    aria-hidden="true"
-  >
-    <ScrollHint label={hero.scrollHint} />
+    <!-- Scroll Indicator -->
+    <div
+      id="hero-scroll"
+      class="absolute bottom-8 right-[5%] hidden flex-col items-center gap-2 md:flex"
+      style="will-change: opacity;"
+    >
+      <div class="relative h-[60px] w-px overflow-hidden bg-border">
+        <div class="absolute h-full w-full animate-scroll-line bg-brand"></div>
+      </div>
+      <span
+        class="text-[0.56rem] uppercase tracking-[0.22em] text-ink-ghost"
+        style="writing-mode: vertical-rl; transform: rotate(180deg);"
+      >
+        Scroll
+      </span>
+    </div>
+
+    <!-- Coordinates -->
+    <p
+      class="absolute bottom-8 left-6 hidden text-[0.58rem] tracking-[0.14em] text-ink-ghost md:block lg:left-24"
+    >
+      {hero.coordinates}
+    </p>
   </div>
 </section>
 
-<style>
-  /* mask-image no tiene soporte en Tailwind v3 */
-  .hero-grid {
-    background-image:
-      linear-gradient(rgba(30, 26, 27, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(30, 26, 27, 0.03) 1px, transparent 1px);
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+<script>
+  function initHero() {
+    const section = document.getElementById('s-hero');
+    const bg = document.getElementById('hero-bg');
+    const overlay = document.getElementById('hero-overlay');
+    const watermark = document.getElementById('hero-watermark');
+    const line = document.getElementById('hero-line');
+    const content = document.getElementById('hero-content');
+    const scrollIndicator = document.getElementById('hero-scroll');
+
+    if (!section || !bg || !overlay || !watermark || !line || !content) return;
+
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+    const map = (v: number, a: number, b: number, c: number, d: number) =>
+      c + (d - c) * clamp((v - a) / (b - a), 0, 1);
+
+    function animate() {
+      const h = section.offsetHeight - window.innerHeight;
+      const p = h > 0 ? clamp(-section.getBoundingClientRect().top / h, 0, 1) : 0;
+
+      overlay.style.opacity = String(map(p, 0, 0.22, 0.9, 0.35));
+
+      watermark.style.opacity = String(map(p, 0.2, 0.4, 1, 0));
+      watermark.style.transform = `scale(${map(p, 0, 0.3, 0.85, 1)})`;
+
+      content.style.opacity = String(map(p, 0.3, 0.6, 0, 1));
+      content.style.transform = `translateY(${map(p, 0.3, 0.6, 40, 0)}px)`;
+
+      bg.style.transform = `translateY(${window.scrollY * 0.28}px) scale(${map(p, 0, 0.5, 1.1, 1)})`;
+
+      line.style.opacity = String(map(p, 0.1, 0.5, 0.6, 0));
+      line.style.transform = `scaleX(${map(p, 0, 0.2, 0, 1)})`;
+
+      if (scrollIndicator) {
+        scrollIndicator.style.opacity = String(map(p, 0, 0.25, 1, 0));
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
   }
 
-  .hero-dots {
-    background-image: radial-gradient(circle, rgba(66, 72, 50, 0.12) 1px, transparent 1px);
-    background-size: 16px 16px;
-    mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+  if (document.getElementById('loader')) {
+    document.addEventListener('loader:complete', initHero, { once: true });
+  } else {
+    initHero();
   }
-</style>
+</script>

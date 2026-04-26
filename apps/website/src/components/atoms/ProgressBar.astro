@@ -1,0 +1,22 @@
+---
+// Atom: ProgressBar
+// Vertical progress bar fixed on the left edge, driven by page scroll.
+---
+
+<div
+  id="page-progress"
+  class="fixed left-0 top-0 z-[999] w-[2px] bg-brand"
+  style="height: 0;"
+></div>
+
+<script>
+  const bar = document.getElementById('page-progress');
+  if (bar) {
+    function updateProgress() {
+      const scrollH = document.body.scrollHeight - window.innerHeight;
+      bar!.style.height = scrollH > 0 ? (window.scrollY / scrollH * 100) + '%' : '0';
+      requestAnimationFrame(updateProgress);
+    }
+    updateProgress();
+  }
+</script>

@@ -3,77 +3,78 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
   theme: {
     extend: {
-      // ─── Brand Colors ──────────────────────────────────────────
+      // ─── Dark Theme Colors (v4 Design) ───────────────────────────
       colors: {
-        primary: '#424832',
-        secondary: '#c5b1a0',
-        tertiary: '#27272a',
-        quaternary: '#E8703A',
-        quinary: '#759465',
+        brand: {
+          DEFAULT: '#E8703A',
+          dark: '#c8592a',
+          light: '#f09060',
+        },
+        sand: '#c5b1a0',
+        olive: '#424832',
         dark: '#1E1A1B',
-        light: '#f8f8f8',
+        light: '#f0ebe5',
+        muted: '#6b635d',
         surface: {
-          DEFAULT: '#FFFFFF',
-          raised: '#F9F8F6',
-          accent: '#F3F1ED',
+          DEFAULT: '#1E1A1B',
+          raised: '#141212',
+          accent: '#2a2626',
         },
         ink: {
-          DEFAULT: '#1E1A1B',
-          muted: 'rgba(30, 26, 27, 0.55)',
-          subtle: 'rgba(30, 26, 27, 0.35)',
-          faint: 'rgba(30, 26, 27, 0.08)',
+          DEFAULT: '#f0ebe5',
+          muted: 'rgba(240, 235, 229, 0.5)',
+          subtle: 'rgba(240, 235, 229, 0.35)',
+          faint: 'rgba(240, 235, 229, 0.12)',
+          ghost: 'rgba(240, 235, 229, 0.18)',
+        },
+        border: {
+          DEFAULT: 'rgba(197, 177, 160, 0.1)',
         },
       },
 
-      // ─── Typography ────────────────────────────────────────────
+      // ─── Typography ──────────────────────────────────────────────
       fontFamily: {
         display: ['"Work Sans"', 'system-ui', 'sans-serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        primary: ['"Work Sans"', 'system-ui', 'sans-serif'],
-        secondary: ['Inter', 'system-ui', 'sans-serif'],
       },
 
-      // ─── Animations ────────────────────────────────────────────
+      // ─── Animations ──────────────────────────────────────────────
       animation: {
         'fade-up': 'fadeUp 0.9s ease forwards',
         'fade-in': 'fadeIn 1s ease forwards',
-        float: 'float 12s ease-in-out infinite',
-        'scroll-down': 'scrollDown 2s cubic-bezier(0.77,0,0.18,1) infinite',
-        reveal: 'reveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
-        'slide-in-right': 'slideInRight 0.7s ease forwards',
+        ticker: 'ticker 22s linear infinite',
+        'ticker-reverse': 'ticker 22s linear infinite reverse',
+        'pulse-dot': 'pulseDot 2s ease-in-out infinite',
+        'scroll-line': 'scrollLine 2s ease-in-out infinite',
         'draw-line': 'drawLine 0.8s ease forwards',
+        'ripple-out': 'rippleOut 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         fadeUp: {
-          from: { opacity: '0', transform: 'translateY(28px)' },
+          from: { opacity: '0', transform: 'translateY(36px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
         fadeIn: {
           from: { opacity: '0' },
           to: { opacity: '1' },
         },
-        float: {
-          '0%, 100%': { transform: 'translate(0,0) scale(1)' },
-          '33%': { transform: 'translate(20px,-30px) scale(1.04)' },
-          '66%': { transform: 'translate(-15px,20px) scale(0.97)' },
+        ticker: {
+          to: { transform: 'translateX(-50%)' },
         },
-        scrollDown: {
-          '0%': { transform: 'translateY(-100%)', opacity: '0' },
-          '20%': { opacity: '1' },
-          '80%': { opacity: '1' },
-          '100%': { transform: 'translateY(350%)', opacity: '0' },
+        pulseDot: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.6)', opacity: '0.5' },
         },
-        reveal: {
-          from: { opacity: '0', transform: 'translateY(20px) scale(0.98)' },
-          to: { opacity: '1', transform: 'translateY(0) scale(1)' },
-        },
-        slideInRight: {
-          from: { opacity: '0', transform: 'translateX(40px)' },
-          to: { opacity: '1', transform: 'translateX(0)' },
+        scrollLine: {
+          '0%': { top: '-100%' },
+          '100%': { top: '200%' },
         },
         drawLine: {
           from: { transform: 'scaleX(0)' },
           to: { transform: 'scaleX(1)' },
+        },
+        rippleOut: {
+          to: { transform: 'translate(-50%, -50%) scale(25)', opacity: '0' },
         },
       },
     },

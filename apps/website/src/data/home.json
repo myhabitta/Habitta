@@ -1,21 +1,21 @@
 {
   "seo": {
-    "title": "Proyectos de Vivienda en Colombia",
-    "description": "Habitta disena proyectos residenciales con acabados personalizables en Colombia. Elige entre paquetes basico, estandar y premium para tu hogar ideal.",
+    "title": "Arquitectura de Vida — Proyectos de Vivienda en Colombia",
+    "description": "Habitta diseña proyectos residenciales premium con acabados personalizables en Colombia. Tres paquetes de acabados para tu hogar ideal.",
     "canonical": "https://habitta.co",
     "robots": "index, follow",
     "keywords": [
       "vivienda Colombia",
-      "proyectos residenciales",
+      "proyectos residenciales premium",
       "acabados de vivienda",
-      "apartamentos nuevos",
+      "apartamentos nuevos Colombia",
       "Habitta",
-      "vivienda Medellin",
+      "vivienda Medellín",
       "paquetes de acabados"
     ],
     "og": {
-      "title": "Habitta — Proyectos de Vivienda en Colombia",
-      "description": "Proyectos residenciales con acabados pensados para cada estilo de vida. Basico, estandar o premium — tu decides.",
+      "title": "Habitta — Arquitectura de Vida",
+      "description": "Proyectos residenciales premium con acabados pensados para cada estilo de vida.",
       "image": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775621338/Imagotipo-1_xsx5t8.webp",
       "type": "website",
       "locale": "es_CO",
@@ -23,20 +23,20 @@
     },
     "twitter": {
       "card": "summary_large_image",
-      "title": "Habitta — Proyectos de Vivienda en Colombia",
-      "description": "Proyectos residenciales con acabados pensados para cada estilo de vida.",
+      "title": "Habitta — Arquitectura de Vida",
+      "description": "Proyectos residenciales premium con acabados pensados para cada estilo de vida.",
       "image": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775621338/Imagotipo-1_xsx5t8.webp"
     },
     "jsonLd": {
       "@context": "https://schema.org",
       "@type": "RealEstateAgent",
       "name": "Habitta",
-      "description": "Empresa inmobiliaria colombiana que comercializa proyectos de vivienda con diferentes niveles de acabados.",
+      "description": "Empresa inmobiliaria colombiana que comercializa proyectos de vivienda premium con diferentes niveles de acabados.",
       "url": "https://habitta.co",
       "logo": "https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775621338/Imagotipo-1_xsx5t8.webp",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Medellin",
+        "addressLocality": "Medellín",
         "addressCountry": "CO"
       },
       "areaServed": {
@@ -46,119 +46,250 @@
     }
   },
   "hero": {
-    "eyebrow": "Proyectos de Vivienda \u00b7 Colombia",
-    "heading": ["Espacios que", "definen", "como vivir."],
-    "headingAccent": "como vivir.",
-    "subtitle": "Disenamos proyectos residenciales con acabados pensados para cada estilo de vida. Elige el tuyo.",
-    "ctaPrimary": {
-      "label": "Ver proyectos",
-      "href": "/proyectos"
-    },
-    "ctaSecondary": {
-      "label": "Conoce los acabados",
-      "href": "#paquetes"
-    },
-    "stats": [
-      { "value": "3+", "label": "Proyectos activos" },
-      { "value": "100%", "label": "Financiable" },
-      { "value": "+240", "label": "Familias confian" }
-    ],
-    "scrollHint": "Explora"
+    "tag": "Inmobiliaria premium · Colombia",
+    "heading": "El espacio que",
+    "headingAccent": "siempre imaginaste.",
+    "subtitle": "Proyectos residenciales de alta calidad. Tres paquetes de acabados. Un solo compromiso.",
+    "ctaPrimary": { "label": "Explorar proyectos", "href": "#proyectos" },
+    "ctaSecondary": { "label": "Cómo funciona", "href": "#proceso" },
+    "coordinates": "4°42′N · 74°4′W · Bogotá",
+    "bgImage": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
   },
-  "aboutUs": {
-    "eyebrow": "Sobre nosotros",
-    "heading": "Construimos mas",
-    "headingAccent": "que espacios.",
-    "description": "Habitta nacio en Colombia con una conviccion: que la vivienda bien disenada no deberia ser un privilegio. Somos una inmobiliaria que parte del concepto antes que del ladrillo \u2014 pensamos en el estilo de vida que queremos posibilitar y trabajamos hacia atras desde ahi.",
+  "manifesto": {
+    "eyebrow": "Nuestra filosofía",
+    "words": ["El", "hogar", "no", "se", "compra.", "Se", "elige,", "diseña", "y", "se", "vive."],
+    "accentWords": ["elige,", "diseña"],
+    "footer": "— Habitta, 2026",
+    "cities": "Bogotá · Medellín · Cali"
+  },
+  "valor": {
+    "eyebrow": "Por qué Habitta",
+    "heading": "Construimos más que",
+    "headingAccent": "espacios.",
     "stats": [
-      { "value": "8+", "label": "Anos de experiencia" },
-      { "value": "+240", "label": "Familias confian en nosotros" }
+      { "value": 8, "suffix": "+", "label": "Proyectos activos" },
+      { "value": 240, "suffix": "+", "label": "Familias" },
+      { "value": 3, "suffix": "", "label": "Ciudades" }
     ],
-    "pillars": [
+    "features": [
       {
-        "number": "01",
-        "title": "Calidad sin concesiones",
-        "description": "Cada acabado, cada material y cada detalle constructivo pasa por un proceso de seleccion riguroso. No construimos para hoy \u2014 construimos para generaciones."
+        "number": "i.",
+        "title": "Proyectos curados",
+        "description": "Solo los mejores desarrollos. Criterio arquitectónico y financiero riguroso."
       },
       {
-        "number": "02",
-        "title": "Diseno con proposito",
-        "description": "Los espacios que disenamos responden a como vive la gente real: luz natural, circulacion inteligente y ambientes que evolucionan con quien los habita."
+        "number": "ii.",
+        "title": "Acabados que perduran",
+        "description": "Materiales de larga duración. Estética y función en perfecta armonía."
       },
       {
-        "number": "03",
-        "title": "Acompanamiento real",
-        "description": "Desde el primer contacto hasta la entrega de llaves, nuestro equipo guia cada decision. Comprar vivienda es una de las decisiones mas importantes \u2014 no deberia sentirse sola."
+        "number": "iii.",
+        "title": "Acompañamiento total",
+        "description": "Tu asesor presente desde la elección hasta las llaves y más allá."
+      }
+    ]
+  },
+  "ticker": {
+    "row1": ["Habitta", "Proyectos curados", "Medellín", "Bogotá", "Cali", "Acabados de lujo", "Premium · Estándar · Esencial"],
+    "row2": ["240+ familias", "Reserva Ávila", "Torres Serena", "Parque Oasis", "Villa del Río", "Acabados Premium", "Residencias Norte"]
+  },
+  "projects": {
+    "eyebrow": "Proyectos destacados",
+    "heading": "Elige tu\npróximo\nhogar.",
+    "subtitle": "Cinco proyectos curados en las principales ciudades de Colombia.",
+    "items": [
+      {
+        "name": "Reserva Ávila",
+        "city": "Medellín, Antioquia",
+        "badge": "Premium",
+        "price": "Desde $580M",
+        "units": "12 unidades disponibles",
+        "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=800&fit=crop&q=80"
+      },
+      {
+        "name": "Torres Serena",
+        "city": "Bogotá, Cundinamarca",
+        "badge": "Estándar",
+        "price": "Desde $320M",
+        "units": "8 unidades disponibles",
+        "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=800&fit=crop&q=80"
+      },
+      {
+        "name": "Parque Oasis",
+        "city": "Cali, Valle del Cauca",
+        "badge": "Esencial",
+        "price": "Desde $189M",
+        "units": "20 unidades disponibles",
+        "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=800&fit=crop&q=80"
+      },
+      {
+        "name": "Villa del Río",
+        "city": "Pereira, Risaralda",
+        "badge": "Premium",
+        "price": "Desde $490M",
+        "units": "Pre-venta · 6 unidades",
+        "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=800&fit=crop&q=80"
+      },
+      {
+        "name": "Residencias Norte",
+        "city": "Barranquilla, Atlántico",
+        "badge": "Estándar",
+        "price": "Desde $290M",
+        "units": "15 unidades disponibles",
+        "image": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=800&fit=crop&q=80"
       }
     ]
   },
   "packages": {
-    "eyebrow": "Paquetes de acabados",
-    "heading": "Elige como",
-    "headingAccent": "quieres vivir.",
-    "description": "Cada unidad esta disponible en tres niveles de acabados. Mismo proyecto, misma ubicacion \u2014 distinto nivel de detalle. Tu decides.",
+    "eyebrow": "Elige cómo quieres vivir",
+    "heading": "Tres niveles de",
+    "headingAccent": "acabado. Un mismo sueño.",
     "items": [
       {
-        "number": "01",
-        "name": "Basico",
-        "tagline": "El comienzo bien hecho",
-        "price": 189000000,
-        "description": "Todo lo esencial con materiales de calidad comprobada. Ideal para quienes buscan una vivienda funcional y lista para personalizar.",
+        "name": "Esencial",
+        "description": "Todo lo que necesitas con la calidad que mereces.",
         "features": [
-          "Porcelanato 45\u00d745 en zonas comunes",
-          "Ventaneria en aluminio estandar",
-          "Meson en granito natural",
-          "Enchape bano hasta 1.80m",
-          "Pintura basica en muros y techos",
-          "Electrica basica normativa"
+          "Pisos en cerámica importada",
+          "Cocina con muebles en madera",
+          "Baños porcelana nacional",
+          "Ventanas aluminio reforzado",
+          "Iluminación LED áreas comunes"
         ],
-        "highlighted": false,
-        "cta": { "label": "Ver proyecto", "href": "/proyectos" }
+        "price": "$189M",
+        "note": "Desde · sujeto disponibilidad",
+        "featured": false
+      },
+      {
+        "name": "Estándar",
+        "description": "Equilibrio perfecto entre diseño y valor.",
+        "badge": "Más elegido",
+        "features": [
+          "Pisos madera laminada europea",
+          "Cocina integral con granito",
+          "Baños porcelana importada",
+          "Ventanas con doble vidrio",
+          "Sistema de domótica básico"
+        ],
+        "price": "$320M",
+        "note": "Desde · sujeto disponibilidad",
+        "featured": true
+      },
+      {
+        "name": "Premium",
+        "description": "Materiales de autor. Sin compromisos.",
+        "features": [
+          "Pisos mármol travertino",
+          "Cocina Poggenpohl con isla",
+          "Baños griferías Hansgrohe",
+          "Ventanas piso a techo",
+          "Domótica completa + home theater"
+        ],
+        "price": "$580M",
+        "note": "Desde · sujeto disponibilidad",
+        "featured": false
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "El proceso",
+    "heading": "Simple. Transparente.",
+    "headingAccent": "Tuyo.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Explorar",
+        "description": "Navega nuestro catálogo y descubre el proyecto que se ajusta a tu estilo de vida.",
+        "link": { "label": "Ver proyectos", "href": "#proyectos" }
       },
       {
         "number": "02",
-        "name": "Estandar",
-        "tagline": "El equilibrio perfecto",
-        "price": 238000000,
-        "badge": "Mas elegido",
-        "description": "Mayor refinamiento en cada detalle sin renunciar a la practicidad. El paquete mas elegido por familias que valoran el confort cotidiano.",
-        "features": [
-          "Porcelanato premium 60\u00d760",
-          "Ventaneria doble vidrio aluminio",
-          "Meson granito natural premium",
-          "Bano completo con mueble",
-          "Pintura premium mate lavable",
-          "Puntos de A/C + closets basicos en melamina"
-        ],
-        "highlighted": true,
-        "cta": { "label": "Ver proyecto", "href": "/proyectos" }
+        "title": "Elegir",
+        "description": "Selecciona el proyecto y el paquete de acabados con la guía de tu asesor dedicado.",
+        "link": { "label": "Ver paquetes", "href": "#paquetes" }
       },
       {
         "number": "03",
-        "name": "Premium",
-        "tagline": "Sin concesiones",
-        "price": 310000000,
-        "description": "Materiales importados, acabados unicos y tecnologia integrada para quienes entienden la vivienda como una extension de su identidad.",
-        "features": [
-          "Porcelanato importado 80\u00d780 pulido",
-          "Vidrio laminado acustico panoramico",
-          "Cocina isla con cuarzo blanco",
-          "Ducha italiana + mueble flotante",
-          "Estuco veneciano en muros principales",
-          "Domotica (luces/persianas) + closets LED madera"
-        ],
-        "highlighted": false,
-        "cta": { "label": "Ver proyecto", "href": "/proyectos" }
+        "title": "Personalizar",
+        "description": "Ajusta colores y materiales. Hacemos que el hogar refleje a quien lo habitará.",
+        "link": { "label": "Conocer opciones", "href": "#contacto" }
+      },
+      {
+        "number": "04",
+        "title": "Vivir",
+        "description": "Recibe tu hogar con acompañamiento post-entrega. El inicio de tu nuevo capítulo.",
+        "link": { "label": "Empezar hoy", "href": "#contacto" }
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Familias Habitta",
+    "items": [
+      {
+        "quote": "Habitta no solo nos vendió un apartamento. Nos ayudó a encontrar el hogar que siempre habíamos imaginado. El proceso fue impecable de principio a fin.",
+        "name": "Carolina Mejía",
+        "detail": "Medellín · Paquete Premium"
+      },
+      {
+        "quote": "Los acabados Estándar superaron todas nuestras expectativas. El equipo de Habitta estuvo en cada decisión. Vale cada peso invertido.",
+        "name": "Andrés & Sofía Rueda",
+        "detail": "Bogotá · Paquete Estándar"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Empieza hoy",
+    "heading": "Tu próximo",
+    "headingAccent": "hogar empieza aquí.",
+    "subtitle": "Completa el formulario y un asesor Habitta te contactará en menos de 24 horas.",
+    "phones": [
+      { "label": "+57 601 234 5678 — Bogotá", "href": "tel:+576012345678" },
+      { "label": "+57 604 234 5678 — Medellín", "href": "tel:+576042345678" }
+    ],
+    "email": { "label": "info@habitta.co", "href": "mailto:info@habitta.co" },
+    "cities": ["Bogotá", "Medellín", "Cali", "Barranquilla", "Pereira"],
+    "packages": ["Esencial — desde $189M", "Estándar — desde $320M", "Premium — desde $580M"]
+  },
+  "footer": {
+    "brand": {
+      "name": "Habitta",
+      "description": "Startup inmobiliaria colombiana comprometida con espacios que transforman vidas."
+    },
+    "columns": [
+      {
+        "title": "Proyectos",
+        "links": [
+          { "label": "Reserva Ávila", "href": "#" },
+          { "label": "Torres Serena", "href": "#" },
+          { "label": "Parque Oasis", "href": "#" },
+          { "label": "Villa del Río", "href": "#" },
+          { "label": "Residencias Norte", "href": "#" }
+        ]
+      },
+      {
+        "title": "Empresa",
+        "links": [
+          { "label": "Quiénes somos", "href": "#" },
+          { "label": "Prensa", "href": "#" },
+          { "label": "Trabaja con nosotros", "href": "#" },
+          { "label": "Blog editorial", "href": "#" }
+        ]
+      },
+      {
+        "title": "Contacto",
+        "links": [
+          { "label": "Bogotá: +57 601 234 5678", "href": "tel:+576012345678" },
+          { "label": "Medellín: +57 604 234 5678", "href": "tel:+576042345678" },
+          { "label": "info@habitta.co", "href": "mailto:info@habitta.co" },
+          { "label": "Agendar visita", "href": "#contacto" }
+        ]
       }
     ],
-    "disclaimer": "Precios referenciales sujetos a disponibilidad y proyecto. Incluyen acabados indicados, sin mobiliario."
-  },
-  "preCta": {
-    "heading": "Listo para encontrar",
-    "headingAccent": "tu hogar",
-    "cta": {
-      "label": "Explorar proyectos",
-      "href": "/proyectos"
-    }
+    "social": [
+      { "name": "Instagram", "href": "https://instagram.com/habitta" },
+      { "name": "LinkedIn", "href": "https://linkedin.com/company/habitta" },
+      { "name": "WhatsApp", "href": "https://wa.me/573000000000" }
+    ],
+    "copyright": "2026 Habitta SAS · Todos los derechos reservados",
+    "bottomTagline": "Bogotá · Medellín · Cali · Colombia"
   }
 }

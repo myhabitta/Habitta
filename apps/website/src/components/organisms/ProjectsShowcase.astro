@@ -1,0 +1,171 @@
+---
+// Organism: ProjectsShowcase
+// Horizontal scrolling project cards driven by vertical scroll.
+// Sticky container with translateX animation, progress bar, and card reveals.
+
+import homeData from '@/data/home.json';
+
+const { projects } = homeData;
+---
+
+<section
+  id="s-proyectos"
+  class="relative"
+  data-section="04"
+  data-sname="Proyectos"
+>
+  <div class="sticky top-0 h-screen overflow-hidden">
+    <!-- Header -->
+    <div class="absolute left-6 top-8 z-10 md:left-12 lg:left-24 lg:top-16">
+      <div class="flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand opacity-100">
+        <span class="block h-px w-8 bg-brand"></span>
+        {projects.eyebrow}
+      </div>
+      <div class="mt-2 flex items-center gap-4">
+        <span
+          id="proj-counter"
+          class="font-display text-sm font-thin tracking-[0.1em] text-ink-ghost"
+        >
+          01 / 0{projects.items.length}
+        </span>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="absolute bottom-8 left-6 right-6 z-10 h-px bg-ink-faint md:left-12 md:right-12 lg:bottom-12 lg:left-24 lg:right-24">
+      <div id="proj-progress" class="h-full w-0 bg-brand transition-none"></div>
+    </div>
+
+    <!-- Horizontal Track -->
+    <div
+      id="proj-track"
+      class="flex h-full items-center gap-6 px-6 md:gap-8 md:px-12 lg:gap-10 lg:px-24"
+      style="will-change: transform;"
+    >
+      <!-- Intro Card -->
+      <div class="min-w-[280px] shrink-0 pr-8 md:min-w-[340px] lg:min-w-[380px] lg:pr-16">
+        <h2 class="font-display text-[clamp(2rem,3.8vw,3.5rem)] font-normal leading-[1.05]">
+          {projects.heading.split('\n').map((line, i) => (
+            <Fragment key={i}>
+              {i > 0 && <br />}
+              {line}
+            </Fragment>
+          ))}
+        </h2>
+        <p class="mt-4 max-w-[260px] text-xs leading-relaxed text-muted lg:text-sm lg:leading-[1.7]">
+          {projects.subtitle}
+        </p>
+      </div>
+
+      {/* Project Cards */}
+      {
+        projects.items.map((project) => (
+          <div
+            class="proj-card group relative min-w-[280px] shrink-0 overflow-hidden transition-shadow duration-400 sm:min-w-[320px] lg:min-w-[360px]"
+            style="height: 65vh; max-height: 600px;"
+          >
+            {/* Image with clip-path reveal */}
+            <div class="proj-card-img absolute inset-0 overflow-hidden" style="clip-path: inset(100% 0 0 0); transition: clip-path 1.1s cubic-bezier(0.16, 1, 0.3, 1);">
+              <img
+                src={project.image}
+                alt={project.name}
+                class="h-[110%] w-full object-cover brightness-[0.8] transition-all duration-700 group-hover:scale-[1.04] group-hover:brightness-[0.9]"
+                style="transform: translateY(-5%);"
+                loading="lazy"
+              />
+            </div>
+
+            {/* Bottom info */}
+            <div class="absolute inset-x-0 bottom-0 z-10 p-5 lg:p-7" style="background: linear-gradient(0deg, rgba(20,18,18,0.97) 0%, transparent 100%);">
+              <span class="mb-2 inline-block bg-brand px-3 py-1 text-[0.55rem] font-bold uppercase tracking-[0.16em] text-white">
+                {project.badge}
+              </span>
+              <div class="font-display text-xl font-normal leading-tight lg:text-2xl">
+                {project.name}
+              </div>
+              <div class="mt-1 text-[0.68rem] uppercase tracking-[0.14em] text-sand">
+                {project.city}
+              </div>
+            </div>
+
+            {/* Hover price overlay */}
+            <div class="absolute inset-0 z-20 flex items-center justify-center bg-dark/50 opacity-0 backdrop-blur-[4px] transition-opacity duration-400 group-hover:opacity-100">
+              <div class="text-center translate-y-2 transition-transform duration-400 group-hover:translate-y-0">
+                <span class="block font-display text-3xl font-thin lg:text-4xl">
+                  {project.price}
+                </span>
+                <small class="text-[0.62rem] uppercase tracking-[0.14em] text-sand">
+                  {project.units}
+                </small>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+
+      {/* End spacer */}
+      <div class="min-w-16 shrink-0"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initProjects() {
+    const section = document.getElementById('s-proyectos');
+    const track = document.getElementById('proj-track');
+    const progressBar = document.getElementById('proj-progress');
+    const counter = document.getElementById('proj-counter');
+    const cards = document.querySelectorAll('.proj-card');
+
+    if (!section || !track) return;
+
+    // Set section height based on track width
+    function setHeight() {
+      const maxScroll = Math.max(0, track.scrollWidth - window.innerWidth);
+      section.style.height = (window.innerHeight + maxScroll) + 'px';
+    }
+
+    setHeight();
+    window.addEventListener('resize', setHeight);
+
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
+    function animate() {
+      const h = section.offsetHeight - window.innerHeight;
+      const p = h > 0 ? clamp(-section.getBoundingClientRect().top / h, 0, 1) : 0;
+
+      // Horizontal scroll
+      const maxT = Math.max(0, track.scrollWidth - window.innerWidth);
+      track.style.transform = `translateX(${-p * maxT}px)`;
+
+      // Progress bar
+      if (progressBar) {
+        progressBar.style.width = (p * 100) + '%';
+      }
+
+      // Counter
+      if (counter && cards.length > 0) {
+        const idx = Math.min(cards.length, Math.floor(p * (cards.length + 0.5)) + 1);
+        counter.textContent = `0${idx} / 0${cards.length}`;
+      }
+
+      // Reveal cards
+      cards.forEach((card, i) => {
+        if (p > i * 0.15) {
+          const img = card.querySelector('.proj-card-img') as HTMLElement;
+          if (img) img.style.clipPath = 'inset(0 0 0 0)';
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+
+  if (document.getElementById('loader')) {
+    document.addEventListener('loader:complete', initProjects, { once: true });
+  } else {
+    initProjects();
+  }
+</script>

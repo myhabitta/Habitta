@@ -32,7 +32,7 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // 5. Protección por rol — /dashboard/projects solo para admin
+  // 5. Protección por rol — /projects solo para admin
   const isAdminRoute = ADMIN_ONLY_ROUTES.some((route) => pathname.startsWith(route));
   if (isAdminRoute && role !== 'admin') {
     return NextResponse.redirect(new URL('/leads', request.url));

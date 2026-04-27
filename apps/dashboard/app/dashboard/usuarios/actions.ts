@@ -25,7 +25,7 @@ export const changePasswordAction = async (
   const result = await updateUserPassword(userId, password);
   if (result.error) return { error: result.error };
 
-  revalidatePath('/dashboard/usuarios');
+  revalidatePath('/usuarios');
   return { success: 'Contraseña actualizada correctamente.' };
 };
 
@@ -47,6 +47,6 @@ export const updateProfileAction = async (
   const result = await updateProfile(userId, { full_name, role });
   if (!result) return { error: 'Error al actualizar el perfil.' };
 
-  revalidatePath('/dashboard/usuarios');
+  revalidatePath('/usuarios');
   return { success: 'Perfil actualizado correctamente.' };
 };

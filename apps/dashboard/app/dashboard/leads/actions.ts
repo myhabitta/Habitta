@@ -15,8 +15,8 @@ export const updateLeadStatusAction = async (
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Error al actualizar estado' };
   }
-  revalidatePath('/dashboard/leads');
-  revalidatePath(`/dashboard/leads/${shortId}`);
+  revalidatePath('/leads');
+  revalidatePath(`/leads/${shortId}`);
   return null;
 };
 
@@ -30,7 +30,7 @@ export const updateLeadNotesAction = async (
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Error al guardar notas' };
   }
-  revalidatePath(`/dashboard/leads/${shortId}`);
+  revalidatePath(`/leads/${shortId}`);
   return null;
 };
 
@@ -59,7 +59,7 @@ export const createLeadAction = async (
     return { error: err instanceof Error ? err.message : 'Error al crear el lead' };
   }
 
-  revalidatePath('/dashboard/leads');
+  revalidatePath('/leads');
   redirect('/leads');
 };
 
@@ -99,8 +99,8 @@ export const convertLeadAction = async (
     return { error: err instanceof Error ? err.message : 'Error al convertir el lead' };
   }
 
-  revalidatePath('/dashboard/leads');
-  revalidatePath(`/dashboard/leads/${leadShortId}`);
-  revalidatePath('/dashboard/clients');
+  revalidatePath('/leads');
+  revalidatePath(`/leads/${leadShortId}`);
+  revalidatePath('/clients');
   redirect('/clients');
 };

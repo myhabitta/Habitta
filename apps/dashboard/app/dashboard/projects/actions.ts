@@ -28,7 +28,7 @@ export const createProjectAction = async (
     return { error: err instanceof Error ? err.message : 'Error al crear el proyecto' };
   }
 
-  revalidatePath('/dashboard/projects');
+  revalidatePath('/projects');
   redirect('/projects');
 };
 
@@ -56,8 +56,8 @@ export const updateProjectAction = async (
     return { error: err instanceof Error ? err.message : 'Error al actualizar el proyecto' };
   }
 
-  revalidatePath('/dashboard/projects');
-  revalidatePath(`/dashboard/projects/${updatedProject.slug}`);
+  revalidatePath('/projects');
+  revalidatePath(`/projects/${updatedProject.slug}`);
   redirect(`/projects/${updatedProject.slug}`);
 };
 
@@ -95,7 +95,7 @@ export const createPackageAction = async (
     return { error: err instanceof Error ? err.message : 'Error al crear el paquete' };
   }
 
-  revalidatePath(`/dashboard/projects/${projectSlug}`);
+  revalidatePath(`/projects/${projectSlug}`);
   redirect(`/projects/${projectSlug}`);
 };
 
@@ -132,6 +132,6 @@ export const updatePackageAction = async (
     return { error: err instanceof Error ? err.message : 'Error al actualizar el paquete' };
   }
 
-  revalidatePath(`/dashboard/projects/${projectSlug}`);
+  revalidatePath(`/projects/${projectSlug}`);
   redirect(`/projects/${projectSlug}`);
 };

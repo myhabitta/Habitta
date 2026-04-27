@@ -14,7 +14,7 @@ export const updateClientNotesAction = async (
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Error al guardar notas' };
   }
-  revalidatePath(`/dashboard/clients/${shortId}`);
+  revalidatePath(`/clients/${shortId}`);
   return null;
 };
 
@@ -28,8 +28,8 @@ export const updateClientStatusAction = async (
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Error al actualizar estado' };
   }
-  revalidatePath('/dashboard/clients');
-  revalidatePath(`/dashboard/clients/${shortId}`);
+  revalidatePath('/clients');
+  revalidatePath(`/clients/${shortId}`);
   return null;
 };
 
@@ -43,8 +43,8 @@ export const updateClientWorkStartDateAction = async (
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Error al actualizar fecha de inicio' };
   }
-  revalidatePath('/dashboard/clients');
-  revalidatePath(`/dashboard/clients/${shortId}`);
+  revalidatePath('/clients');
+  revalidatePath(`/clients/${shortId}`);
   return null;
 };
 
@@ -64,8 +64,8 @@ export const addClientPaymentAction = async (
   }
   try {
     await addClientPayment({ client_id: clientId, amount, paid_at: paidAt, notes });
-    revalidatePath(`/dashboard/clients/${clientShortId}`);
-    revalidatePath('/dashboard/clients');
+    revalidatePath(`/clients/${clientShortId}`);
+    revalidatePath('/clients');
     return {};
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Error desconocido' };

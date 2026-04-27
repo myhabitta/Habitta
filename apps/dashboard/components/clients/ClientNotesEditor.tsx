@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { updateClientNotesAction } from '@/app/dashboard/clients/actions';
+import { updateClientNotesAction } from '@/app/(dashboard)/clients/actions';
 import { Button } from '@/components/ui/button';
 
 interface ClientNotesEditorProps {

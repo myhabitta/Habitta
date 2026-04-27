@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { convertLeadAction } from '@/app/dashboard/leads/actions';
+import { convertLeadAction } from '@/app/(dashboard)/leads/actions';
 
 interface ConvertLeadFormProps {
   lead: LeadWithRelations;

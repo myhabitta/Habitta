@@ -5,7 +5,7 @@ import { CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { updateClientWorkStartDateAction } from '@/app/dashboard/clients/actions';
+import { updateClientWorkStartDateAction } from '@/app/(dashboard)/clients/actions';
 
 interface ClientWorkStartDatePickerProps {
   clientId: string;

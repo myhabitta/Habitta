@@ -4,7 +4,7 @@ import { useTransition, useState } from 'react';
 import { Check, AlertTriangle } from 'lucide-react';
 import type { LeadStatus } from '@habitta/types';
 import { Button } from '@/components/ui/button';
-import { updateLeadStatusAction } from '@/app/dashboard/leads/actions';
+import { updateLeadStatusAction } from '@/app/(dashboard)/leads/actions';
 
 interface LeadStatusStepperProps {
   leadId: string;

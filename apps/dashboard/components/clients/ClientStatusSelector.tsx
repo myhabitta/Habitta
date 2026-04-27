@@ -2,7 +2,7 @@
 
 import { useTransition, useState } from 'react';
 import type { ClientStatus } from '@habitta/types';
-import { updateClientStatusAction } from '@/app/dashboard/clients/actions';
+import { updateClientStatusAction } from '@/app/(dashboard)/clients/actions';
 
 interface ClientStatusSelectorProps {
   clientId: string;

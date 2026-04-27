@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
-import { addClientPaymentAction } from '@/app/dashboard/clients/actions';
+import { addClientPaymentAction } from '@/app/(dashboard)/clients/actions';
 
 interface ClientPaymentsSectionProps {
   clientId: string;

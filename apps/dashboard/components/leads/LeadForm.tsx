@@ -7,7 +7,7 @@ import type { Project, Package } from '@habitta/types';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { createLeadAction } from '@/app/dashboard/leads/actions';
+import { createLeadAction } from '@/app/(dashboard)/leads/actions';
 
 interface LeadFormProps {
   projects: Project[];

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { updateLeadNotesAction } from '@/app/dashboard/leads/actions';
+import { updateLeadNotesAction } from '@/app/(dashboard)/leads/actions';
 import { Button } from '@/components/ui/button';
 
 interface LeadNotesEditorProps {

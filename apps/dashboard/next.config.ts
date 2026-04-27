@@ -11,20 +11,6 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        // "/" → muestra /dashboard
-        { source: '/', destination: '/dashboard' },
-        // "/cualquier/ruta" → muestra /dashboard/cualquier/ruta
-        // Excepto: /login, /_next, /api, /favicon.ico
-        {
-          source: '/:path((?!login|_next|api|favicon\\.ico).+)',
-          destination: '/dashboard/:path',
-        },
-      ],
-    };
-  },
 };
 
 export default nextConfig;

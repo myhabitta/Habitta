@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import ThemeToggle from '@/components/ui/ThemeToggle';
-import { logoutAction } from '@/app/dashboard/actions';
+import { logoutAction } from '@/app/(dashboard)/actions';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

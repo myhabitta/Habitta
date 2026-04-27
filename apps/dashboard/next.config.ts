@@ -16,9 +16,10 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         // "/" → muestra /dashboard
         { source: '/', destination: '/dashboard' },
-        // "/:path*" → muestra /dashboard/:path*, excepto /login y rutas internas
+        // "/cualquier/ruta" → muestra /dashboard/cualquier/ruta
+        // Excepto: /login, /_next, /api, /favicon.ico
         {
-          source: '/:path((?!login|_next|api|favicon\\.ico).*)',
+          source: '/:path((?!login|_next|api|favicon\\.ico).+)',
           destination: '/dashboard/:path',
         },
       ],

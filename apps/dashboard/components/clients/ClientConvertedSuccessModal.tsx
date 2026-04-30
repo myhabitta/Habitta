@@ -24,10 +24,7 @@ const ClientConvertedSuccessModal = ({ openByDefault }: ClientConvertedSuccessMo
 
   return (
     <AlertDialog open={open}>
-      <AlertDialogContent
-        onEscapeKeyDown={(event) => event.preventDefault()}
-        onPointerDownOutside={(event) => event.preventDefault()}
-      >
+      <AlertDialogContent onEscapeKeyDown={(event) => event.preventDefault()}>
         <AlertDialogHeader>
           <AlertDialogTitle>Lead convertido a cliente</AlertDialogTitle>
           <AlertDialogDescription>

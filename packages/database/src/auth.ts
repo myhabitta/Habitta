@@ -3,6 +3,12 @@ import type { AuthUser } from '@habitta/types';
 
 import { createServerClient, createBrowserClient, createAdminClient } from './client';
 
+type ProfileRow = {
+  id: string;
+  full_name: string | null;
+  role: AuthUser['role'] | null;
+};
+
 export const getSession = async (): Promise<Session | null> => {
   const supabase = createServerClient();
   const { data: { session } } = await supabase.auth.getSession();
@@ -14,17 +20,18 @@ export const getAuthUser = async (): Promise<AuthUser | null> => {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data: profile } = await supabase
+  const { data: profile } = await (supabase as any)
     .from('profiles')
     .select('full_name, role')
     .eq('id', user.id)
     .single();
+  const typedProfile = profile as ProfileRow | null;
 
   return {
     id: user.id,
     email: user.email ?? '',
-    role: (profile?.role as AuthUser['role']) ?? 'sales',
-    ...(profile?.full_name && { full_name: profile.full_name }),
+    role: (typedProfile?.role as AuthUser['role']) ?? 'sales',
+    ...(typedProfile?.full_name && { full_name: typedProfile.full_name }),
   };
 };
 
@@ -75,12 +82,13 @@ export const getAllUsers = async (): Promise<AuthUser[]> => {
   const { data, error } = await supabase.auth.admin.listUsers();
   if (error) return [];
 
-  const { data: profiles } = await supabase
+  const { data: profiles } = await (supabase as any)
     .from('profiles')
     .select('id, full_name, role');
+  const typedProfiles = (profiles ?? []) as ProfileRow[];
 
   const profileMap = new Map(
-    (profiles ?? []).map((p) => [p.id, p])
+    typedProfiles.map((p) => [p.id, p])
   );
 
   return data.users.map((u) => {

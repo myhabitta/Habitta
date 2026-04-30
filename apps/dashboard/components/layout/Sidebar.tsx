@@ -94,7 +94,7 @@ const Sidebar = ({ user, isOpen, onClose }: SidebarProps) => {
   return (
     <aside
       className={[
-        'fixed inset-y-0 left-0 z-30 flex h-screen w-[260px] shrink-0 flex-col',
+        'fixed inset-y-0 left-0 z-30 flex h-[100dvh] w-[260px] shrink-0 flex-col',
         'border-r border-habitta-sidebar-border bg-habitta-sidebar-bg',
         'transition-transform duration-300 ease-in-out',
         isOpen ? 'translate-x-0' : '-translate-x-full',

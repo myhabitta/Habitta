@@ -112,7 +112,8 @@ export const convertLeadToClient = async (
   leadId: string,
   input: ConvertLeadInput
 ): Promise<Client> => {
-  const supabase = createServerClient();
+  const { createAdminClient } = await import('../client');
+  const supabase = createAdminClient();
 
   // Paso 1: obtener datos del lead
   const { data: lead, error: leadError } = await supabase
@@ -127,6 +128,25 @@ export const convertLeadToClient = async (
 
   const typedLead = lead as Lead;
 
+  // Si por datos históricos ya existe cliente ligado al lead, evitar duplicados.
+  const { data: existingClient, error: existingClientError } = await supabase
+    .from('clients')
+    .select('*')
+    .eq('lead_id', leadId)
+    .maybeSingle();
+
+  if (existingClientError) {
+    throw new Error(`Error validando cliente existente: ${existingClientError.message}`);
+  }
+
+  if (existingClient) {
+    const { error: deleteLeadError } = await supabase.from('leads').delete().eq('id', leadId);
+    if (deleteLeadError) {
+      throw new Error(`No se pudo limpiar el lead convertido: ${deleteLeadError.message}`);
+    }
+    return existingClient as Client;
+  }
+
   // Paso 2: crear el cliente
   const { data: client, error: clientError } = await supabase
     .from('clients')
@@ -138,6 +158,8 @@ export const convertLeadToClient = async (
       project_id: input.project_id,
       package_id: input.package_id,
       total_amount: input.total_amount,
+      tower: input.tower,
+      apartment_number: input.apartment_number,
       work_start_date: input.work_start_date ?? null,
       lead_id: leadId,
       status: 'pendiente',
@@ -149,17 +171,25 @@ export const convertLeadToClient = async (
     throw new Error(`Error al crear el cliente: ${clientError?.message ?? 'desconocido'}`);
   }
 
-  // Paso 3: marcar el lead como convertido
-  const { error: updateError } = await supabase
-    .from('leads')
-    .update({ status: 'converted' } as never)
-    .eq('id', leadId);
+  // Paso 3: eliminar el lead (flujo requerido: sale de leads y pasa a clients)
+  const { error: deleteLeadError } = await supabase.from('leads').delete().eq('id', leadId);
 
-  if (updateError) {
-    throw new Error(`Cliente creado pero error al actualizar lead: ${updateError.message}`);
+  if (deleteLeadError) {
+    // Evitar inconsistencia: si no se pudo borrar el lead, revertimos el cliente creado.
+    await supabase.from('clients').delete().eq('id', (client as Client).id);
+    throw new Error(`No se pudo eliminar el lead convertido: ${deleteLeadError.message}`);
   }
 
   return client as Client;
+};
+
+export const deleteLead = async (id: string): Promise<void> => {
+  const { createAdminClient } = await import('../client');
+  const supabase = createAdminClient();
+
+  const { error } = await supabase.from('leads').delete().eq('id', id);
+
+  if (error) throw new Error(`deleteLead: ${error.message}`);
 };
 
 export const getLeadStats = async (): Promise<{

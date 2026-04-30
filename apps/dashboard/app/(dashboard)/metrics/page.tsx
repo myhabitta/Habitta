@@ -35,8 +35,9 @@ export default async function MetricsPage() {
     <div>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="font-display text-2xl font-semibold">Métricas</h1>
-        <p className="mt-1 font-sans text-sm text-muted-foreground">Resumen del negocio</p>
+        <p className="mt-1 font-sans text-base font-bold text-muted-foreground">
+          Resumen del negocio
+        </p>
       </div>
 
       {/* KPI Cards */}
@@ -54,7 +55,7 @@ export default async function MetricsPage() {
                 aria-hidden="true"
               />
             </div>
-            <p className="font-display text-3xl font-bold">
+            <p className="font-display text-xl font-bold md:text-2xl lg:text-3xl">
               {formatCOP(metrics.revenue.total)}
             </p>
             <p className="mt-1 font-sans text-sm text-muted-foreground">Ingresos totales</p>
@@ -78,7 +79,9 @@ export default async function MetricsPage() {
                 aria-hidden="true"
               />
             </div>
-            <p className="font-display text-3xl font-bold">{metrics.clients.total}</p>
+            <p className="font-display text-xl font-bold md:text-2xl lg:text-3xl">
+              {metrics.clients.total}
+            </p>
             <p className="mt-1 font-sans text-sm text-muted-foreground">Clientes</p>
             <p className="mt-2 font-sans text-xs" style={{ color: 'var(--success)' }}>
               {metrics.clients.thisMonth} este mes
@@ -99,7 +102,9 @@ export default async function MetricsPage() {
                 aria-hidden="true"
               />
             </div>
-            <p className="font-display text-3xl font-bold">{metrics.leads.conversionRate}%</p>
+            <p className="font-display text-xl font-bold md:text-2xl lg:text-3xl">
+              {metrics.leads.conversionRate}%
+            </p>
             <p className="mt-1 font-sans text-sm text-muted-foreground">Tasa de conversión</p>
             <p className="mt-2 font-sans text-xs text-muted-foreground">
               {metrics.leads.total} leads totales
@@ -120,7 +125,7 @@ export default async function MetricsPage() {
                 aria-hidden="true"
               />
             </div>
-            <p className="font-display text-3xl font-bold">
+            <p className="font-display text-xl font-bold md:text-2xl lg:text-3xl">
               {formatCOP(metrics.clients.averageTicket)}
             </p>
             <p className="mt-1 font-sans text-sm text-muted-foreground">Ticket promedio</p>
@@ -174,9 +179,7 @@ export default async function MetricsPage() {
       {/* Embudo de conversión */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="font-display text-lg font-semibold">
-            Embudo de conversión
-          </CardTitle>
+          <CardTitle className="font-display text-lg font-semibold">Embudo de conversión</CardTitle>
         </CardHeader>
         <CardContent>
           <ConversionFunnel

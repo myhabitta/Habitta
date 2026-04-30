@@ -2,7 +2,14 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { updateLead, createLead, convertLeadToClient, addClientPayment } from '@habitta/database';
+import {
+  updateLead,
+  createLead,
+  deleteLead,
+  convertLeadToClient,
+  addClientPayment,
+  getPackageById,
+} from '@habitta/database';
 import type { LeadStatus, CreateLeadInput } from '@habitta/types';
 
 export const updateLeadStatusAction = async (
@@ -10,6 +17,13 @@ export const updateLeadStatusAction = async (
   shortId: string,
   status: LeadStatus
 ): Promise<{ error: string } | null> => {
+  if (status === 'converted') {
+    return {
+      error:
+        'Para marcar como convertido debes usar "Convertir a cliente". Ese flujo crea el cliente en la base de datos.',
+    };
+  }
+
   try {
     await updateLead(id, { status });
   } catch (err) {
@@ -32,6 +46,18 @@ export const updateLeadNotesAction = async (
   }
   revalidatePath(`/leads/${shortId}`);
   return null;
+};
+
+export const deleteLeadAction = async (
+  id: string
+): Promise<{ error?: string }> => {
+  try {
+    await deleteLead(id);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : 'Error al eliminar el lead' };
+  }
+  revalidatePath('/leads');
+  return {};
 };
 
 export const createLeadAction = async (
@@ -66,27 +92,43 @@ export const createLeadAction = async (
 export const convertLeadAction = async (
   leadId: string,
   leadShortId: string,
-  _prevState: { error: string } | null,
+  _prevState: { error?: string; success?: boolean; message?: string } | null,
   formData: FormData
-): Promise<{ error: string } | null> => {
+): Promise<{ error?: string; success?: boolean; message?: string } | null> => {
   const project_id = formData.get('project_id') as string;
   const package_id = formData.get('package_id') as string;
   const total_amount = parseFloat(formData.get('total_amount') as string);
   const work_start_date = (formData.get('work_start_date') as string) || null;
-  const initial_payment = parseFloat(formData.get('initial_payment') as string);
+  const tower = (formData.get('tower') as string)?.trim();
+  const apartment_number = (formData.get('apartment_number') as string)?.trim();
+  const initialPaymentRaw = ((formData.get('initial_payment') as string) || '').replace(/\./g, '');
+  const initial_payment = parseFloat(initialPaymentRaw);
 
-  if (!project_id || !package_id || isNaN(total_amount)) {
+  if (!project_id || !package_id || isNaN(total_amount) || !tower || !apartment_number) {
     return { error: 'Completa todos los campos requeridos' };
   }
   if (isNaN(initial_payment) || initial_payment <= 0) {
     return { error: 'El anticipo inicial es obligatorio y debe ser mayor a cero' };
   }
-  if (initial_payment > total_amount) {
-    return { error: 'El anticipo no puede superar el valor total de venta' };
-  }
 
   try {
-    const client = await convertLeadToClient(leadId, { project_id, package_id, total_amount, work_start_date });
+    const selectedPackage = await getPackageById(package_id);
+    if (!selectedPackage) {
+      return { error: 'No se encontró el paquete seleccionado' };
+    }
+
+    if (initial_payment > selectedPackage.price) {
+      return { error: 'El anticipo no puede superar el valor del paquete' };
+    }
+
+    const client = await convertLeadToClient(leadId, {
+      project_id,
+      package_id,
+      total_amount,
+      work_start_date,
+      tower,
+      apartment_number,
+    });
 
     // Crear el primer abono obligatorio
     await addClientPayment({
@@ -102,5 +144,5 @@ export const convertLeadAction = async (
   revalidatePath('/leads');
   revalidatePath(`/leads/${leadShortId}`);
   revalidatePath('/clients');
-  redirect('/clients');
+  redirect('/clients?converted=1');
 };

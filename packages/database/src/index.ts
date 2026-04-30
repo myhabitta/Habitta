@@ -28,11 +28,12 @@ export {
   getLeadByShortId,
   createLead,
   updateLead,
+  deleteLead,
   convertLeadToClient,
   getLeadStats,
 } from './queries/leads';
 
-export { getClients, getClient, getClientByShortId, updateClient, getClientStats } from './queries/clients';
+export { getClients, getClient, getClientByShortId, updateClient, deleteClient, getClientStats } from './queries/clients';
 export { getClientPayments, addClientPayment } from './queries/payments';
 
 export { getProfile, updateProfile, getProfiles } from './queries/profiles';

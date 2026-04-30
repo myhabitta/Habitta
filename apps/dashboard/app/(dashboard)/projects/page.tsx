@@ -13,8 +13,7 @@ export default async function ProjectsPage() {
       {/* Header */}
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-semibold">Proyectos</h1>
-          <p className="mt-1 font-sans text-sm text-muted-foreground">
+          <p className="mt-1 font-sans text-base font-bold text-muted-foreground">
             {projects.length} {projects.length === 1 ? 'proyecto' : 'proyectos'} en total
           </p>
         </div>

@@ -1,8 +1,20 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { updateClient, addClientPayment } from '@habitta/database';
+import { updateClient, deleteClient, addClientPayment } from '@habitta/database';
 import type { ClientStatus } from '@habitta/types';
+
+export const deleteClientAction = async (
+  id: string
+): Promise<{ error?: string }> => {
+  try {
+    await deleteClient(id);
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : 'Error al eliminar el cliente' };
+  }
+  revalidatePath('/clients');
+  return {};
+};
 
 export const updateClientNotesAction = async (
   id: string,

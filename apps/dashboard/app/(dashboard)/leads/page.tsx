@@ -46,8 +46,7 @@ export default async function LeadsPage({
       {/* Header */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-semibold md:text-3xl">Leads</h1>
-          <p className="mt-1 font-sans text-sm text-muted-foreground">
+          <p className="mt-1 font-sans text-base font-bold text-muted-foreground">
             {stats.total} leads en total
           </p>
         </div>

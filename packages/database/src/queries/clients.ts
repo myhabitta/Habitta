@@ -18,7 +18,7 @@ export const getClients = async (filters?: ClientFilters): Promise<ClientWithRel
   if (filters?.project_id) query = query.eq('project_id', filters.project_id);
 
   const { data, error } = await query;
-  if (error) return [];
+  if (error) throw new Error(`getClients: ${error.message}`);
   return (data as ClientWithRelations[]) ?? [];
 };
 
@@ -74,6 +74,15 @@ export const updateClient = async (id: string, input: UpdateClientInput): Promis
   if (!data) throw new Error('No se pudo actualizar el cliente');
 
   return data as Client;
+};
+
+export const deleteClient = async (id: string): Promise<void> => {
+  const { createAdminClient } = await import('../client');
+  const supabase = createAdminClient();
+
+  const { error } = await supabase.from('clients').delete().eq('id', id);
+
+  if (error) throw new Error(`deleteClient: ${error.message}`);
 };
 
 export const getClientStats = async (): Promise<ClientStats> => {

@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import LeadNotesEditor from '@/components/leads/LeadNotesEditor';
 import LeadStatusStepper from '@/components/leads/LeadStatusStepper';
+import DeleteLeadButton from '@/components/leads/DeleteLeadButton';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -82,7 +83,7 @@ export default async function LeadDetailPage({
 
   const isConverted = lead.status === 'converted';
   const isLost = lead.status === 'lost';
-  const canConvert = !isConverted && !isLost;
+  const canConvert = !isLost;
 
   return (
     <div>
@@ -199,7 +200,7 @@ export default async function LeadDetailPage({
                 >
                   <Link href={`/leads/${lead.short_id}/convert`}>
                     <UserCheck className="h-4 w-4" />
-                    Convertir a cliente
+                    {isConverted ? 'Finalizar conversión a cliente' : 'Convertir a cliente'}
                   </Link>
                 </Button>
               )}
@@ -207,7 +208,7 @@ export default async function LeadDetailPage({
               {isConverted && (
                 <div className="flex flex-col gap-3">
                   <p className="font-sans text-sm text-muted-foreground">
-                    Este lead ya fue convertido a cliente.
+                    Este lead está marcado como convertido.
                   </p>
                   <Button asChild variant="outline" className="w-full">
                     <Link href="/clients">Ver clientes</Link>
@@ -220,6 +221,14 @@ export default async function LeadDetailPage({
                   Este lead fue marcado como perdido.
                 </p>
               )}
+
+              <div className="mt-4 border-t pt-4">
+                <DeleteLeadButton
+                  leadId={lead.id}
+                  leadName={`${lead.first_name} ${lead.last_name}`}
+                  variant="button"
+                />
+              </div>
             </CardContent>
           </Card>
         </div>

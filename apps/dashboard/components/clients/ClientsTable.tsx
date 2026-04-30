@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Pencil } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import type { ClientWithRelations, ClientStatus } from '@habitta/types';
 import { formatPrice, calculateDelivery } from '@habitta/utils';
 import type { DeliveryStatus } from '@habitta/utils';
@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import DeleteConfirmDialog from '@/components/molecules/DeleteConfirmDialog';
+import { deleteClientAction } from '@/app/(dashboard)/clients/actions';
 
 // ─── ClientStatusBadge ────────────────────────────────────────────────────────
 
@@ -299,16 +301,23 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
 
               {/* Acciones */}
               <TableCell>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="gap-1.5"
-                  onClick={() => router.push(`/clients/${client.short_id}`)}
-                  aria-label={`Editar cliente ${client.first_name} ${client.last_name}`}
-                >
-                  <Pencil className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline text-xs">Editar</span>
-                </Button>
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="gap-1.5"
+                    onClick={() => router.push(`/clients/${client.short_id}`)}
+                    aria-label={`Editar cliente ${client.first_name} ${client.last_name}`}
+                  >
+                    <Pencil className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline text-xs">Editar</span>
+                  </Button>
+                  <DeleteConfirmDialog
+                    entityName={`${client.first_name} ${client.last_name}`}
+                    entityType="cliente"
+                    onConfirm={() => deleteClientAction(client.id)}
+                  />
+                </div>
               </TableCell>
             </TableRow>
           ))}

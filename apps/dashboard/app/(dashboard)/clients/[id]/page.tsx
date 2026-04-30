@@ -12,6 +12,7 @@ import ClientNotesEditor from '@/components/clients/ClientNotesEditor';
 import ClientStatusSelector from '@/components/clients/ClientStatusSelector';
 import ClientWorkStartDatePicker from '@/components/clients/ClientWorkStartDatePicker';
 import ClientPaymentsSection from '@/components/clients/ClientPaymentsSection';
+import DeleteClientButton from '@/components/clients/DeleteClientButton';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -367,6 +368,23 @@ export default async function ClientDetailPage({
                   </dd>
                 </div>
               </dl>
+            </CardContent>
+          </Card>
+
+          {/* Card: Zona peligrosa */}
+          <Card className="border-destructive/30">
+            <CardContent className="p-6">
+              <h2 className="mb-3 font-display text-base font-semibold text-destructive">
+                Zona peligrosa
+              </h2>
+              <p className="mb-4 font-sans text-xs text-muted-foreground">
+                Eliminar este cliente borrará toda su información permanentemente.
+              </p>
+              <DeleteClientButton
+                clientId={client.id}
+                clientName={`${client.first_name} ${client.last_name}`}
+                variant="button"
+              />
             </CardContent>
           </Card>
         </div>

@@ -16,12 +16,14 @@ const STEPS: Array<{ status: LeadStatus; label: string }> = [
   { status: 'new', label: 'Nuevo' },
   { status: 'contacted', label: 'Contactado' },
   { status: 'negotiating', label: 'En negociación' },
-  { status: 'converted', label: 'Convertido' },
 ];
 
 const MAIN_STATUSES = STEPS.map((s) => s.status);
 
-const getStatusIndex = (status: LeadStatus): number => MAIN_STATUSES.indexOf(status);
+const getStatusIndex = (status: LeadStatus): number => {
+  if (status === 'converted') return MAIN_STATUSES.length - 1;
+  return MAIN_STATUSES.indexOf(status);
+};
 
 const LeadStatusStepper = ({ leadId, leadShortId, currentStatus }: LeadStatusStepperProps) => {
   const [isPending, startTransition] = useTransition();

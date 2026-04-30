@@ -24,12 +24,16 @@ const formatPrice = (price: number) =>
     maximumFractionDigits: 0,
   }).format(price);
 
-const SubmitButton = () => {
+interface SubmitButtonProps {
+  disabled?: boolean;
+}
+
+const SubmitButton = ({ disabled = false }: SubmitButtonProps) => {
   const { pending } = useFormStatus();
   return (
     <Button
       type="submit"
-      disabled={pending}
+      disabled={pending || disabled}
       className="flex-1 gap-2 text-white hover:opacity-90"
       style={{ backgroundColor: 'var(--habitta-accent)' }}
     >
@@ -56,6 +60,17 @@ const toISODate = (date: Date): string => {
   return `${y}-${m}-${d}`;
 };
 
+const formatCopNumber = (value: string): string => {
+  const digits = value.replace(/\D/g, '');
+  if (!digits) return '';
+  return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(Number(digits));
+};
+
+const parseCopNumber = (value: string): number => {
+  const digits = value.replace(/\D/g, '');
+  return digits ? Number(digits) : 0;
+};
+
 const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
   const action = convertLeadAction.bind(null, lead.id, lead.short_id);
   const [state, formAction] = useFormState(action, null);
@@ -72,6 +87,7 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
   const selectedPackage = packages.find((p) => p.id === selectedPackageId) ?? null;
   const [workStartDate, setWorkStartDate] = useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const [initialPayment, setInitialPayment] = useState('');
 
   useEffect(() => {
     if (!selectedProjectId) {
@@ -99,6 +115,10 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
     setSelectedPackageId(e.target.value);
     if (pkg) setTotalAmount(String(pkg.price));
   };
+
+  const initialPaymentValue = parseCopNumber(initialPayment);
+  const packagePrice = selectedPackage?.price ?? 0;
+  const isInitialPaymentInvalid = packagePrice > 0 && initialPaymentValue > packagePrice;
 
   return (
     <form action={formAction} className="flex flex-col gap-5">
@@ -190,22 +210,52 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
         </p>
       </div>
 
-      {/* Anticipo inicial (obligatorio) */}
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="initial_payment">Anticipo inicial (COP) *</Label>
-        <Input
-          id="initial_payment"
-          name="initial_payment"
-          type="number"
-          required
-          min={1}
-          step={1000}
-          placeholder="Ej: 5000000"
-        />
-        <p className="font-sans text-xs text-muted-foreground">
-          Monto del primer abono. Todo cliente debe tener al menos un anticipo.
-        </p>
+      {/* Ubicación de la unidad */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="tower">Torre *</Label>
+          <Input id="tower" name="tower" type="text" required placeholder="Ej: Torre 2" />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="apartment_number">Apto *</Label>
+          <Input
+            id="apartment_number"
+            name="apartment_number"
+            type="text"
+            required
+            placeholder="Ej: 703"
+          />
+        </div>
       </div>
+
+        {/* Anticipo inicial (obligatorio) */}
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="initial_payment_display">Anticipo inicial (COP) *</Label>
+          <Input
+            id="initial_payment_display"
+            type="text"
+            inputMode="numeric"
+            required
+            value={initialPayment}
+            onChange={(e) => setInitialPayment(formatCopNumber(e.target.value))}
+            placeholder="Ej: 5.000.000"
+          />
+          <input type="hidden" name="initial_payment" value={initialPayment} />
+          <p className="font-sans text-xs text-muted-foreground">
+            Monto del primer abono. Todo cliente debe tener al menos un anticipo.
+          </p>
+          {selectedPackage && (
+            <p className="font-sans text-xs text-muted-foreground">
+              Máximo permitido por paquete:{' '}
+              <span className="font-semibold text-foreground">{formatPrice(selectedPackage.price)}</span>
+            </p>
+          )}
+          {isInitialPaymentInvalid && (
+            <p className="font-sans text-xs" style={{ color: 'var(--destructive)' }}>
+              El anticipo no puede superar el valor del paquete.
+            </p>
+          )}
+        </div>
 
       {/* Fecha de inicio de obra */}
       <div className="flex flex-col gap-1.5">
@@ -247,12 +297,12 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
         </p>
       </div>
 
-      {/* Botones */}
+        {/* Botones */}
       <div className="mt-2 flex flex-col-reverse gap-3 sm:flex-row">
         <Button asChild variant="outline" className="flex-1">
           <Link href={`/leads/${lead.short_id}`}>Cancelar</Link>
         </Button>
-        <SubmitButton />
+        <SubmitButton disabled={isInitialPaymentInvalid} />
       </div>
     </form>
   );

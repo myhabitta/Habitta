@@ -14,12 +14,17 @@ export const getAuthUser = async (): Promise<AuthUser | null> => {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const fullName = user.user_metadata?.full_name as string | undefined;
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('full_name, role')
+    .eq('id', user.id)
+    .single();
+
   return {
     id: user.id,
     email: user.email ?? '',
-    role: (user.user_metadata?.role as AuthUser['role']) ?? 'sales',
-    ...(fullName !== undefined && { full_name: fullName }),
+    role: (profile?.role as AuthUser['role']) ?? 'sales',
+    ...(profile?.full_name && { full_name: profile.full_name }),
   };
 };
 
@@ -69,13 +74,22 @@ export const getAllUsers = async (): Promise<AuthUser[]> => {
   const supabase = createAdminClient();
   const { data, error } = await supabase.auth.admin.listUsers();
   if (error) return [];
+
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('id, full_name, role');
+
+  const profileMap = new Map(
+    (profiles ?? []).map((p) => [p.id, p])
+  );
+
   return data.users.map((u) => {
-    const fullName = u.user_metadata?.full_name as string | undefined;
+    const profile = profileMap.get(u.id);
     return {
       id: u.id,
       email: u.email ?? '',
-      role: (u.user_metadata?.role as AuthUser['role']) ?? 'sales',
-      ...(fullName !== undefined && { full_name: fullName }),
+      role: (profile?.role as AuthUser['role']) ?? 'sales',
+      ...(profile?.full_name && { full_name: profile.full_name }),
     };
   });
 };

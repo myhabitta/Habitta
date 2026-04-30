@@ -45,4 +45,6 @@ export type ConvertLeadInput = {
   package_id: string;
   total_amount: number;
   work_start_date?: string | null;
+  tower: string;
+  apartment_number: string;
 };

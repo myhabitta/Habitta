@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import ClientsFilters from '@/components/clients/ClientsFilters';
 import ClientsTable from '@/components/clients/ClientsTable';
 import ClientsEmptyState from '@/components/clients/ClientsEmptyState';
+import ClientConvertedSuccessModal from '@/components/clients/ClientConvertedSuccessModal';
 
 // ─── StatCard ─────────────────────────────────────────────────────────────────
 
@@ -19,9 +20,9 @@ const StatCard = ({ icon, value, label, sub }: StatCardProps) => (
   <Card style={{ borderTop: '3px solid var(--habitta-accent)' }}>
     <CardContent className="p-6">
       <div className="mb-3">{icon}</div>
-      <p className="font-display text-3xl font-bold">{value}</p>
+      <p className="font-display text-2xl font-bold lg:text-3xl">{value}</p>
       <p className="mt-1 font-sans text-sm text-muted-foreground">{label}</p>
-      {sub && <p className="mt-1 font-sans text-xs text-muted-foreground">{sub}</p>}
+      {sub && <p className="mt-1 font-sans text-sm font-bold text-muted-foreground">{sub}</p>}
     </CardContent>
   </Card>
 );
@@ -31,10 +32,11 @@ const StatCard = ({ icon, value, label, sub }: StatCardProps) => (
 export default async function ClientsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ project_id?: string }>;
+  searchParams: Promise<{ project_id?: string; converted?: string }>;
 }) {
   const params = await searchParams;
   const projectFilter = params.project_id;
+  const showConvertedModal = params.converted === '1';
 
   const [clients, stats, projects] = await Promise.all([
     getClients(projectFilter ? { project_id: projectFilter } : undefined),
@@ -44,11 +46,11 @@ export default async function ClientsPage({
 
   return (
     <div>
+      <ClientConvertedSuccessModal openByDefault={showConvertedModal} />
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl font-semibold md:text-3xl">Clientes</h1>
-          <p className="mt-1 font-sans text-sm text-muted-foreground">
+          <p className="mt-1 font-sans text-base font-bold text-muted-foreground">
             {stats.total} {stats.total === 1 ? 'cliente' : 'clientes'} en total
           </p>
         </div>

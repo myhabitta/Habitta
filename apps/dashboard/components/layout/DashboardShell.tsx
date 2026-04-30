@@ -16,7 +16,7 @@ const DashboardShell = ({ user, children }: DashboardShellProps) => {
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-[100dvh] overflow-hidden bg-background">
       {/* Overlay mobile — aparece cuando sidebar está abierto */}
       {sidebarOpen && (
         <div
@@ -30,9 +30,9 @@ const DashboardShell = ({ user, children }: DashboardShellProps) => {
       <Sidebar user={user} isOpen={sidebarOpen} onClose={closeSidebar} />
 
       {/* Columna principal */}
-      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <Header user={user} onMenuToggle={toggleSidebar} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto overscroll-contain p-4 md:p-6 lg:p-8">
           {children}
         </main>
       </div>

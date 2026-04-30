@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Eye } from 'lucide-react';
+import { Eye, Trash2 } from 'lucide-react';
 import type { LeadWithRelations, LeadStatus } from '@habitta/types';
 import { formatPrice } from '@habitta/utils';
 import {
@@ -14,6 +14,8 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import DeleteConfirmDialog from '@/components/molecules/DeleteConfirmDialog';
+import { deleteLeadAction } from '@/app/(dashboard)/leads/actions';
 
 // ─── LeadStatusBadge ──────────────────────────────────────────────────────────
 
@@ -156,14 +158,21 @@ const LeadsTable = ({ leads }: LeadsTableProps) => {
 
               {/* Acciones */}
               <TableCell onClick={(e) => e.stopPropagation()}>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => router.push(`/leads/${lead.short_id}`)}
-                  aria-label={`Ver lead ${lead.first_name} ${lead.last_name}`}
-                >
-                  <Eye className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => router.push(`/leads/${lead.short_id}`)}
+                    aria-label={`Ver lead ${lead.first_name} ${lead.last_name}`}
+                  >
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                  <DeleteConfirmDialog
+                    entityName={`${lead.first_name} ${lead.last_name}`}
+                    entityType="lead"
+                    onConfirm={() => deleteLeadAction(lead.id)}
+                  />
+                </div>
               </TableCell>
             </TableRow>
           ))}

@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { UserCheck } from 'lucide-react';
 import { getLeadByShortId, getProjects } from '@habitta/database';
@@ -21,7 +21,6 @@ export default async function ConvertLeadPage({
   const [lead, projects] = await Promise.all([getLeadByShortId(shortId), getProjects()]);
 
   if (!lead) notFound();
-  if (lead.status === 'converted') redirect('/clients');
 
   return (
     <div>

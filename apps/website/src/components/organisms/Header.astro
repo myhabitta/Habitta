@@ -6,7 +6,7 @@
 
 import headerData from '@/data/header.json';
 
-const { nav: navLinks, cta } = headerData;
+const { logo, nav: navLinks, cta } = headerData;
 const isHome = Astro.url.pathname === '/';
 const filteredNavLinks = isHome ? navLinks.filter((link) => link.href !== '/') : navLinks;
 ---
@@ -21,7 +21,7 @@ const filteredNavLinks = isHome ? navLinks.filter((link) => link.href !== '/') :
     class="font-display text-2xl font-normal tracking-[0.1em] text-ink no-underline"
     aria-label="Habitta - Inicio"
   >
-    Habitta
+    <img src={logo.src} alt={logo.alt} class="h-14 w-auto" />
   </a>
 
   <!-- Desktop Navigation -->
@@ -58,9 +58,15 @@ const filteredNavLinks = isHome ? navLinks.filter((link) => link.href !== '/') :
     aria-controls="mobile-menu"
   >
     <div class="flex w-5 flex-col items-end gap-[5px]">
-      <span class="block h-px w-full origin-center bg-ink transition-all duration-300 group-[.is-open]:translate-y-[3px] group-[.is-open]:rotate-45"></span>
-      <span class="block h-px w-3 origin-center bg-ink transition-all duration-300 group-[.is-open]:scale-x-0 group-[.is-open]:opacity-0"></span>
-      <span class="block h-px w-full origin-center bg-ink transition-all duration-300 group-[.is-open]:-translate-y-[3px] group-[.is-open]:-rotate-45"></span>
+      <span
+        class="block h-px w-full origin-center bg-ink transition-all duration-300 group-[.is-open]:translate-y-[3px] group-[.is-open]:rotate-45"
+      ></span>
+      <span
+        class="block h-px w-3 origin-center bg-ink transition-all duration-300 group-[.is-open]:scale-x-0 group-[.is-open]:opacity-0"
+      ></span>
+      <span
+        class="block h-px w-full origin-center bg-ink transition-all duration-300 group-[.is-open]:-translate-y-[3px] group-[.is-open]:-rotate-45"
+      ></span>
     </div>
   </button>
 </nav>

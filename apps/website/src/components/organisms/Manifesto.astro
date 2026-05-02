@@ -15,14 +15,9 @@ const { manifesto } = homeData;
   data-sname="Manifesto"
   style="height: 250vh;"
 >
-  <div class="sticky top-0 h-screen overflow-hidden">
-    <!-- Horizontal rule that grows on scroll -->
-    <div
-      id="manifesto-rule"
-      class="absolute left-0 top-1/2 h-px w-0 bg-brand/[0.13]"
-    ></div>
-
-    <div class="absolute inset-0 flex flex-col justify-center px-6 md:px-12 lg:px-24">
+  <!-- Sin overflow-y hidden: si el manifiesto es alto, recortaba glifos al centrar en viewport -->
+  <div class="sticky top-0 flex min-h-[100dvh] min-h-screen flex-col overflow-x-hidden">
+    <div class="relative z-10 flex w-full flex-1 flex-col justify-center px-6 py-16 md:px-12 md:py-20 lg:px-24 lg:py-24">
       <!-- Eyebrow -->
       <p class="mb-8 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand lg:mb-12">
         <span class="block h-px w-8 bg-brand"></span>
@@ -32,15 +27,15 @@ const { manifesto } = homeData;
       <!-- Quote with word-by-word reveal -->
       <blockquote
         id="manifesto-quote"
-        class="font-display text-[clamp(2rem,5.5vw,5.5rem)] font-thin italic leading-[1.08] tracking-tight max-w-[900px]"
+        class="font-display text-[clamp(2rem,5.5vw,5.5rem)] font-extralight italic leading-[1.45] tracking-tight max-w-[900px] antialiased [text-rendering:optimizeLegibility]"
       >
         {
           manifesto.words.map((word) => {
             const isAccent = manifesto.accentWords.includes(word);
             return (
-              <span class="inline-block overflow-hidden align-bottom mr-[0.35em]">
+              <span class="mr-[0.35em] inline-block align-baseline">
                 <span
-                  class={`manifesto-word inline-block translate-y-full ${isAccent ? 'text-sand not-italic' : ''}`}
+                  class={`manifesto-word inline-block opacity-0 will-change-[opacity,transform] ${isAccent ? 'text-sand not-italic' : ''}`}
                 >
                   {word}
                 </span>
@@ -49,6 +44,11 @@ const { manifesto } = homeData;
           })
         }
       </blockquote>
+
+      <!-- Línea de progreso scroll: debajo de la cita (no cruza el texto) -->
+      <div class="pointer-events-none mt-8 max-w-[900px] lg:mt-10" aria-hidden="true">
+        <div id="manifesto-rule" class="h-px w-0 bg-brand/25"></div>
+      </div>
 
       <!-- Footer -->
       <div
@@ -67,6 +67,7 @@ const { manifesto } = homeData;
   </div>
 </section>
 
+
 <script>
   function initManifesto() {
     const section = document.getElementById('s-manifesto');
@@ -81,16 +82,28 @@ const { manifesto } = homeData;
       c + (d - c) * clamp((v - a) / (b - a), 0, 1);
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
     function animate() {
       const h = section.offsetHeight - window.innerHeight;
       const p = h > 0 ? clamp(-section.getBoundingClientRect().top / h, 0, 1) : 0;
 
-      // Words cascade
+      // Palabras: opacidad + leve translate en em (sin overflow-hidden → no se recortan glifos)
       words.forEach((w, i) => {
         const start = map(i, 0, words.length - 1, 0.05, 0.8);
         const end = start + 0.2;
         const wp = map(p, start, end, 0, 1);
-        (w as HTMLElement).style.transform = `translateY(${lerp(110, 0, wp)}%)`;
+        const el = w as HTMLElement;
+        if (reduceMotion) {
+          el.style.opacity = String(wp);
+          el.style.transform = 'none';
+          return;
+        }
+        const yEm = Math.round(lerp(0.22, 0, wp) * 1000) / 1000;
+        el.style.opacity = String(Math.round(lerp(0, 1, wp) * 1000) / 1000);
+        el.style.transform = `translate3d(0, ${yEm}em, 0)`;
       });
 
       // Rule grows

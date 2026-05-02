@@ -8,27 +8,23 @@ import homeData from '@/data/home.json';
 const { hero } = homeData;
 ---
 
-<section
-  id="s-hero"
-  class="relative"
-  data-section="01"
-  data-sname="Hero"
-  style="height: 300vh;"
->
+<section id="s-hero" class="relative" data-section="01" data-sname="Hero" style="height: 300vh;">
   <div class="sticky top-0 h-screen overflow-hidden">
     <!-- Background Image -->
     <div
       id="hero-bg"
       class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out"
       style={`background-image: url('${hero.bgImage}'); will-change: transform; transform: scale(1.1);`}
-    ></div>
+    >
+    </div>
 
     <!-- Dark Overlay -->
     <div
       id="hero-overlay"
       class="absolute inset-0 bg-dark"
       style="opacity: 0.9; will-change: opacity;"
-    ></div>
+    >
+    </div>
 
     <!-- Watermark -->
     <div
@@ -39,7 +35,12 @@ const { hero } = homeData;
       <span
         class="whitespace-nowrap font-display text-[clamp(5rem,14vw,13rem)] font-thin uppercase tracking-[0.15em] text-ink"
       >
-        HABITTA
+        Habitta
+        <!-- <img
+          src="https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775624499/Logotipo-positivo_s7xhks.webp"
+          alt="Habitta"
+          class="h-32 w-auto"
+        /> -->
       </span>
     </div>
 
@@ -47,8 +48,9 @@ const { hero } = homeData;
     <div
       id="hero-line"
       class="absolute left-0 right-0 h-px"
-      style="top: 42%; background: linear-gradient(90deg, transparent 0%, rgba(232,112,58,0.4) 50%, transparent 100%); will-change: transform, opacity; transform: scaleX(0); transform-origin: center;"
-    ></div>
+      style="top: 42%; background: linear-gradient(90deg, transparent 0%, transparent 100%); will-change: transform, opacity; transform: scaleX(0); transform-origin: center;"
+    >
+    </div>
 
     <!-- Content -->
     <div
@@ -57,19 +59,25 @@ const { hero } = homeData;
       style="will-change: opacity, transform; opacity: 0; transform: translateY(40px);"
     >
       <!-- Tag -->
-      <p class="mb-4 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.25em] text-brand lg:mb-6">
+      <p
+        class="mb-4 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.25em] text-brand lg:mb-6"
+      >
         <span class="block h-px w-8 bg-brand"></span>
         {hero.tag}
       </p>
 
       <!-- Heading -->
-      <h1 class="mb-4 font-display text-[clamp(2.5rem,6vw,5.8rem)] font-normal leading-[0.95] tracking-tight lg:mb-6">
+      <h1
+        class="mb-4 font-display text-[clamp(2.5rem,6vw,5.8rem)] font-normal leading-[0.95] tracking-tight lg:mb-6"
+      >
         {hero.heading}<br />
         <em class="not-italic text-sand">{hero.headingAccent}</em>
       </h1>
 
       <!-- Subtitle -->
-      <p class="mb-6 max-w-sm text-sm leading-relaxed text-ink-muted lg:mb-10 lg:max-w-md lg:text-base">
+      <p
+        class="mb-6 max-w-sm text-sm leading-relaxed text-ink-muted lg:mb-10 lg:max-w-md lg:text-base"
+      >
         {hero.subtitle}
       </p>
 
@@ -81,16 +89,16 @@ const { hero } = homeData;
         >
           {hero.ctaPrimary.label}
           <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-            <path d="M9 1l4 4-4 4M0 5h13" stroke="currentColor" stroke-width="1.2" />
+            <path d="M9 1l4 4-4 4M0 5h13" stroke="currentColor" stroke-width="1.2"></path>
           </svg>
         </a>
         <a
           href={hero.ctaSecondary.href}
-          class="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.16em] text-ink-subtle no-underline transition-colors duration-300 hover:text-ink"
+          class="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.16em] text-white no-underline transition-colors duration-300 hover:text-ink"
         >
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-            <circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1" />
-            <path d="M5 3v2.5l1.5 1.5" stroke="currentColor" stroke-width="1" />
+            <circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1"></circle>
+            <path d="M5 3v2.5l1.5 1.5" stroke="currentColor" stroke-width="1"></path>
           </svg>
           {hero.ctaSecondary.label}
         </a>

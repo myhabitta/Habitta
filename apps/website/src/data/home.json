@@ -52,7 +52,7 @@
     "subtitle": "Proyectos residenciales de alta calidad. Tres paquetes de acabados. Un solo compromiso.",
     "ctaPrimary": { "label": "Explorar proyectos", "href": "#proyectos" },
     "ctaSecondary": { "label": "Cómo funciona", "href": "#proceso" },
-    "coordinates": "4°42′N · 74°4′W · Bogotá",
+    "coordinates": "4°42′N · 74°4′W · Medellín",
     "bgImage": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80"
   },
   "manifesto": {
@@ -60,7 +60,7 @@
     "words": ["El", "hogar", "no", "se", "compra.", "Se", "elige,", "diseña", "y", "se", "vive."],
     "accentWords": ["elige,", "diseña"],
     "footer": "— Habitta, 2026",
-    "cities": "Bogotá · Medellín · Cali"
+    "cities": "Medellín"
   },
   "valor": {
     "eyebrow": "Por qué Habitta",
@@ -90,8 +90,22 @@
     ]
   },
   "ticker": {
-    "row1": ["Habitta", "Proyectos curados", "Medellín", "Bogotá", "Cali", "Acabados de lujo", "Premium · Estándar · Esencial"],
-    "row2": ["240+ familias", "Reserva Ávila", "Torres Serena", "Parque Oasis", "Villa del Río", "Acabados Premium", "Residencias Norte"]
+    "row1": [
+      "Habitta",
+      "Proyectos curados",
+      "Medellín",
+      "Acabados de lujo",
+      "Premium · Estándar · Esencial"
+    ],
+    "row2": [
+      "240+ familias",
+      "Reserva Ávila",
+      "Torres Serena",
+      "Parque Oasis",
+      "Villa del Río",
+      "Acabados Premium",
+      "Residencias Norte"
+    ]
   },
   "projects": {
     "eyebrow": "Proyectos destacados",
@@ -108,7 +122,7 @@
       },
       {
         "name": "Torres Serena",
-        "city": "Bogotá, Cundinamarca",
+        "city": "Medellín, Antioquia",
         "badge": "Estándar",
         "price": "Desde $320M",
         "units": "8 unidades disponibles",
@@ -232,7 +246,7 @@
       {
         "quote": "Los acabados Estándar superaron todas nuestras expectativas. El equipo de Habitta estuvo en cada decisión. Vale cada peso invertido.",
         "name": "Andrés & Sofía Rueda",
-        "detail": "Bogotá · Paquete Estándar"
+        "detail": "Medellín · Paquete Estándar"
       }
     ]
   },
@@ -241,12 +255,9 @@
     "heading": "Tu próximo",
     "headingAccent": "hogar empieza aquí.",
     "subtitle": "Completa el formulario y un asesor Habitta te contactará en menos de 24 horas.",
-    "phones": [
-      { "label": "+57 601 234 5678 — Bogotá", "href": "tel:+576012345678" },
-      { "label": "+57 604 234 5678 — Medellín", "href": "tel:+576042345678" }
-    ],
+    "phones": [{ "label": "+57 604 234 5678 — Medellín", "href": "tel:+576042345678" }],
     "email": { "label": "info@habitta.co", "href": "mailto:info@habitta.co" },
-    "cities": ["Bogotá", "Medellín", "Cali", "Barranquilla", "Pereira"],
+    "cities": ["Medellín"],
     "packages": ["Esencial — desde $189M", "Estándar — desde $320M", "Premium — desde $580M"]
   },
   "footer": {
@@ -277,7 +288,6 @@
       {
         "title": "Contacto",
         "links": [
-          { "label": "Bogotá: +57 601 234 5678", "href": "tel:+576012345678" },
           { "label": "Medellín: +57 604 234 5678", "href": "tel:+576042345678" },
           { "label": "info@habitta.co", "href": "mailto:info@habitta.co" },
           { "label": "Agendar visita", "href": "#contacto" }
@@ -290,6 +300,6 @@
       { "name": "WhatsApp", "href": "https://wa.me/573000000000" }
     ],
     "copyright": "2026 Habitta SAS · Todos los derechos reservados",
-    "bottomTagline": "Bogotá · Medellín · Cali · Colombia"
+    "bottomTagline": "Medellín · Colombia"
   }
 }

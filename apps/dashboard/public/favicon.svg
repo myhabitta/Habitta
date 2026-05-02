@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Habitta">
+  <!-- Márgenes mínimos (2px en 32) para que el símbolo se lea más grande en pestañas -->
+  <rect width="32" height="32" rx="7" fill="#1E1A1B" />
+  <path
+    fill="#E8703A"
+    d="M7.5 6.5h4.2v8.1h8.6V6.5h4.2v19h-4.2v-7.4h-8.6v7.4H7.5v-19Z"
+  />
+</svg>

@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: 'Panel interno de gestión Habitta',
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml', sizes: 'any' },
-      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
     apple: '/favicon.svg',
     shortcut: '/favicon.ico',
@@ -19,6 +19,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="32x32" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" sizes="16x16" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+      </head>
       <body className="min-h-screen bg-background font-sans antialiased">
         <ThemeProvider>
           {children}

@@ -1,5 +1,5 @@
 import type { Profile } from '@habitta/types';
-import { createServerClient } from '../client';
+import { createServerClient, createAdminClient } from '../client';
 
 export const getProfile = async (userId: string): Promise<Profile | null> => {
   const supabase = createServerClient();
@@ -16,10 +16,10 @@ export const updateProfile = async (
   userId: string,
   data: Partial<Pick<Profile, 'full_name' | 'role'>>
 ): Promise<Profile> => {
-  const supabase = createServerClient();
-  const { data: profile, error } = await supabase
+  const supabase = createAdminClient();
+  const { data: profile, error } = await (supabase as any)
     .from('profiles')
-    .update(data as never)
+    .update(data)
     .eq('id', userId)
     .select()
     .single();

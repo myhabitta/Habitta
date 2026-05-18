@@ -1,0 +1,36 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import AboutHero from '@/components/organisms/AboutHero.astro';
+import TickerStrip from '@/components/organisms/TickerStrip.astro';
+import ManifestoAbout from '@/components/organisms/ManifestoAbout.astro';
+import PhilosophySection from '@/components/organisms/PhilosophySection.astro';
+import TeamSection from '@/components/organisms/TeamSection.astro';
+
+const seo = {
+  title: 'Nosotros — Quiénes Somos',
+  description:
+    'Conoce al equipo detrás de Habitta y la alianza de tres empresas que transforman la experiencia de comprar vivienda en Colombia.',
+  canonical: 'https://habitta.co/nosotros',
+  og: {
+    title: 'Nosotros — Habitta | Quiénes Somos',
+    description:
+      'Conoce al equipo detrás de Habitta y la alianza de tres empresas que transforman la experiencia de comprar vivienda en Colombia.',
+    type: 'website' as const,
+    locale: 'es_CO',
+    siteName: 'Habitta',
+  },
+};
+---
+
+<Layout seo={seo}>
+  <AboutHero />
+  <!-- dark: heading + alianzas -->
+  <TeamSection />
+  <!-- dark: scroll horizontal equipo -->
+  <TickerStrip />
+  <!-- ticker banner -->
+  <ManifestoAbout />
+  <!-- light -->
+  <PhilosophySection />
+  <!-- dark -->
+</Layout>

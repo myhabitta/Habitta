@@ -1,9 +1,12 @@
 import Link from 'next/link';
-import { getProjects } from '@habitta/database';
+import { redirect } from 'next/navigation';
+import { getProjects, getAuthUser } from '@habitta/database';
 import { Card, CardContent } from '@/components/ui/card';
 import LeadForm from '@/components/leads/LeadForm';
 
 export default async function NewLeadPage() {
+  const user = await getAuthUser();
+  if (user?.role === 'user') redirect('/leads');
   const projects = await getProjects();
 
   return (

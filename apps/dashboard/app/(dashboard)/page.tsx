@@ -140,8 +140,8 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      {/* Link a métricas completas — solo admin */}
-      {user.role === 'admin' && (
+      {/* Link a métricas completas — admin y super_admin */}
+      {(user.role === 'super_admin' || user.role === 'admin') && (
         <div className="mt-6 text-right">
           <Link
             href="/metrics"

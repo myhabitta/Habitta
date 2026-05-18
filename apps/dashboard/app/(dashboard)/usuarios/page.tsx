@@ -1,6 +1,7 @@
 import { getProfiles, getAllUsers, getAuthUser } from '@habitta/database';
 import type { Metadata } from 'next';
-import UserCard from './UserCard';
+import UsersTable from './UsersTable';
+import CreateUserDialog from './CreateUserDialog';
 
 export const metadata: Metadata = {
   title: 'Usuarios | Habitta Dashboard',
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 const UsuariosPage = async () => {
   const currentUser = await getAuthUser();
 
-  if (currentUser?.role !== 'admin') {
+  if (currentUser?.role !== 'super_admin') {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
         <p className="text-muted-foreground">No tienes acceso a esta sección.</p>
@@ -19,30 +20,34 @@ const UsuariosPage = async () => {
 
   const [profiles, authUsers] = await Promise.all([getProfiles(), getAllUsers()]);
 
-  const users = profiles.map((profile) => {
-    const authUser = authUsers.find((u) => u.id === profile.id);
+  // Map from authUsers as base — catches users without profiles too
+  const profileMap = new Map(profiles.map((p) => [p.id, p]));
+  const users = authUsers.map((authUser) => {
+    const profile = profileMap.get(authUser.id);
     return {
-      id: profile.id,
-      email: authUser?.email ?? '',
-      full_name: profile.full_name,
-      role: profile.role,
+      id: authUser.id,
+      email: authUser.email,
+      full_name: profile?.full_name ?? authUser.full_name ?? '',
+      role: profile?.role ?? authUser.role ?? 'user',
+      created_at: profile?.created_at ?? null,
     };
   });
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-display font-semibold text-foreground">Usuarios</h1>
-        <p className="text-sm text-muted-foreground">
-          Gestiona los usuarios y sus contraseñas.
-        </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="font-display text-2xl font-semibold text-foreground md:text-3xl">
+            Usuarios
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            {users.length} usuario{users.length !== 1 ? 's' : ''} registrado{users.length !== 1 ? 's' : ''}
+          </p>
+        </div>
+        <CreateUserDialog />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {users.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </div>
+      <UsersTable users={users} currentUserId={currentUser.id} />
     </div>
   );
 };

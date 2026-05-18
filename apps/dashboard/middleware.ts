@@ -1,8 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { createMiddlewareClient } from '@habitta/database';
 
-const PUBLIC_ROUTES = ['/login'];
-const ADMIN_ONLY_ROUTES = ['/projects'];
+const PUBLIC_ROUTES = ['/login', '/login/forgot', '/login/reset'];
 
 export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
@@ -12,15 +11,13 @@ export const middleware = async (request: NextRequest) => {
   const { supabase, response: updatedResponse } = createMiddlewareClient(request, response);
   await supabase.auth.getSession();
 
-  // 2. Obtener usuario y rol
+  // 2. Obtener usuario
   const { data: { user } } = await supabase.auth.getUser();
-  const role = (user?.user_metadata?.role as 'admin' | 'sales') ?? 'sales';
 
-  const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname === route);
+  const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname === route || pathname.startsWith(route + '/'));
 
   // 3. Ruta pública (/login)
   if (isPublicRoute) {
-    // Si ya tiene sesión, redirigir al dashboard
     if (user) {
       return NextResponse.redirect(new URL('/', request.url));
     }
@@ -32,13 +29,7 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // 5. Protección por rol — /projects solo para admin
-  const isAdminRoute = ADMIN_ONLY_ROUTES.some((route) => pathname.startsWith(route));
-  if (isAdminRoute && role !== 'admin') {
-    return NextResponse.redirect(new URL('/leads', request.url));
-  }
-
-  // 6. Retornar response con cookies actualizadas (crítico para @supabase/ssr)
+  // 5. Protección por rol se maneja a nivel de página (getAuthUser lee de profiles)
   return updatedResponse;
 };
 

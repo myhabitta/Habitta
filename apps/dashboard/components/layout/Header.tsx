@@ -32,6 +32,7 @@ const ROUTE_TITLES: Record<string, string> = {
   '/leads': 'Leads',
   '/clients': 'Clientes',
   '/metrics': 'Métricas',
+  '/usuarios': 'Usuarios',
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

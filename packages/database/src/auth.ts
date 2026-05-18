@@ -30,7 +30,7 @@ export const getAuthUser = async (): Promise<AuthUser | null> => {
   return {
     id: user.id,
     email: user.email ?? '',
-    role: (typedProfile?.role as AuthUser['role']) ?? 'sales',
+    role: (typedProfile?.role as AuthUser['role']) ?? 'user',
     ...(typedProfile?.full_name && { full_name: typedProfile.full_name }),
   };
 };
@@ -51,7 +51,7 @@ export const signIn = async (
     user: {
       id: data.user.id,
       email: data.user.email ?? '',
-      role: (data.user.user_metadata?.role as AuthUser['role']) ?? 'sales',
+      role: (data.user.user_metadata?.role as AuthUser['role']) ?? 'user',
       ...(fullName !== undefined && { full_name: fullName }),
     },
     error: null,
@@ -77,6 +77,72 @@ export const updateUserPassword = async (
   return { error: null };
 };
 
+export const createUser = async (
+  email: string,
+  password: string,
+  full_name: string,
+  role: AuthUser['role']
+): Promise<{ user: AuthUser | null; error: string | null }> => {
+  const supabase = createAdminClient();
+  const { data, error } = await supabase.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: { full_name, role },
+  });
+
+  if (error || !data.user) {
+    return { user: null, error: error?.message ?? 'Error al crear usuario' };
+  }
+
+  // Upsert profile
+  await (supabase as any)
+    .from('profiles')
+    .upsert({ id: data.user.id, full_name, role });
+
+  return {
+    user: {
+      id: data.user.id,
+      email: data.user.email ?? '',
+      role,
+      full_name,
+    },
+    error: null,
+  };
+};
+
+export const deleteUser = async (
+  userId: string
+): Promise<{ error: string | null }> => {
+  const supabase = createAdminClient();
+  const { error } = await supabase.auth.admin.deleteUser(userId);
+  if (error) return { error: error.message };
+  return { error: null };
+};
+
+export const resetPasswordForEmail = async (
+  email: string
+): Promise<{ error: string | null }> => {
+  const supabase = createAdminClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'}/login/reset`,
+  });
+  if (error) return { error: error.message };
+  return { error: null };
+};
+
+export const updateUserMetadata = async (
+  userId: string,
+  metadata: { full_name?: string; role?: AuthUser['role'] }
+): Promise<{ error: string | null }> => {
+  const supabase = createAdminClient();
+  const { error } = await supabase.auth.admin.updateUserById(userId, {
+    user_metadata: metadata,
+  });
+  if (error) return { error: error.message };
+  return { error: null };
+};
+
 export const getAllUsers = async (): Promise<AuthUser[]> => {
   const supabase = createAdminClient();
   const { data, error } = await supabase.auth.admin.listUsers();
@@ -96,7 +162,7 @@ export const getAllUsers = async (): Promise<AuthUser[]> => {
     return {
       id: u.id,
       email: u.email ?? '',
-      role: (profile?.role as AuthUser['role']) ?? 'sales',
+      role: (profile?.role as AuthUser['role']) ?? 'user',
       ...(profile?.full_name && { full_name: profile.full_name }),
     };
   });

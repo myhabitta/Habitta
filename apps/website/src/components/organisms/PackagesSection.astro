@@ -1,7 +1,7 @@
 ---
 // Organism: PackagesSection
 // Three-column pricing grid for finishing packages.
-// Featured card has top border accent and subtle bg tint. IntersectionObserver reveal.
+// DARK SECTION — default dark bg with light text.
 
 import homeData from '@/data/home.json';
 
@@ -21,7 +21,7 @@ const { packages } = homeData;
       {packages.eyebrow}
     </div>
     <h2
-      class="reveal-el font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05]"
+      class="reveal-el font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05] text-ink"
       style="max-width: 540px; transition-delay: 0.12s;"
     >
       {packages.heading}<br />
@@ -34,7 +34,7 @@ const { packages } = homeData;
     {
       packages.items.map((pkg, i) => (
         <div
-          class={`pcard-reveal border-b border-border p-6 opacity-0 translate-y-16 transition-all duration-[0.9s] hover:bg-sand/[0.04] md:border-b-0 lg:p-10 ${i < packages.items.length - 1 ? 'md:border-r' : ''} ${pkg.featured ? 'border-t-2 border-t-brand bg-brand/[0.03] -mt-px' : ''}`}
+          class={`pcard-reveal border-b border-border p-6 opacity-0 translate-y-16 transition-all duration-[0.9s] hover:bg-brand/[0.03] md:border-b-0 lg:p-10 ${i < packages.items.length - 1 ? 'md:border-r md:border-r-dark/[0.08]' : ''} ${pkg.featured ? 'border-t-2 border-t-brand bg-brand/[0.04] -mt-px' : ''}`}
           style={`transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); transition-delay: ${i * 0.14}s;`}
         >
           {/* Badge */}
@@ -45,15 +45,15 @@ const { packages } = homeData;
           )}
 
           {/* Name */}
-          <div class="mb-1 font-display text-[2rem] font-normal">{pkg.name}</div>
+          <div class="mb-1 font-display text-[2rem] font-normal text-ink">{pkg.name}</div>
 
           {/* Description */}
-          <p class="mb-6 text-xs leading-relaxed text-muted lg:mb-8 lg:text-sm">{pkg.description}</p>
+          <p class="mb-6 text-xs leading-relaxed text-ink/60 lg:mb-8 lg:text-sm">{pkg.description}</p>
 
           {/* Feature List */}
           <ul class="mb-8 list-none lg:mb-10">
             {pkg.features.map((feat) => (
-              <li class="flex items-center gap-3 border-b border-sand/[0.07] py-3 text-sm text-ink/70">
+              <li class="flex items-center gap-3 border-b border-border py-3 text-sm text-ink/70">
                 <span class="h-1 w-1 shrink-0 rounded-full bg-brand" />
                 {feat}
               </li>
@@ -61,14 +61,14 @@ const { packages } = homeData;
           </ul>
 
           {/* Price */}
-          <span class="mb-1 block font-display text-[2.5rem] font-thin">{pkg.price}</span>
-          <span class="mb-5 block text-[0.62rem] tracking-[0.08em] text-muted lg:mb-6">
+          <span class="mb-1 block font-display text-[2.5rem] font-thin text-ink">{pkg.price}</span>
+          <span class="mb-5 block text-[0.62rem] tracking-[0.08em] text-ink/50 lg:mb-6">
             {pkg.note}
           </span>
 
           {/* CTA */}
           <button
-            class={`w-full border border-sand/[0.18] py-3 font-sans text-[0.66rem] font-bold uppercase tracking-[0.14em] text-ink transition-all duration-300 hover:border-brand hover:bg-brand hover:text-white ${pkg.featured ? 'border-brand bg-brand text-white' : ''}`}
+            class={`w-full border py-3 font-sans text-[0.66rem] font-bold uppercase tracking-[0.14em] transition-all duration-300 ${pkg.featured ? 'border-brand bg-brand text-white hover:bg-brand-dark' : 'border-ink/[0.15] text-ink hover:border-brand hover:bg-brand hover:text-white'}`}
             onclick="document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth', block: 'start' })"
           >
             Solicitar información

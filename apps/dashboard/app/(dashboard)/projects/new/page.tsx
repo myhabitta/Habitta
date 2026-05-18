@@ -1,9 +1,13 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { getAuthUser } from '@habitta/database';
 import { Card, CardContent } from '@/components/ui/card';
 import ProjectForm from '@/components/projects/ProjectForm';
 import { createProjectAction } from '../actions';
 
-export default function NewProjectPage() {
+export default async function NewProjectPage() {
+  const user = await getAuthUser();
+  if (user?.role === 'user') redirect('/projects');
   return (
     <div>
       {/* Breadcrumb */}

@@ -1,0 +1,72 @@
+---
+// Organism: AllianceSection
+// Minimal horizontal logo strip. LIGHT SECTION for contrast with dark hero above.
+
+const allies = [
+  {
+    name: 'Comfort Design',
+    logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1778725378/comfort-design_owkudc.webp',
+    url: 'https://comfortdesign.com.co/',
+  },
+  {
+    name: 'Arkava',
+    logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1778725378/arkava_dgmsz5.webp',
+    url: 'https://www.arkava.com.co/',
+  },
+  {
+    name: 'Forcon',
+    logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1779123699/forcon.webp',
+    url: 'https://www.instagram.com/acabadosformasyestructuras71/',
+  },
+];
+---
+
+<section class="bg-light px-6 py-12 md:px-12 md:py-6 lg:px-24">
+  <div class="mx-auto max-w-5xl">
+    <!-- Centered label -->
+    <p
+      class="alliance-el mb-10 text-center text-[0.55rem] uppercase tracking-[0.3em] text-dark/70 opacity-0 translate-y-5 transition-all duration-[0.8s] lg:mb-4 font-bold"
+      style="transition-timing-function: cubic-bezier(0.16,1,0.3,1);"
+    >
+      Una alianza entre
+    </p>
+
+    <!-- Logo row -->
+    <div class="flex flex-col items-center justify-center gap-10 sm:flex-row sm:gap-16 lg:gap-24">
+      {
+        allies.map((ally, i) => (
+          <a
+            href={ally.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="alliance-el group flex h-14 items-center opacity-0 scale-95 transition-all duration-[0.8s] lg:h-16"
+            style={`transition-timing-function: cubic-bezier(0.16,1,0.3,1); transition-delay: ${0.1 + i * 0.12}s;`}
+          >
+            <img
+              src={ally.logo}
+              alt={ally.name}
+              class="h-10 w-auto object-contain transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 lg:h-14"
+              loading="lazy"
+            />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const aObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          (entry.target as HTMLElement).style.opacity = '1';
+          (entry.target as HTMLElement).style.transform = 'translateY(0) scale(1)';
+          aObs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+  document.querySelectorAll('.alliance-el').forEach((el) => aObs.observe(el));
+</script>

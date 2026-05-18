@@ -26,22 +26,35 @@ const { hero } = homeData;
     >
     </div>
 
-    <!-- Watermark -->
+    <!-- Watermark — Value proposition: 60 days -->
     <div
       id="hero-watermark"
       class="absolute inset-0 flex items-center justify-center"
       style="will-change: opacity, transform; transform: scale(0.85);"
     >
-      <span
-        class="whitespace-nowrap font-display text-[clamp(5rem,14vw,13rem)] font-thin uppercase tracking-[0.15em] text-ink"
-      >
-        Habitta
-        <!-- <img
-          src="https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775624499/Logotipo-positivo_s7xhks.webp"
-          alt="Habitta"
-          class="h-32 w-auto"
-        /> -->
-      </span>
+      <div class="flex flex-col items-center gap-0 text-center">
+        <span
+          id="hero-pre"
+          class="font-sans text-[clamp(1rem,2.5vw,1.6rem)] font-bold uppercase tracking-[0.3em] text-ink/70 sm:tracking-[0.4em]"
+          style="opacity: 0; transform: translateY(-30px); filter: blur(8px); transition: all 0.9s cubic-bezier(0.16,1,0.3,1);"
+        >
+          Tu apartamento listo en
+        </span>
+        <span
+          id="hero-60"
+          class="font-display text-[clamp(8rem,22vw,18rem)] font-thin leading-[0.85] text-ink"
+          style="font-variant-numeric: tabular-nums; opacity: 0; transform: scale(0.7); filter: blur(12px); transition: all 1.2s cubic-bezier(0.16,1,0.3,1);"
+        >
+          00
+        </span>
+        <span
+          id="hero-post"
+          class="font-sans text-[clamp(1.4rem,3.5vw,3rem)] font-bold uppercase tracking-[0.35em] text-brand"
+          style="opacity: 0; transform: translateY(30px); filter: blur(8px); transition: all 0.9s cubic-bezier(0.16,1,0.3,1);"
+        >
+          días
+        </span>
+      </div>
     </div>
 
     <!-- Diagonal Line -->
@@ -142,6 +155,51 @@ const { hero } = homeData;
     const scrollIndicator = document.getElementById('hero-scroll');
 
     if (!section || !bg || !overlay || !watermark || !line || !content) return;
+
+    // ── Watermark entrance animation ──
+    const heroPre = document.getElementById('hero-pre');
+    const hero60 = document.getElementById('hero-60');
+    const heroPost = document.getElementById('hero-post');
+
+    if (heroPre && hero60 && heroPost) {
+      // Step 1: "Tu apartamento listo en" drops in (delay 0.1s)
+      setTimeout(() => {
+        heroPre.style.opacity = '1';
+        heroPre.style.transform = 'translateY(0)';
+        heroPre.style.filter = 'blur(0)';
+      }, 100);
+
+      // Step 2: "60" scales in + counter animation (delay 0.3s)
+      setTimeout(() => {
+        hero60.style.opacity = '1';
+        hero60.style.transform = 'scale(1)';
+        hero60.style.filter = 'blur(0)';
+
+        // Count 0 → 60
+        let count = 0;
+        const target = 60;
+        const duration = 1200;
+        const startTime = performance.now();
+
+        function countUp(now: number) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out cubic
+          const eased = 1 - Math.pow(1 - progress, 3);
+          count = Math.round(eased * target);
+          hero60.textContent = String(count).padStart(2, '0');
+          if (progress < 1) requestAnimationFrame(countUp);
+        }
+        requestAnimationFrame(countUp);
+      }, 300);
+
+      // Step 3: "DÍAS" rises in (delay 0.7s)
+      setTimeout(() => {
+        heroPost.style.opacity = '1';
+        heroPost.style.transform = 'translateY(0)';
+        heroPost.style.filter = 'blur(0)';
+      }, 700);
+    }
 
     const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
     const map = (v: number, a: number, b: number, c: number, d: number) =>

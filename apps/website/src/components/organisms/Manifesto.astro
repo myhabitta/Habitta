@@ -10,16 +10,20 @@ const { manifesto } = homeData;
 
 <section
   id="s-manifesto"
-  class="relative"
+  class="relative bg-light"
   data-section="02"
   data-sname="Manifesto"
   style="height: 250vh;"
 >
   <!-- Sin overflow-y hidden: si el manifiesto es alto, recortaba glifos al centrar en viewport -->
-  <div class="sticky top-0 flex min-h-[100dvh] min-h-screen flex-col overflow-x-hidden">
-    <div class="relative z-10 flex w-full flex-1 flex-col justify-center px-6 py-16 md:px-12 md:py-20 lg:px-24 lg:py-24">
+  <div class="sticky top-0 flex min-h-[100dvh] flex-col overflow-x-hidden">
+    <div
+      class="relative z-10 flex w-full flex-1 flex-col justify-center px-6 py-16 md:px-12 md:py-20 lg:px-24 lg:py-24"
+    >
       <!-- Eyebrow -->
-      <p class="mb-8 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand lg:mb-12">
+      <p
+        class="mb-8 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand lg:mb-12"
+      >
         <span class="block h-px w-8 bg-brand"></span>
         {manifesto.eyebrow}
       </p>
@@ -27,7 +31,7 @@ const { manifesto } = homeData;
       <!-- Quote with word-by-word reveal -->
       <blockquote
         id="manifesto-quote"
-        class="font-display text-[clamp(2rem,5.5vw,5.5rem)] font-extralight italic leading-[1.45] tracking-tight max-w-[900px] antialiased [text-rendering:optimizeLegibility]"
+        class="font-display text-[clamp(2rem,5.5vw,5.5rem)] font-extralight italic leading-[1.45] tracking-tight max-w-[900px] text-dark/90 antialiased [text-rendering:optimizeLegibility]"
       >
         {
           manifesto.words.map((word) => {
@@ -35,7 +39,7 @@ const { manifesto } = homeData;
             return (
               <span class="mr-[0.35em] inline-block align-baseline">
                 <span
-                  class={`manifesto-word inline-block opacity-0 will-change-[opacity,transform] ${isAccent ? 'text-sand not-italic' : ''}`}
+                  class={`manifesto-word inline-block opacity-0 will-change-[opacity,transform] ${isAccent ? 'text-brand not-italic' : ''}`}
                 >
                   {word}
                 </span>
@@ -55,7 +59,7 @@ const { manifesto } = homeData;
         id="manifesto-footer"
         class="mt-10 flex flex-col gap-3 opacity-0 sm:flex-row sm:items-center sm:gap-8 lg:mt-14"
       >
-        <span class="text-xs tracking-[0.1em] text-muted">{manifesto.footer}</span>
+        <span class="text-xs tracking-[0.1em] text-dark/40">{manifesto.footer}</span>
         <span class="flex items-center gap-2 text-brand">
           <svg width="28" height="1" viewBox="0 0 28 1" aria-hidden="true">
             <line x1="0" y1=".5" x2="28" y2=".5" stroke="currentColor"></line>
@@ -66,7 +70,6 @@ const { manifesto } = homeData;
     </div>
   </div>
 </section>
-
 
 <script>
   function initManifesto() {

@@ -1,6 +1,6 @@
 ---
 // Organism: ProcessSection
-// Timeline-style process steps with large numbers, staggered reveals, and arrow links.
+// Timeline-style process steps. LIGHT SECTION for contrast rhythm.
 
 import homeData from '@/data/home.json';
 
@@ -9,7 +9,7 @@ const { process } = homeData;
 
 <section
   id="proceso"
-  class="relative px-6 py-20 md:px-12 lg:px-24 lg:py-36"
+  class="relative bg-light px-6 py-20 md:px-12 lg:px-24 lg:py-36"
   data-section="06"
   data-sname="Proceso"
 >
@@ -19,10 +19,10 @@ const { process } = homeData;
     {process.eyebrow}
   </div>
   <h2
-    class="reveal-el mb-12 font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05] lg:mb-16"
+    class="reveal-el mb-12 font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05] text-dark lg:mb-16"
     style="max-width: 500px; transition-delay: 0.12s;"
   >
-    {process.heading} <em class="italic text-sand">{process.headingAccent}</em>
+    {process.heading} <em class="italic text-brand-dark">{process.headingAccent}</em>
   </h2>
 
   <!-- Steps -->
@@ -30,20 +30,20 @@ const { process } = homeData;
     {
       process.steps.map((step, i) => (
         <div
-          class={`process-step group grid grid-cols-1 items-start gap-6 border-t border-border py-10 opacity-0 -translate-x-6 transition-all duration-700 md:grid-cols-[170px_1fr] md:gap-12 lg:gap-16 lg:py-16 ${i === process.steps.length - 1 ? 'border-b border-border' : ''}`}
+          class={`process-step group grid grid-cols-1 items-start gap-6 border-t border-dark/[0.08] py-10 opacity-0 -translate-x-6 transition-all duration-700 md:grid-cols-[170px_1fr] md:gap-12 lg:gap-16 lg:py-16 ${i === process.steps.length - 1 ? 'border-b border-dark/[0.08]' : ''}`}
           style={`transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); transition-delay: ${i * 0.12}s;`}
         >
           {/* Big Number */}
-          <span class="font-display text-6xl font-thin leading-none text-brand/[0.18] transition-opacity duration-400 group-hover:text-brand/70 lg:text-8xl">
+          <span class="font-display text-6xl font-thin leading-none text-brand/[0.2] transition-opacity duration-400 group-hover:text-brand/70 lg:text-8xl">
             {step.number}
           </span>
 
           {/* Content */}
           <div>
-            <h3 class="mb-2 font-display text-2xl font-normal leading-[1.05] lg:mb-3 lg:text-4xl">
+            <h3 class="mb-2 font-display text-2xl font-normal leading-[1.05] text-dark lg:mb-3 lg:text-4xl">
               {step.title}
             </h3>
-            <p class="max-w-sm text-xs leading-relaxed text-muted lg:text-sm lg:leading-[1.8]">
+            <p class="max-w-sm text-xs leading-relaxed text-dark/55 lg:text-sm lg:leading-[1.8]">
               {step.description}
             </p>
             <a

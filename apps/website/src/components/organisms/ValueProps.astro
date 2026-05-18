@@ -10,7 +10,7 @@ const { valor } = homeData;
 
 <section
   id="s-valor"
-  class="relative"
+  class="relative bg-olive"
   data-section="03"
   data-sname="Valor"
   style="height: 200vh;"
@@ -29,17 +29,20 @@ const { valor } = homeData;
       <!-- Heading -->
       <h2
         id="valor-title"
-        class="mb-10 font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05] opacity-0 translate-y-8 transition-all duration-700 delay-100 lg:mb-16"
+        class="mb-10 font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05] text-ink opacity-0 translate-y-8 transition-all duration-700 delay-100 lg:mb-16"
       >
-        {valor.heading} <em class="italic text-sand">{valor.headingAccent}</em>
+        {valor.heading}
+        <em class="italic text-sand">{valor.headingAccent}</em>
       </h2>
 
       <!-- Stats -->
-      <div class="mb-12 flex flex-col gap-0 border-t border-border pt-8 sm:flex-row lg:mb-20 lg:pt-12">
+      <div
+        class="mb-12 flex flex-col gap-0 border-t border-ink/[0.12] pt-8 sm:flex-row lg:mb-20 lg:pt-12"
+      >
         {
           valor.stats.map((stat, i) => (
             <div
-              class={`flex-1 px-4 py-4 sm:px-8 lg:px-12 ${i > 0 ? 'border-t border-border sm:border-t-0 sm:border-l' : ''} ${i === 0 ? 'sm:pl-0' : ''}`}
+              class={`flex-1 px-4 py-4 sm:px-8 lg:px-12 ${i > 0 ? 'border-t border-ink/[0.12] sm:border-t-0 sm:border-l' : ''} ${i === 0 ? 'sm:pl-0' : ''}`}
             >
               <span
                 class="valor-stat block font-display text-[clamp(3rem,5vw,5rem)] font-thin leading-none text-brand"
@@ -49,7 +52,7 @@ const { valor } = homeData;
               >
                 0
               </span>
-              <span class="mt-1 block text-[0.62rem] uppercase tracking-[0.16em] text-muted">
+              <span class="mt-1 block text-[0.62rem] uppercase tracking-[0.16em] text-ink/50">
                 {stat.label}
               </span>
             </div>
@@ -62,16 +65,16 @@ const { valor } = homeData;
         {
           valor.features.map((feat, i) => (
             <div
-              class={`valor-feature p-6 opacity-0 translate-y-8 transition-all duration-700 hover:bg-brand/[0.04] lg:p-10 ${i > 0 ? 'border-t border-border md:border-t-0 md:border-l' : ''} ${i === 0 ? 'md:pl-0' : ''}`}
+              class={`valor-feature p-6 opacity-0 translate-y-8 transition-all duration-700 hover:bg-ink/[0.05] lg:p-10 ${i > 0 ? 'border-t border-ink/[0.12] md:border-t-0 md:border-l' : ''} ${i === 0 ? 'md:pl-0' : ''}`}
               style={`transition-delay: ${i * 0.12}s;`}
             >
               <span class="mb-4 block font-display text-base italic text-brand lg:mb-5">
                 {feat.number}
               </span>
-              <h3 class="mb-2 font-display text-lg font-medium leading-tight lg:mb-3 lg:text-xl">
+              <h3 class="mb-2 font-display text-lg font-medium leading-tight text-ink lg:mb-3 lg:text-xl">
                 {feat.title}
               </h3>
-              <p class="text-xs leading-relaxed text-muted lg:text-sm lg:leading-[1.75]">
+              <p class="text-xs leading-relaxed text-ink/50 lg:text-sm lg:leading-[1.75]">
                 {feat.description}
               </p>
             </div>

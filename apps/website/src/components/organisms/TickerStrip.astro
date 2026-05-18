@@ -1,0 +1,58 @@
+---
+// Organism: TickerStrip
+// Infinite scrolling ticker with brand values.
+// Uses JS to measure one set and apply precise translateX for seamless loop.
+
+const words = [
+  'Calidad',
+  'Confianza',
+  'Diseño',
+  'Innovación',
+  'Transparencia',
+  'Experiencia',
+  'Compromiso',
+  'Excelencia',
+];
+---
+
+<div class="overflow-hidden border-y border-border py-3.5">
+  <div id="ticker-track" class="flex w-max" style="will-change: transform;">
+    {
+      [0, 1, 2].map(() =>
+        words.map((word) => (
+          <span class="ticker-word flex items-center gap-8 whitespace-nowrap px-8 font-display text-sm font-normal italic text-ink-subtle/60">
+            {word}
+            <span class="h-[3px] w-[3px] shrink-0 rounded-full bg-brand/50" />
+          </span>
+        ))
+      )
+    }
+  </div>
+</div>
+
+<script>
+  const track = document.getElementById('ticker-track');
+  if (track) {
+    const totalWords = 8;
+    const allItems = track.querySelectorAll('.ticker-word');
+    // Measure width of one set (first 8 items)
+    let setWidth = 0;
+    for (let i = 0; i < totalWords; i++) {
+      setWidth += (allItems[i] as HTMLElement).offsetWidth;
+    }
+
+    let offset = 0;
+    const speed = 0.5; // px per frame
+
+    function tickerLoop() {
+      offset += speed;
+      if (offset >= setWidth) {
+        offset -= setWidth;
+      }
+      track!.style.transform = `translateX(-${offset}px)`;
+      requestAnimationFrame(tickerLoop);
+    }
+
+    requestAnimationFrame(tickerLoop);
+  }
+</script>

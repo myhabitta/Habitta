@@ -1,0 +1,243 @@
+---
+// Organism: TeamSection
+// Horizontal scroll-driven team cards — inspired by ProjectsShowcase.
+// Sticky section with translateX, clip-path photo reveals, progress bar, and counter.
+// DARK SECTION for contrast after light AllianceSection.
+
+const team = [
+  {
+    name: 'Adalberto Parra',
+    role: 'Encargado de Obras',
+    photo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto:best/f_auto/w_800/v1779125161/01_Alberto_xscdfg.webp',
+  },
+  {
+    name: 'Diego Gomez',
+    role: 'Operaciones y Logística',
+    photo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto:best/f_auto/w_800/v1779125166/04_Diego_uoomic.webp',
+  },
+  {
+    name: 'Camila Corrales',
+    role: 'Diseño de Interiores',
+    photo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto:best/f_auto/w_800/v1779125843/03_Camila_qnyfhu.webp',
+  },
+  {
+    name: 'Rubiela Martinez',
+    role: 'Ventas',
+    photo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto:best/f_auto/w_800/v1779125160/06_Rubi_vf33we.webp',
+  },
+  {
+    name: 'Isabel Corrales',
+    role: 'Finanzas y Contabilidad',
+    photo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto:best/f_auto/w_800/v1779125161/05_Isabel_ymljsv.webp',
+  },
+  {
+    name: 'Bryan Villamil',
+    role: 'Tecnología',
+    photo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto:best/f_auto/w_800/v1779125160/02_Bryan_lb6pii.webp',
+  },
+];
+---
+
+<section id="s-team" class="relative" data-section="team" data-sname="Equipo">
+  <div class="sticky top-0 h-screen overflow-hidden">
+    <!-- Header -->
+    <div class="absolute left-6 top-8 z-10 md:left-12 lg:left-24 lg:top-16">
+      <div class="flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand">
+        <span class="block h-px w-8 bg-brand"></span>
+        Nuestro equipo
+      </div>
+      <div class="mt-2 flex items-center gap-4">
+        <span
+          id="team-counter"
+          class="font-display text-sm font-thin tracking-[0.1em] text-ink-ghost"
+        >
+          01 / 0{team.length}
+        </span>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div
+      class="absolute bottom-8 left-6 right-6 z-10 h-px bg-ink-faint md:left-12 md:right-12 lg:bottom-12 lg:left-24 lg:right-24"
+    >
+      <div id="team-progress" class="h-full w-0 bg-brand transition-none"></div>
+    </div>
+
+    <!-- Horizontal Track -->
+    <div
+      id="team-track"
+      class="flex h-full items-center gap-6 px-6 md:gap-8 md:px-12 lg:gap-10 lg:px-24"
+      style="will-change: transform;"
+    >
+      <!-- Intro Card -->
+      <div
+        class="flex min-w-[280px] shrink-0 flex-col justify-center pr-8 md:min-w-[340px] lg:min-w-[400px] lg:pr-16"
+      >
+        <h2 class="font-display text-[clamp(2rem,3.8vw,3.5rem)] font-normal leading-[1.05]">
+          Las personas<br />
+          detrás de <em class="italic text-sand">Habitta</em>
+        </h2>
+        <p
+          class="mt-4 max-w-[280px] text-xs leading-relaxed text-muted lg:text-sm lg:leading-[1.7]"
+        >
+          Tres empresas, una visión — transformar la experiencia de comprar vivienda en Colombia.
+        </p>
+        <div class="mt-6 flex items-center gap-3">
+          <span class="h-px w-10 bg-brand/30"></span>
+          <span class="text-[0.52rem] uppercase tracking-[0.2em] text-ink-ghost"
+            >Desliza para conocernos</span
+          >
+        </div>
+      </div>
+
+      {/* Team Cards */}
+      {
+        team.map((member, i) => {
+          const num = String(i + 1).padStart(2, '0');
+          return (
+            <div
+              class="team-card group relative min-w-[260px] shrink-0 overflow-hidden rounded-sm sm:min-w-[300px] lg:min-w-[340px]"
+              style="height: 65vh; max-height: 580px;"
+            >
+              {/* Photo with clip-path reveal + scale */}
+              <div
+                class="team-card-img absolute inset-0 overflow-hidden"
+                style="clip-path: inset(100% 0 0 0);"
+              >
+                <img
+                  src={member.photo}
+                  alt={member.name}
+                  class="team-card-photo absolute inset-0 h-full w-full object-cover object-top"
+                  style="transform: scale(1.15);"
+                  loading="eager"
+                />
+                {/* Gradient for readability */}
+                <div class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-dark via-dark/80 to-transparent" />
+              </div>
+
+              {/* Large number watermark */}
+              <span class="absolute right-5 top-5 font-display text-[4.5rem] font-thin leading-none text-ink/[0.06] transition-colors duration-700 group-hover:text-brand/[0.15] lg:right-7 lg:top-7 lg:text-[5.5rem]">
+                {num}
+              </span>
+
+              {/* Bottom info — starts hidden, slides up */}
+              <div
+                class="team-card-info absolute inset-x-0 bottom-0 z-10 p-5 lg:p-7"
+                style="opacity: 0; transform: translateY(20px);"
+              >
+                <div class="mb-3 h-px w-8 bg-brand/30 transition-all duration-700 group-hover:w-14 group-hover:bg-brand/60" />
+                <p class="mb-1.5 text-[0.52rem] font-medium uppercase tracking-[0.22em] text-brand/80 transition-colors duration-500 group-hover:text-brand">
+                  {member.role}
+                </p>
+                <h3 class="font-display text-[clamp(1.2rem,2vw,1.6rem)] font-light leading-[1.1] tracking-tight text-ink">
+                  {member.name}
+                </h3>
+              </div>
+
+              {/* Corner accent on hover */}
+              <div
+                class="absolute right-0 top-0 h-12 w-12 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                aria-hidden="true"
+              >
+                <div class="absolute right-4 top-4 h-px w-4 bg-brand/40" />
+                <div class="absolute right-4 top-4 h-4 w-px bg-brand/40" />
+              </div>
+            </div>
+          );
+        })
+      }
+
+      {/* End spacer */}
+      <div class="min-w-16 shrink-0"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initTeamScroll() {
+    const section = document.getElementById('s-team');
+    const track = document.getElementById('team-track');
+    const progressBar = document.getElementById('team-progress');
+    const counter = document.getElementById('team-counter');
+    const cards = document.querySelectorAll('.team-card');
+
+    if (!section || !track) return;
+
+    const revealed = new Set<number>();
+
+    function setHeight() {
+      const maxScroll = Math.max(0, track.scrollWidth - window.innerWidth);
+      section.style.height = window.innerHeight + maxScroll + 'px';
+    }
+
+    setHeight();
+    window.addEventListener('resize', setHeight);
+
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
+    function revealCard(card: Element, index: number) {
+      if (revealed.has(index)) return;
+      revealed.add(index);
+
+      const img = card.querySelector('.team-card-img') as HTMLElement;
+      const photo = card.querySelector('.team-card-photo') as HTMLElement;
+      const info = card.querySelector('.team-card-info') as HTMLElement;
+
+      if (img) {
+        img.style.transition = 'clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+        img.style.clipPath = 'inset(0 0 0 0)';
+      }
+
+      if (photo) {
+        photo.style.transition = 'transform 1.4s cubic-bezier(0.16, 1, 0.3, 1)';
+        photo.style.transform = 'scale(1)';
+      }
+
+      if (info) {
+        info.style.transition = 'opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+        info.style.transitionDelay = '0.35s';
+        info.style.opacity = '1';
+        info.style.transform = 'translateY(0)';
+      }
+    }
+
+    function animate() {
+      const h = section.offsetHeight - window.innerHeight;
+      const p = h > 0 ? clamp(-section.getBoundingClientRect().top / h, 0, 1) : 0;
+
+      // Horizontal scroll
+      const maxT = Math.max(0, track.scrollWidth - window.innerWidth);
+      track.style.transform = `translateX(${-p * maxT}px)`;
+
+      // Progress bar
+      if (progressBar) {
+        progressBar.style.width = p * 100 + '%';
+      }
+
+      // Counter
+      if (counter && cards.length > 0) {
+        const idx = Math.min(cards.length, Math.floor(p * (cards.length + 0.5)) + 1);
+        counter.textContent = `0${idx} / 0${cards.length}`;
+      }
+
+      // Reveal cards progressively as user scrolls
+      // Each card has a threshold based on its index — none reveal at p=0
+      cards.forEach((card, i) => {
+        const threshold = 0.02 + i * 0.1;
+        if (p >= threshold) {
+          revealCard(card, i);
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+
+  if (document.getElementById('loader')) {
+    document.addEventListener('loader:complete', initTeamScroll, { once: true });
+  } else {
+    initTeamScroll();
+  }
+</script>

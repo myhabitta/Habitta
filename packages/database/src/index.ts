@@ -1,5 +1,5 @@
 export { createServerClient, createBrowserClient, createMiddlewareClient, createAdminClient } from './client';
-export { getSession, getAuthUser, signIn, signOut, updateUserPassword, getAllUsers } from './auth';
+export { getSession, getAuthUser, signIn, signOut, updateUserPassword, updateUserMetadata, getAllUsers, createUser, deleteUser, resetPasswordForEmail } from './auth';
 
 export {
   getProjects,

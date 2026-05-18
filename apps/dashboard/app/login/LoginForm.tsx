@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
+import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -55,6 +56,15 @@ const LoginForm = () => {
       {state?.error && <p className="text-sm text-destructive">{state.error}</p>}
 
       <SubmitButton />
+
+      <div className="text-center">
+        <Link
+          href="/login/forgot"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          ¿Olvidaste tu contraseña?
+        </Link>
+      </div>
     </form>
   );
 };

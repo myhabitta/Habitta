@@ -8,6 +8,7 @@ import {
   Users,
   UserCheck,
   BarChart3,
+  Shield,
   type LucideIcon,
 } from 'lucide-react';
 import type { AuthUser } from '@habitta/types';
@@ -34,31 +35,37 @@ const navItems: NavItem[] = [
     label: 'Inicio',
     href: '/',
     icon: LayoutDashboard,
-    roles: ['admin', 'sales'],
+    roles: ['super_admin', 'admin', 'user'],
   },
   {
     label: 'Proyectos',
     href: '/projects',
     icon: Building2,
-    roles: ['admin'],
+    roles: ['super_admin', 'admin', 'user'],
   },
   {
     label: 'Leads',
     href: '/leads',
     icon: Users,
-    roles: ['admin', 'sales'],
+    roles: ['super_admin', 'admin'],
   },
   {
     label: 'Clientes',
     href: '/clients',
     icon: UserCheck,
-    roles: ['admin', 'sales'],
+    roles: ['super_admin', 'admin', 'user'],
   },
   {
     label: 'Métricas',
     href: '/metrics',
     icon: BarChart3,
-    roles: ['admin'],
+    roles: ['super_admin', 'admin', 'user'],
+  },
+  {
+    label: 'Usuarios',
+    href: '/usuarios',
+    icon: Shield,
+    roles: ['super_admin'],
   },
 ];
 
@@ -187,7 +194,7 @@ const Sidebar = ({ user, isOpen, onClose }: SidebarProps) => {
               </span>
 
               {/* Badge de rol */}
-              {user.role === 'admin' ? (
+              {user.role === 'super_admin' ? (
                 <span
                   className="shrink-0 rounded-full px-1.5 py-0.5 font-sans text-[10px] font-semibold"
                   style={{
@@ -195,11 +202,15 @@ const Sidebar = ({ user, isOpen, onClose }: SidebarProps) => {
                     color: 'var(--habitta-accent)',
                   }}
                 >
+                  Super Admin
+                </span>
+              ) : user.role === 'admin' ? (
+                <span className="shrink-0 rounded-full bg-blue-100 px-1.5 py-0.5 font-sans text-[10px] font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
                   Admin
                 </span>
               ) : (
                 <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 font-sans text-[10px] font-semibold text-muted-foreground">
-                  Ventas
+                  Usuario
                 </span>
               )}
             </div>

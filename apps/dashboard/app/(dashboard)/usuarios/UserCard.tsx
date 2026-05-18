@@ -1,20 +1,33 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useState, useTransition } from 'react';
 import { useFormStatus } from 'react-dom';
+import { Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { changePasswordAction, updateProfileAction } from './actions';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { changePasswordAction, updateProfileAction, deleteUserAction } from './actions';
 
 interface UserCardProps {
   user: {
     id: string;
     email: string;
     full_name: string;
-    role: 'admin' | 'sales';
+    role: 'super_admin' | 'admin' | 'user';
   };
+  currentUserId: string;
 }
 
 type ActionState = { error: string } | { success: string } | null;
@@ -22,13 +35,13 @@ type ActionState = { error: string } | { success: string } | null;
 const SubmitButton = ({ label }: { label: string }) => {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" size="sm" disabled={pending}>
+    <Button className="text-white" type="submit" size="sm" disabled={pending}>
       {pending ? 'Guardando...' : label}
     </Button>
   );
 };
 
-const UserCard = ({ user }: UserCardProps) => {
+const UserCard = ({ user, currentUserId }: UserCardProps) => {
   const [profileState, profileAction] = useActionState<ActionState, FormData>(
     updateProfileAction,
     null
@@ -37,21 +50,64 @@ const UserCard = ({ user }: UserCardProps) => {
     changePasswordAction,
     null
   );
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const isSelf = user.id === currentUserId;
+
+  const handleDelete = () => {
+    startTransition(async () => {
+      const result = await deleteUserAction(user.id);
+      if (result && 'error' in result) {
+        setDeleteError(result.error);
+      }
+    });
+  };
 
   return (
     <div className="rounded-lg border border-border bg-card p-6 space-y-6">
-      {/* Header del usuario */}
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <p className="font-medium text-foreground">{user.full_name || 'Sin nombre'}</p>
           <p className="text-sm text-muted-foreground">{user.email}</p>
         </div>
-        <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
-          {user.role}
-        </Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>{user.role}</Badge>
+          {!isSelf && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive">
+                  <Trash2 size={15} />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Eliminar usuario</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    ¿Estás seguro de eliminar a <strong>{user.full_name || user.email}</strong>? Esta acción no se puede deshacer.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                {deleteError && (
+                  <p className="text-sm text-destructive">{deleteError}</p>
+                )}
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleDelete}
+                    disabled={isPending}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    {isPending ? 'Eliminando...' : 'Eliminar'}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
       </div>
 
-      {/* Editar perfil */}
+      {/* Edit profile */}
       <form action={profileAction} className="space-y-3">
         <input type="hidden" name="userId" value={user.id} />
         <p className="text-sm font-medium text-foreground">Editar perfil</p>
@@ -77,25 +133,22 @@ const UserCard = ({ user }: UserCardProps) => {
               defaultValue={user.role}
               className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             >
-              <option value="admin">admin</option>
-              <option value="sales">sales</option>
+              <option value="super_admin">Super Admin</option>
+              <option value="admin">Admin</option>
+              <option value="user">Usuario</option>
             </select>
           </div>
         </div>
-        {'error' in (profileState ?? {}) && (
-          <p className="text-xs text-destructive">
-            {(profileState as { error: string }).error}
-          </p>
+        {profileState && 'error' in profileState && (
+          <p className="text-xs text-destructive">{profileState.error}</p>
         )}
-        {'success' in (profileState ?? {}) && (
-          <p className="text-xs text-green-600 dark:text-green-400">
-            {(profileState as { success: string }).success}
-          </p>
+        {profileState && 'success' in profileState && (
+          <p className="text-xs text-green-600 dark:text-green-400">{profileState.success}</p>
         )}
         <SubmitButton label="Guardar perfil" />
       </form>
 
-      {/* Cambiar contraseña */}
+      {/* Change password */}
       <form action={passwordAction} className="space-y-3 border-t border-border pt-4">
         <input type="hidden" name="userId" value={user.id} />
         <p className="text-sm font-medium text-foreground">Cambiar contraseña</p>
@@ -123,15 +176,11 @@ const UserCard = ({ user }: UserCardProps) => {
             />
           </div>
         </div>
-        {'error' in (passwordState ?? {}) && (
-          <p className="text-xs text-destructive">
-            {(passwordState as { error: string }).error}
-          </p>
+        {passwordState && 'error' in passwordState && (
+          <p className="text-xs text-destructive">{passwordState.error}</p>
         )}
-        {'success' in (passwordState ?? {}) && (
-          <p className="text-xs text-green-600 dark:text-green-400">
-            {(passwordState as { success: string }).success}
-          </p>
+        {passwordState && 'success' in passwordState && (
+          <p className="text-xs text-green-600 dark:text-green-400">{passwordState.success}</p>
         )}
         <SubmitButton label="Cambiar contraseña" />
       </form>

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { UserPlus } from 'lucide-react';
-import { getLeads, getLeadStats, getProjects } from '@habitta/database';
+import { getLeads, getLeadStats, getProjects, getAuthUser } from '@habitta/database';
 import type { LeadStatus } from '@habitta/types';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -32,14 +32,16 @@ export default async function LeadsPage({
   const statusFilter = params.status as LeadStatus | undefined;
   const projectFilter = params.project_id;
 
-  const [leads, stats, projects] = await Promise.all([
+  const [leads, stats, projects, user] = await Promise.all([
     getLeads({
       ...(statusFilter ? { status: statusFilter } : {}),
       ...(projectFilter ? { project_id: projectFilter } : {}),
     }),
     getLeadStats(),
     getProjects(),
+    getAuthUser(),
   ]);
+  const canEdit = user?.role === 'super_admin' || user?.role === 'admin';
 
   return (
     <div>
@@ -50,16 +52,18 @@ export default async function LeadsPage({
             {stats.total} leads en total
           </p>
         </div>
-        <Button
-          asChild
-          className="gap-2 text-white hover:opacity-90 sm:shrink-0"
-          style={{ backgroundColor: 'var(--habitta-accent)' }}
-        >
-          <Link href="/leads/new">
-            <UserPlus className="h-4 w-4" />
-            Nuevo lead
-          </Link>
-        </Button>
+        {canEdit && (
+          <Button
+            asChild
+            className="gap-2 text-white hover:opacity-90 sm:shrink-0"
+            style={{ backgroundColor: 'var(--habitta-accent)' }}
+          >
+            <Link href="/leads/new">
+              <UserPlus className="h-4 w-4" />
+              Nuevo lead
+            </Link>
+          </Button>
+        )}
       </div>
 
       {/* Stats cards */}

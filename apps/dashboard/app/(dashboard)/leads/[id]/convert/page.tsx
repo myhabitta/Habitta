@@ -1,7 +1,7 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { UserCheck } from 'lucide-react';
-import { getLeadByShortId, getProjects } from '@habitta/database';
+import { getLeadByShortId, getProjects, getAuthUser } from '@habitta/database';
 import { Card, CardContent } from '@/components/ui/card';
 import ConvertLeadForm from '@/components/leads/ConvertLeadForm';
 
@@ -17,6 +17,9 @@ export default async function ConvertLeadPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const user = await getAuthUser();
+  if (user?.role === 'user') redirect('/leads');
+
   const { id: shortId } = await params;
   const [lead, projects] = await Promise.all([getLeadByShortId(shortId), getProjects()]);
 

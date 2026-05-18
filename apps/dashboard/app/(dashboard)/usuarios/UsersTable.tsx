@@ -61,9 +61,9 @@ type ActionState = { error: string } | { success: string } | null;
 // ─── Helpers ────────────────────────────────────────────────────────────────────
 
 const ROLE_CONFIG = {
-  super_admin: { label: 'Super Admin', icon: Shield, variant: 'default' as const, className: 'bg-amber-600 hover:bg-amber-600 text-white' },
-  admin: { label: 'Admin', icon: ShieldCheck, variant: 'default' as const, className: 'bg-blue-600 hover:bg-blue-600 text-white' },
-  user: { label: 'Usuario', icon: User, variant: 'secondary' as const, className: '' },
+  super_admin: { label: 'Super Admin', icon: Shield, variant: 'outline' as const, bg: '#F8C4C4', text: '#9B1C1C', className: '' },
+  admin: { label: 'Manager', icon: ShieldCheck, variant: 'outline' as const, bg: '#A5D8FF', text: '#1864AB', className: '' },
+  user: { label: 'Lead', icon: User, variant: 'outline' as const, bg: '#B9FBC0', text: '#2B6E30', className: '' },
 };
 
 const getInitials = (name: string, email: string) => {
@@ -131,8 +131,8 @@ const EditDialog = ({ user, open, onClose }: { user: UserRow; open: boolean; onC
                   className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                 >
                   <option value="super_admin">Super Admin</option>
-                  <option value="admin">Admin</option>
-                  <option value="user">Usuario</option>
+                  <option value="admin">Manager</option>
+                  <option value="user">Lead</option>
                 </select>
               </div>
               {state && 'error' in state && <p className="text-sm text-destructive">{state.error}</p>}
@@ -270,8 +270,8 @@ const UsersTable = ({ users, currentUserId }: UsersTableProps) => {
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <div
-                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                          style={{ backgroundColor: 'var(--habitta-accent)' }}
+                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold"
+                          style={{ backgroundColor: role.bg, color: role.text }}
                         >
                           {getInitials(user.full_name, user.email)}
                         </div>
@@ -293,7 +293,11 @@ const UsersTable = ({ users, currentUserId }: UsersTableProps) => {
 
                     {/* Role badge */}
                     <TableCell>
-                      <Badge variant={role.variant} className={`gap-1 ${role.className}`}>
+                      <Badge
+                        variant={role.variant}
+                        className="gap-1 border-transparent font-medium"
+                        style={{ backgroundColor: role.bg, color: role.text }}
+                      >
                         <RoleIcon size={12} />
                         {role.label}
                       </Badge>

@@ -206,11 +206,11 @@ const Sidebar = ({ user, isOpen, onClose }: SidebarProps) => {
                 </span>
               ) : user.role === 'admin' ? (
                 <span className="shrink-0 rounded-full bg-blue-100 px-1.5 py-0.5 font-sans text-[10px] font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
-                  Admin
+                  Manager
                 </span>
               ) : (
                 <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 font-sans text-[10px] font-semibold text-muted-foreground">
-                  Usuario
+                  Lead
                 </span>
               )}
             </div>

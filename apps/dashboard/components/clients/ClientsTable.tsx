@@ -144,19 +144,19 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
 
   return (
     <div className="overflow-x-auto rounded-lg border">
-      <Table>
+      <Table className="min-w-[1200px]">
         <TableHeader>
           <TableRow>
-            <TableHead>Nombre</TableHead>
-            <TableHead>Contacto</TableHead>
-            <TableHead className="hidden md:table-cell">Proyecto</TableHead>
-            <TableHead className="hidden lg:table-cell">Apto</TableHead>
-            <TableHead className="hidden lg:table-cell">Paquete</TableHead>
-            <TableHead>Anticipos</TableHead>
-            <TableHead>Estado</TableHead>
-            <TableHead className="hidden sm:table-cell">Fecha abono</TableHead>
-            <TableHead className="hidden md:table-cell">Entrega</TableHead>
-            <TableHead className="w-[60px]" />
+            <TableHead className="min-w-[160px]">Nombre</TableHead>
+            <TableHead className="min-w-[180px]">Contacto</TableHead>
+            <TableHead className="min-w-[140px]">Proyecto</TableHead>
+            <TableHead className="min-w-[100px]">Apto</TableHead>
+            <TableHead className="min-w-[130px]">Paquete</TableHead>
+            <TableHead className="min-w-[130px]">Anticipos</TableHead>
+            <TableHead className="min-w-[110px]">Estado</TableHead>
+            <TableHead className="min-w-[120px]">Fecha abono</TableHead>
+            <TableHead className="min-w-[140px]">Entrega</TableHead>
+            <TableHead className="w-[70px]" />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -192,7 +192,7 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
               </TableCell>
 
               {/* Proyecto */}
-              <TableCell className="hidden md:table-cell">
+              <TableCell>
                 {client.project ? (
                   <div className="flex flex-col">
                     <span className="font-sans text-sm">{client.project.name}</span>
@@ -206,7 +206,7 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
               </TableCell>
 
               {/* Unidad */}
-              <TableCell className="hidden lg:table-cell">
+              <TableCell>
                 {client.tower || client.apartment_number ? (
                   <div className="flex flex-col">
                     {client.tower && (
@@ -224,7 +224,7 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
               </TableCell>
 
               {/* Paquete */}
-              <TableCell className="hidden lg:table-cell">
+              <TableCell>
                 {client.package ? (
                   <div className="flex flex-col">
                     <span className="font-sans text-sm">{client.package.name}</span>
@@ -271,7 +271,7 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
               </TableCell>
 
               {/* Fecha abono */}
-              <TableCell className="hidden sm:table-cell">
+              <TableCell>
                 {client.payments && client.payments.length > 0 ? (
                   <div className="flex flex-col gap-0.5">
                     {client.payments
@@ -292,7 +292,7 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
               </TableCell>
 
               {/* Entrega */}
-              <TableCell className="hidden md:table-cell">
+              <TableCell>
                 <DeliveryBadge
                   workStartDate={client.work_start_date}
                   deliveryDays={client.package?.delivery_days ?? 45}

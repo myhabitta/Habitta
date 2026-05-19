@@ -7,13 +7,13 @@
   "nav": [
     { "label": "Inicio", "href": "/" },
     { "label": "Nosotros", "href": "/nosotros" },
-    { "label": "Proyectos", "href": "/proyectos" },
+    { "label": "Proyectos", "href": "/proyectos/more" },
     { "label": "Proceso", "href": "#proceso", "homeOnly": true },
     { "label": "Contacto", "href": "#contacto", "homeOnly": true },
     { "label": "Mi apartamento", "href": "/portal" }
   ],
   "cta": {
     "label": "Cotizar ahora",
-    "href": "#contacto"
+    "href": "https://wa.me/573122183452?text=Hola%2C%20estoy%20interesado%20en%20los%20planes%20de%20acabados%20para%20mi%20apartamento.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F"
   }
 }

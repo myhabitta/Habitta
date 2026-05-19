@@ -166,29 +166,39 @@ const { contact } = homeData;
 </section>
 
 <script>
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const success = document.getElementById('contact-success');
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const success = document.getElementById('contact-success');
 
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (form && success) {
-      form.style.display = 'none';
-      success.classList.remove('hidden');
-    }
+    // Reset form state on navigation
+    if (form) form.style.display = '';
+    if (success) success.classList.add('hidden');
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (form && success) {
+        form.style.display = 'none';
+        success.classList.remove('hidden');
+      }
+    });
+
+    // Reset reveal elements so animations replay
+    document.querySelectorAll('#contacto .reveal-el').forEach((el) => {
+      el.classList.remove('animate-fade-up');
+    });
+
+    const revObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-up');
+            revObs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll('#contacto .reveal-el').forEach((el) => revObs.observe(el));
   });
-
-  // Reveal
-  const revObs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-up');
-          revObs.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-
-  document.querySelectorAll('#contacto .reveal-el').forEach((el) => revObs.observe(el));
 </script>

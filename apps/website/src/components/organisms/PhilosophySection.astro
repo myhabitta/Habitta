@@ -68,18 +68,30 @@ const pillars = [
 </section>
 
 <script>
-  const phObs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const el = entry.target as HTMLElement;
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0) translateX(0)';
-          phObs.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-  document.querySelectorAll('.philosophy-el, .philosophy-pillar').forEach((el) => phObs.observe(el));
+  document.addEventListener('astro:page-load', () => {
+    // Reset elements so animations replay on navigation
+    document.querySelectorAll<HTMLElement>('.philosophy-el').forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = el.classList.contains('max-w-xl') ? 'translateY(40px)' : 'translateX(-24px)';
+    });
+    document.querySelectorAll<HTMLElement>('.philosophy-pillar').forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(40px)';
+    });
+
+    const phObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0) translateX(0)';
+            phObs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.philosophy-el, .philosophy-pillar').forEach((el) => phObs.observe(el));
+  });
 </script>

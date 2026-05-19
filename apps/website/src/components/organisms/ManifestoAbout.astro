@@ -50,18 +50,26 @@
 </section>
 
 <script>
-  const maObs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const el = entry.target as HTMLElement;
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0) translateX(0)';
-          maObs.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-  document.querySelectorAll('.manifesto-about-el').forEach((el) => maObs.observe(el));
+  document.addEventListener('astro:page-load', () => {
+    // Reset elements so animations replay on navigation
+    document.querySelectorAll<HTMLElement>('.manifesto-about-el').forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = el.classList.contains('font-display') ? 'translateY(48px)' : el.closest('.mt-10, .mt-14') ? 'translateY(32px)' : 'translateX(-24px)';
+    });
+
+    const maObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0) translateX(0)';
+            maObs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.manifesto-about-el').forEach((el) => maObs.observe(el));
+  });
 </script>

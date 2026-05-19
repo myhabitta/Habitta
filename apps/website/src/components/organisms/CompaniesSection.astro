@@ -20,7 +20,7 @@ const companies = [
   {
     id: 'arkava',
     name: 'Arkava',
-    logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1778725378/arkava_dgmsz5.webp',
+    logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_100/f_auto/w_300/v1778725378/arkava_dgmsz5.webp',
     url: 'https://www.arkava.com.co/',
     description:
       'Arkava es una constructora líder en proyectos residenciales de vivienda en Colombia. Desarrollamos edificios con los más altos estándares de calidad estructural y arquitectónica, creando comunidades que perduran.',
@@ -120,7 +120,10 @@ const companies = [
               <img
                 src={company.logo}
                 alt={`Logo de ${company.name}`}
-                class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-105 lg:h-14"
+                class:list={[
+                  'w-auto object-contain rounded-lg transition-transform duration-500 group-hover:scale-105 h-12 lg:h-[4.5rem]',
+                  company.id === 'arkava' ? '' : 'px-3 py-2 bg-white/90',
+                ]}
                 loading="lazy"
                 width="160"
                 height="56"
@@ -174,7 +177,7 @@ const companies = [
 </section>
 
 <script>
-  function initCompaniesSection() {
+  document.addEventListener('astro:page-load', () => {
     const tabs = document.querySelectorAll<HTMLButtonElement>('.company-tab');
     const panels = document.querySelectorAll<HTMLElement>('.company-panel');
 
@@ -183,7 +186,6 @@ const companies = [
         const target = tab.dataset.company;
         if (!target) return;
 
-        // Update tabs
         tabs.forEach((t) => {
           const isActive = t.dataset.company === target;
           t.setAttribute('aria-selected', String(isActive));
@@ -195,13 +197,11 @@ const companies = [
           t.classList.toggle('hover:text-ink', !isActive);
         });
 
-        // Update panels
         panels.forEach((panel) => {
           const isTarget = panel.dataset.panel === target;
           panel.classList.toggle('hidden', !isTarget);
           panel.classList.toggle('block', isTarget);
 
-          // Re-trigger reveal for newly visible panel elements
           if (isTarget) {
             panel.querySelectorAll<HTMLElement>('.companies-el').forEach((el) => {
               el.style.opacity = '1';
@@ -212,7 +212,12 @@ const companies = [
       });
     });
 
-    // IntersectionObserver for scroll reveal
+    // Reset elements before observing so animations replay on navigation
+    document.querySelectorAll<HTMLElement>('#s-companies .companies-el').forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+    });
+
     const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -227,11 +232,5 @@ const companies = [
     );
 
     document.querySelectorAll('#s-companies .companies-el').forEach((el) => obs.observe(el));
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCompaniesSection);
-  } else {
-    initCompaniesSection();
-  }
+  });
 </script>

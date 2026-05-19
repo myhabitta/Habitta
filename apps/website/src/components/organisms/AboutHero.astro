@@ -2,7 +2,6 @@
 // Organism: AboutHero
 // Hero heading for /nosotros — title + subtitle + alliance logos.
 
-import AllianceSection from '@/components/organisms/AllianceSection.astro';
 ---
 
 <section id="s-about-hero" class="relative overflow-hidden">
@@ -37,13 +36,18 @@ import AllianceSection from '@/components/organisms/AllianceSection.astro';
       </p>
     </div>
   </div>
-
-  <AllianceSection />
 </section>
 
 <script>
-  function initAboutHero() {
+  document.addEventListener('astro:page-load', () => {
     const headerEls = ['ah-eyebrow', 'ah-heading', 'ah-subtitle'];
+    // Reset elements so animations replay on navigation
+    headerEls.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.opacity = '0';
+      el.style.transform = el.id === 'ah-heading' ? 'translateY(48px)' : el.id === 'ah-subtitle' ? 'translateY(32px)' : 'translateY(24px)';
+    });
     setTimeout(() => {
       headerEls.forEach((id) => {
         const el = document.getElementById(id);
@@ -52,11 +56,5 @@ import AllianceSection from '@/components/organisms/AllianceSection.astro';
         el.style.transform = 'translateY(0)';
       });
     }, 250);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAboutHero);
-  } else {
-    initAboutHero();
-  }
+  });
 </script>

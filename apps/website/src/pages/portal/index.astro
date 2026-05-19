@@ -197,6 +197,7 @@ import PortalLayout from '@/layouts/PortalLayout.astro';
           return;
         }
 
+        sessionStorage.setItem('portal_auth', JSON.stringify({ email, cedula }));
         window.location.href = `/portal/${cedula}`;
       } catch {
         errorMsg.textContent = 'Error de conexión. Intenta de nuevo.';

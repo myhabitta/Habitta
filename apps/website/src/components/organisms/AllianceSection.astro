@@ -56,17 +56,25 @@ const allies = [
 </section>
 
 <script>
-  const aObs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          (entry.target as HTMLElement).style.opacity = '1';
-          (entry.target as HTMLElement).style.transform = 'translateY(0) scale(1)';
-          aObs.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.2 }
-  );
-  document.querySelectorAll('.alliance-el').forEach((el) => aObs.observe(el));
+  document.addEventListener('astro:page-load', () => {
+    // Reset elements so animations replay on navigation
+    document.querySelectorAll<HTMLElement>('.alliance-el').forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px) scale(0.95)';
+    });
+
+    const aObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).style.opacity = '1';
+            (entry.target as HTMLElement).style.transform = 'translateY(0) scale(1)';
+            aObs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    document.querySelectorAll('.alliance-el').forEach((el) => aObs.observe(el));
+  });
 </script>

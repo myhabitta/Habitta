@@ -1,0 +1,489 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import homeData from '@/data/home.json';
+
+const project = {
+  name: 'More',
+  location: 'Bello, Antioquia',
+  description:
+    'Un proyecto residencial que redefine el concepto de hogar en Bello. Arquitectura moderna, acabados de primera y una ubicación privilegiada para tu familia.',
+  image:
+    'https://res.cloudinary.com/dcpkaidzl/image/upload/v1779221542/IMG_1509_ekrwbp.webp',
+  coordinates: '6°20′N · 75°33′W',
+};
+
+const { packages } = homeData;
+
+const seo = {
+  title: `${project.name} — ${project.location} | Proyectos Habitta`,
+  description: project.description,
+  canonical: 'https://habitta.co/proyectos/more',
+  robots: 'index, follow',
+  og: {
+    title: `${project.name} — Proyecto Habitta en ${project.location}`,
+    description: project.description,
+    image: project.image,
+    type: 'website',
+    locale: 'es_CO',
+    siteName: 'Habitta',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${project.name} — Habitta`,
+    description: project.description,
+    image: project.image,
+  },
+  jsonLd: {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: `${project.name} — Habitta`,
+    description: project.description,
+    image: project.image,
+    url: 'https://habitta.co/proyectos/more',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Bello',
+      addressRegion: 'Antioquia',
+      addressCountry: 'CO',
+    },
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'COP',
+      lowPrice: '189000000',
+      highPrice: '580000000',
+    },
+  },
+};
+
+const banks = [
+  { name: 'Bancolombia', logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/v1779221057/bancolombia_logo.svg' },
+  { name: 'Davivienda', logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/v1779221057/davivienda_logo.svg' },
+  { name: 'BBVA', logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/v1779221057/bbva_logo.svg' },
+  { name: 'Banco de Bogotá', logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/v1779221057/banco_bogota_logo.svg' },
+  { name: 'Banco de Occidente', logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/v1779221057/banco_occidente_logo.svg' },
+];
+
+const processSteps = [
+  {
+    number: '01',
+    title: 'Elige tu plan',
+    description: 'Explora nuestros tres niveles de acabados — Esencial, Estándar o Premium — y elige el que se adapte a tu estilo.',
+  },
+  {
+    number: '02',
+    title: 'Cotización personalizada',
+    description: 'Recibe una propuesta detallada con materiales, tiempos y costos ajustados a tu apartamento.',
+  },
+  {
+    number: '03',
+    title: 'Firma del contrato',
+    description: 'Formalizamos el acuerdo con un plan de pagos flexible y condiciones claras.',
+  },
+  {
+    number: '04',
+    title: 'Ejecución de acabados',
+    description: 'Nuestro equipo transforma tu apartamento con los acabados elegidos. Seguimiento en tiempo real desde tu portal.',
+  },
+  {
+    number: '05',
+    title: 'Entrega de tu hogar',
+    description: 'Recibe tu apartamento terminado a tu medida, listo para estrenar.',
+  },
+];
+---
+
+<Layout seo={seo}>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SECTION 1 — HERO
+       ═══════════════════════════════════════════════════════════════════ -->
+  <section class="relative min-h-screen overflow-hidden bg-surface">
+    <!-- Background image with overlay -->
+    <div class="absolute inset-0">
+      <img
+        src={project.image}
+        alt={`Proyecto ${project.name} en ${project.location}`}
+        class="h-full w-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/80 to-surface/40"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-surface/70 to-transparent"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative flex min-h-screen flex-col justify-end px-6 pb-16 pt-32 md:px-12 lg:px-24 lg:pb-24">
+      <!-- Eyebrow -->
+      <div class="reveal-el mb-6 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand">
+        <span class="block h-px w-8 bg-brand"></span>
+        Proyecto residencial
+      </div>
+
+      <!-- Project name -->
+      <h1
+        class="reveal-el font-display text-[clamp(3.5rem,10vw,9rem)] font-thin leading-[0.9] text-ink"
+        style="transition-delay: 0.12s;"
+      >
+        {project.name}
+      </h1>
+
+      <!-- Location -->
+      <p
+        class="reveal-el mt-4 text-sm tracking-[0.06em] text-ink-muted md:text-base"
+        style="transition-delay: 0.24s;"
+      >
+        {project.location}
+      </p>
+
+      <!-- Description -->
+      <p
+        class="reveal-el mt-6 max-w-lg text-sm font-light leading-relaxed text-ink-muted md:text-base"
+        style="transition-delay: 0.36s;"
+      >
+        {project.description}
+      </p>
+
+      <!-- CTA -->
+      <div class="reveal-el mt-10 flex flex-col gap-4 sm:flex-row" style="transition-delay: 0.48s;">
+        <a
+          href="#paquetes"
+          class="inline-flex items-center justify-center gap-2 border border-brand bg-brand px-8 py-3.5 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-300 hover:bg-brand-dark"
+        >
+          Ver paquetes
+        </a>
+        <a
+          href="#proceso"
+          class="inline-flex items-center justify-center gap-2 border border-ink-faint px-8 py-3.5 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-ink transition-all duration-300 hover:border-brand hover:text-brand"
+        >
+          Cómo comprar
+        </a>
+      </div>
+
+      <!-- Coordinates (bottom-right decorative) -->
+      <div class="absolute bottom-8 right-6 hidden text-[0.6rem] tracking-[0.1em] text-ink-subtle lg:block lg:right-24">
+        {project.coordinates}
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 lg:hidden">
+        <div class="h-8 w-px overflow-hidden bg-ink-faint">
+          <div class="h-full w-full animate-scroll-line bg-brand"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SECTION 2 — PAQUETES DE ACABADOS
+       ═══════════════════════════════════════════════════════════════════ -->
+  <section id="paquetes" class="overflow-hidden bg-surface px-6 py-20 md:px-12 lg:px-24 lg:py-32">
+    <!-- Header -->
+    <div class="mb-12 lg:mb-20">
+      <div class="reveal-el mb-4 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand">
+        <span class="block h-px w-8 bg-brand"></span>
+        Elige cómo quieres vivir
+      </div>
+      <h2
+        class="reveal-el font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05] text-ink"
+        style="max-width: 540px; transition-delay: 0.12s;"
+      >
+        Tres niveles de<br />
+        <em class="italic text-sand">acabado. Un mismo sueño.</em>
+      </h2>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 gap-0 border-t border-border md:grid-cols-3">
+      {
+        packages.items.map((pkg, i) => (
+          <article
+            class:list={[
+              'pkg-reveal flex flex-col border-b border-border p-6 opacity-0 translate-y-16 transition-all duration-[0.9s] hover:bg-brand/[0.03] lg:p-10',
+              i < packages.items.length - 1 ? 'md:border-b-0 md:border-r md:border-r-border' : 'md:border-b-0',
+              pkg.featured ? 'border-t-2 border-t-brand bg-brand/[0.04] -mt-px' : '',
+            ]}
+            style={`transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); transition-delay: ${i * 0.14}s;`}
+          >
+            {/* Badge */}
+            {pkg.badge && (
+              <span class="mb-3 inline-block bg-brand px-3 py-1 text-[0.52rem] font-bold uppercase tracking-[0.16em] text-white">
+                {pkg.badge}
+              </span>
+            )}
+
+            {/* Name */}
+            <h3 class="mb-1 font-display text-[2rem] font-normal text-ink">{pkg.name}</h3>
+
+            {/* Description */}
+            <p class="mb-6 text-xs leading-relaxed text-ink-muted lg:mb-8 lg:text-sm">{pkg.description}</p>
+
+            {/* Feature List */}
+            <ul class="mb-8 list-none lg:mb-10" role="list" aria-label={`Características del paquete ${pkg.name}`}>
+              {pkg.features.map((feat) => (
+                <li class="flex items-center gap-3 border-b border-border py-3 text-sm text-ink-muted">
+                  <span class="h-1 w-1 shrink-0 rounded-full bg-brand" aria-hidden="true" />
+                  {feat}
+                </li>
+              ))}
+            </ul>
+
+            {/* Price */}
+            <div class="mt-auto">
+              <span class="mb-1 block font-display text-[2.5rem] font-thin text-ink">{pkg.price}</span>
+              <span class="mb-5 block text-[0.62rem] tracking-[0.08em] text-ink-subtle lg:mb-6">
+                {pkg.note}
+              </span>
+
+              {/* CTA */}
+              <a
+                href="https://wa.me/573122183452?text=Hola%2C%20estoy%20interesado%20en%20los%20planes%20de%20acabados%20para%20mi%20apartamento.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer"
+                class:list={[
+                  'block w-full border py-3 text-center font-sans text-[0.66rem] font-bold uppercase tracking-[0.14em] transition-all duration-300',
+                  pkg.featured
+                    ? 'border-brand bg-brand text-white hover:bg-brand-dark'
+                    : 'border-ink-faint text-ink hover:border-brand hover:bg-brand hover:text-white',
+                ]}
+              >
+                Solicitar información
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SECTION 3 — ALIANZAS FINANCIERAS
+       ═══════════════════════════════════════════════════════════════════ -->
+  <section class="overflow-hidden bg-surface px-6 py-20 md:px-12 lg:px-24 lg:py-28">
+    <!-- Header -->
+    <div class="mb-12 text-center lg:mb-16">
+      <div class="reveal-el mb-4 flex items-center justify-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand">
+        <span class="block h-px w-8 bg-brand"></span>
+        Alianzas financieras
+        <span class="block h-px w-8 bg-brand"></span>
+      </div>
+      <h2
+        class="reveal-el mx-auto max-w-md font-display text-[clamp(1.5rem,3vw,2.4rem)] font-normal leading-[1.1] text-ink"
+        style="transition-delay: 0.12s;"
+      >
+        Respaldados por las entidades<br />
+        <em class="italic text-sand">más sólidas del país.</em>
+      </h2>
+    </div>
+
+    <!-- Bank logos strip -->
+    <div class="reveal-el mx-auto max-w-4xl" style="transition-delay: 0.24s;">
+      <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
+        {
+          banks.map((bank, i) => (
+            <div
+              class="bank-reveal flex h-16 w-32 items-center justify-center opacity-0 transition-all duration-700 md:h-20 md:w-40"
+              style={`transition-delay: ${0.1 + i * 0.1}s;`}
+            >
+              <span class="text-center font-display text-sm font-normal tracking-[0.04em] text-ink-muted transition-colors duration-300 hover:text-ink md:text-base">
+                {bank.name}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Decorative line -->
+    <div class="mx-auto mt-12 h-px w-24 bg-border lg:mt-16"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       SECTION 4 — PROCESO DE COMPRA
+       ═══════════════════════════════════════════════════════════════════ -->
+  <section id="proceso" class="overflow-hidden bg-surface px-6 py-20 md:px-12 lg:px-24 lg:py-32">
+    <!-- Header -->
+    <div class="mb-16 lg:mb-24">
+      <div class="reveal-el mb-4 flex items-center gap-3 text-[0.62rem] uppercase tracking-[0.22em] text-brand">
+        <span class="block h-px w-8 bg-brand"></span>
+        Cómo funciona
+      </div>
+      <h2
+        class="reveal-el font-display text-[clamp(2rem,4vw,3.8rem)] font-normal leading-[1.05] text-ink"
+        style="max-width: 480px; transition-delay: 0.12s;"
+      >
+        De la idea a tu hogar<br />
+        <em class="italic text-sand">en cinco pasos.</em>
+      </h2>
+    </div>
+
+    <!-- Timeline — horizontal on desktop, vertical on mobile -->
+    <div class="relative">
+      <!-- Horizontal connecting line (desktop only) -->
+      <div class="absolute left-0 right-0 top-6 hidden h-px bg-border md:block" aria-hidden="true">
+        <div class="timeline-line h-full w-0 bg-brand transition-all duration-[2s] ease-out"></div>
+      </div>
+
+      <!-- Vertical connecting line (mobile only) -->
+      <div class="absolute bottom-0 left-6 top-0 w-px bg-border md:hidden" aria-hidden="true"></div>
+
+      <div class="grid grid-cols-1 gap-0 md:grid-cols-5">
+        {
+          processSteps.map((step, i) => (
+            <div
+              class="step-reveal relative flex gap-6 pb-12 opacity-0 translate-y-8 transition-all duration-700 md:flex-col md:gap-0 md:pb-0 md:pr-6"
+              style={`transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); transition-delay: ${i * 0.12}s;`}
+            >
+              {/* Step dot */}
+              <div class="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-surface transition-colors duration-500 md:mb-8">
+                <span class="font-display text-sm font-normal text-brand">{step.number}</span>
+              </div>
+
+              {/* Content */}
+              <div class="flex flex-col md:pl-0">
+                <h3 class="mb-2 font-display text-lg font-normal text-ink md:text-xl">
+                  {step.title}
+                </h3>
+                <p class="max-w-[220px] text-xs leading-relaxed text-ink-muted md:text-sm">
+                  {step.description}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="reveal-el mt-16 flex justify-center lg:mt-24" style="transition-delay: 0.6s;">
+      <a
+        href="https://wa.me/573122183452?text=Hola%2C%20estoy%20interesado%20en%20los%20planes%20de%20acabados%20para%20mi%20apartamento.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 border border-brand bg-brand px-10 py-4 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-white transition-all duration-300 hover:bg-brand-dark"
+      >
+        Cotizar mi plan
+      </a>
+    </div>
+  </section>
+
+</Layout>
+
+<script>
+  function initProyectos() {
+    // ── Reveal observer for .reveal-el ──────────────────────────────
+    const revealObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+            revealObs.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll('.reveal-el').forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      htmlEl.style.opacity = '0';
+      htmlEl.style.transform = 'translateY(36px)';
+      htmlEl.style.transition = 'opacity 0.9s ease, transform 0.9s ease';
+      revealObs.observe(el);
+    });
+
+    // ── Package cards reveal ────────────────────────────────────────
+    const pkgObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.remove('opacity-0', 'translate-y-16');
+            pkgObs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    document.querySelectorAll('.pkg-reveal').forEach((el) => {
+      el.classList.add('opacity-0', 'translate-y-16');
+      el.classList.remove('opacity-100', 'translate-y-0');
+      pkgObs.observe(el);
+    });
+
+    // ── Bank logos reveal ───────────────────────────────────────────
+    const bankObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).style.opacity = '1';
+            bankObs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll('.bank-reveal').forEach((el) => {
+      (el as HTMLElement).style.opacity = '0';
+      bankObs.observe(el);
+    });
+
+    // ── Process steps reveal ────────────────────────────────────────
+    const stepObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.remove('opacity-0', 'translate-y-8');
+            stepObs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    document.querySelectorAll('.step-reveal').forEach((el) => {
+      el.classList.add('opacity-0', 'translate-y-8');
+      el.classList.remove('opacity-100', 'translate-y-0');
+      stepObs.observe(el);
+    });
+
+    // ── Timeline line animation ─────────────────────────────────────
+    const lineObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const line = entry.target as HTMLElement;
+            line.style.width = '100%';
+            lineObs.unobserve(line);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    const timelineLine = document.querySelector('.timeline-line');
+    if (timelineLine) {
+      (timelineLine as HTMLElement).style.width = '0';
+      lineObs.observe(timelineLine);
+    }
+
+    // ── Smooth scroll for anchor links ──────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
+        const href = (anchor as HTMLAnchorElement).getAttribute('href');
+        if (!href) return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          window.scrollTo({
+            top: target.getBoundingClientRect().top + window.scrollY - 80,
+            behavior: 'smooth',
+          });
+        }
+      });
+    });
+  }
+
+  // Run on initial load and on View Transition navigation
+  document.addEventListener('astro:page-load', initProyectos);
+</script>

@@ -1,16 +1,8 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-
+// Redirect old slug routes to /proyectos/more
 export async function getStaticPaths() {
-  // TODO: Obtener proyectos desde @habitta/database
-  return [];
+  return [{ params: { slug: 'bello-antioquia' } }];
 }
 
-const { slug } = Astro.params;
+return Astro.redirect('/proyectos/more');
 ---
-
-<Layout seo={{ title: slug ?? 'Proyecto', description: `Conoce el proyecto ${slug} de Habitta` }}>
-  <main>
-    <h1>{slug}</h1>
-  </main>
-</Layout>

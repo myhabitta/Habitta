@@ -306,35 +306,28 @@
       {
         "title": "Proyectos",
         "links": [
-          { "label": "Reserva Ávila", "href": "#" },
-          { "label": "Torres Serena", "href": "#" },
-          { "label": "Parque Oasis", "href": "#" },
-          { "label": "Villa del Río", "href": "#" },
-          { "label": "Residencias Norte", "href": "#" }
+          { "label": "More — Bello", "href": "/proyectos/more" }
         ]
       },
       {
         "title": "Empresa",
         "links": [
-          { "label": "Quiénes somos", "href": "#" },
-          { "label": "Prensa", "href": "#" },
-          { "label": "Trabaja con nosotros", "href": "#" },
-          { "label": "Blog editorial", "href": "#" }
+          { "label": "Quiénes somos", "href": "/nosotros" },
+          { "label": "Mi apartamento", "href": "/portal" }
         ]
       },
       {
         "title": "Contacto",
         "links": [
-          { "label": "Medellín: +57 604 234 5678", "href": "tel:+576042345678" },
           { "label": "info@habitta.co", "href": "mailto:info@habitta.co" },
-          { "label": "Agendar visita", "href": "#contacto" }
+          { "label": "WhatsApp", "href": "https://wa.me/573122183452" }
         ]
       }
     ],
     "social": [
       { "name": "Instagram", "href": "https://instagram.com/habitta" },
       { "name": "LinkedIn", "href": "https://linkedin.com/company/habitta" },
-      { "name": "WhatsApp", "href": "https://wa.me/573000000000" }
+      { "name": "WhatsApp", "href": "https://wa.me/573122183452" }
     ],
     "copyright": "2026 Habitta SAS · Todos los derechos reservados",
     "bottomTagline": "Medellín · Colombia"

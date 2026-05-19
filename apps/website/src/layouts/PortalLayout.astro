@@ -6,6 +6,8 @@ interface Props {
   phaseBg?: string;
 }
 
+import { ViewTransitions } from 'astro:transitions';
+
 const {
   title,
   description = 'Sigue el avance de tu apartamento',
@@ -19,6 +21,7 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <ViewTransitions />
     <title>{title} | Habitta</title>
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, nofollow" />
@@ -138,11 +141,46 @@ const {
       }
       @keyframes confettiDrop {
         0% {
-          transform: translateY(-20px) rotate(0deg);
+          transform: translateY(-20px) rotate(0deg) scale(1);
+          opacity: 1;
+        }
+        50% {
           opacity: 1;
         }
         100% {
-          transform: translateY(100vh) rotate(720deg);
+          transform: translateY(100vh) rotate(720deg) scale(0.5);
+          opacity: 0;
+        }
+      }
+      @keyframes fireworkBurst {
+        0% {
+          transform: translate(0, 0) scale(0);
+          opacity: 0;
+        }
+        15% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1.3);
+        }
+        40% {
+          opacity: 1;
+          transform: translate(calc(var(--fw-x) * 0.6), calc(var(--fw-y) * 0.6)) scale(1);
+        }
+        100% {
+          transform: translate(var(--fw-x), var(--fw-y)) scale(0);
+          opacity: 0;
+        }
+      }
+      @keyframes fireworkFlash {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        30% {
+          transform: scale(2.5);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(4);
           opacity: 0;
         }
       }

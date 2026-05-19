@@ -1,9 +1,4 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+// Redirect /proyectos to /proyectos/more (only project for now)
+return Astro.redirect('/proyectos/more');
 ---
-
-<Layout seo={{ title: "Proyectos", description: "Conoce todos nuestros proyectos de vivienda en Colombia" }}>
-  <main>
-    <h1>Proyectos</h1>
-  </main>
-</Layout>

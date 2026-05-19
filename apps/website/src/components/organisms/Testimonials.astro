@@ -57,20 +57,32 @@ const { testimonials } = homeData;
 </section>
 
 <script>
-  const tObs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          entry.target.classList.remove('opacity-0', 'translate-y-8', 'translate-y-3');
-          tObs.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.2 }
-  );
+  document.addEventListener('astro:page-load', () => {
+    // Reset elements so animations replay on navigation
+    document.querySelectorAll('.testimonial-quote').forEach((el) => {
+      el.classList.add('opacity-0', 'translate-y-8');
+      el.classList.remove('opacity-100', 'translate-y-0');
+    });
+    document.querySelectorAll('.testimonial-author').forEach((el) => {
+      el.classList.add('opacity-0', 'translate-y-3');
+      el.classList.remove('opacity-100', 'translate-y-0');
+    });
 
-  document.querySelectorAll('.testimonial-quote, .testimonial-author').forEach((el) =>
-    tObs.observe(el)
-  );
+    const tObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.remove('opacity-0', 'translate-y-8', 'translate-y-3');
+            tObs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll('.testimonial-quote, .testimonial-author').forEach((el) =>
+      tObs.observe(el)
+    );
+  });
 </script>

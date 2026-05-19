@@ -180,23 +180,96 @@ const formatDate = (dateStr: string | null): string => {
       </div>
     </div>
 
-    <!-- CONFETTI for Terminado -->
+    <!-- CONFETTI + FIREWORKS for Terminado -->
     {isTerminado && (
       <div class="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
-        {Array.from({ length: 30 }).map((_, i) => (
+        {/* Confetti pieces */}
+        {Array.from({ length: 45 }).map((_, i) => (
           <div
             style={`
               position: absolute;
-              left: ${3 + (i * 3.3) % 94}%;
-              top: -10px;
-              width: ${6 + (i % 5) * 2}px;
-              height: ${6 + (i % 5) * 2}px;
-              border-radius: ${i % 3 === 0 ? '50%' : i % 3 === 1 ? '2px' : '0'};
-              background: ${['#b08d57', '#d4af37', '#c9a84c', '#8a6d3b', '#e6c876', '#a07840'][i % 6]};
-              animation: confettiDrop ${2 + (i % 8) * 0.4}s ease-in ${(i % 12) * 0.12}s both;
+              left: ${2 + (i * 2.2) % 96}%;
+              top: -12px;
+              width: ${5 + (i % 6) * 2}px;
+              height: ${5 + (i % 6) * 2}px;
+              border-radius: ${i % 4 === 0 ? '50%' : i % 4 === 1 ? '2px' : i % 4 === 2 ? '0' : '50% 0'};
+              background: ${['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#F7DC6F', '#BB8FCE', '#FF8C42', '#5DADE2', '#58D68D', '#F1948A'][i % 10]};
+              animation: confettiDrop ${2.2 + (i % 10) * 0.35}s ease-in ${(i % 15) * 0.1}s both;
             `}
           ></div>
         ))}
+        {/* Firework bursts — 8 explosions, 16 particles each, large radius */}
+        {Array.from({ length: 8 }).map((_, b) => {
+          const positions = [
+            { x: 12, y: 15 }, { x: 50, y: 10 }, { x: 85, y: 18 },
+            { x: 30, y: 35 }, { x: 70, y: 30 }, { x: 20, y: 55 },
+            { x: 55, y: 50 }, { x: 80, y: 45 },
+          ];
+          const colors = ['#FFD700', '#FF4757', '#2ED573', '#1E90FF', '#FF6348', '#A55EEA', '#FFA502', '#FF6B81'];
+          const radius = 60 + (b % 3) * 20;
+          const particleCount = 16;
+          const delay = 0.3 + b * 0.5;
+          return (
+            <div
+              style={`position: absolute; left: ${positions[b].x}%; top: ${positions[b].y}%;`}
+            >
+              {/* Central flash */}
+              <div
+                style={`
+                  position: absolute;
+                  width: 20px;
+                  height: 20px;
+                  border-radius: 50%;
+                  background: ${colors[b]};
+                  left: -10px;
+                  top: -10px;
+                  animation: fireworkFlash 0.6s ease-out ${delay}s both;
+                  box-shadow: 0 0 20px 8px ${colors[b]}80;
+                `}
+              ></div>
+              {/* Particles */}
+              {Array.from({ length: particleCount }).map((_, s) => {
+                const angle = (s / particleCount) * Math.PI * 2;
+                const r = radius + (s % 3) * 12;
+                return (
+                  <div
+                    style={`
+                      position: absolute;
+                      width: ${6 + (s % 3) * 2}px;
+                      height: ${6 + (s % 3) * 2}px;
+                      border-radius: 50%;
+                      background: ${colors[(b + s) % 8]};
+                      box-shadow: 0 0 6px 2px ${colors[(b + s) % 8]}90;
+                      animation: fireworkBurst 1.4s ease-out ${delay}s both;
+                      --fw-x: ${Math.cos(angle) * r}px;
+                      --fw-y: ${Math.sin(angle) * r}px;
+                    `}
+                  ></div>
+                );
+              })}
+              {/* Trail sparks — smaller, faster, shorter distance */}
+              {Array.from({ length: 8 }).map((_, t) => {
+                const angle = (t / 8) * Math.PI * 2 + 0.4;
+                const r2 = radius * 0.5;
+                return (
+                  <div
+                    style={`
+                      position: absolute;
+                      width: 3px;
+                      height: 3px;
+                      border-radius: 50%;
+                      background: white;
+                      box-shadow: 0 0 4px 1px ${colors[b]}60;
+                      animation: fireworkBurst 0.8s ease-out ${delay + 0.1}s both;
+                      --fw-x: ${Math.cos(angle) * r2}px;
+                      --fw-y: ${Math.sin(angle) * r2}px;
+                    `}
+                  ></div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
     )}
 
@@ -368,6 +441,7 @@ const formatDate = (dateStr: string | null): string => {
     <!-- CERRAR SESION -->
     <div class="animate-fade-up-delay-3 pt-3">
       <a
+        id="logout-btn"
         href="/portal"
         class="group flex w-full items-center justify-center gap-2.5 rounded-2xl px-5 py-3.5 font-sans text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.98]"
         style="background: #334155; box-shadow: 0 4px 12px rgba(51,65,85,0.2);"
@@ -382,6 +456,26 @@ const formatDate = (dateStr: string | null): string => {
 </PortalLayout>
 
 <script>
+  // Logout clears session
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('portal_auth');
+    });
+  }
+
+  // Session auth check — redirect to login if no session
+  const auth = sessionStorage.getItem('portal_auth');
+  if (!auth) {
+    window.location.href = '/portal';
+  } else {
+    const parsed = JSON.parse(auth);
+    const currentCedula = window.location.pathname.split('/').pop();
+    if (parsed.cedula !== currentCedula) {
+      window.location.href = '/portal';
+    }
+  }
+
   // Rotate phase emojis every 2.5s
   const box = document.getElementById('phase-emoji-box');
   if (box) {

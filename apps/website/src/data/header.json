@@ -9,7 +9,8 @@
     { "label": "Nosotros", "href": "/nosotros" },
     { "label": "Paquetes", "href": "#paquetes" },
     { "label": "Proceso", "href": "#proceso" },
-    { "label": "Contacto", "href": "#contacto" }
+    { "label": "Contacto", "href": "#contacto" },
+    { "label": "Mi apartamento", "href": "/portal" }
   ],
   "cta": {
     "label": "Cotizar ahora",

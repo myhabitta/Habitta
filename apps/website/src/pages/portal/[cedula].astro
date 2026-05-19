@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 import { PHASE_LABELS, PHASE_SHORT_LABELS, PHASE_COLORS } from '@habitta/types';
 import type { ConstructionPhase } from '@habitta/types';
 
-const url = import.meta.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const url = import.meta.env.PUBLIC_SUPABASE_URL || process.env.PUBLIC_SUPABASE_URL;
 const key = import.meta.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
 

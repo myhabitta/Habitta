@@ -210,6 +210,15 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
         </p>
       </div>
 
+      {/* Cédula */}
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="cedula">Cédula del cliente *</Label>
+        <Input id="cedula" name="cedula" type="text" required placeholder="Ej: 1234567890" />
+        <p className="font-sans text-xs text-muted-foreground">
+          Se usará para que el cliente acceda a su portal de seguimiento.
+        </p>
+      </div>
+
       {/* Ubicación de la unidad */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">

@@ -161,6 +161,8 @@ export const convertLeadToClient = async (
       tower: input.tower,
       apartment_number: input.apartment_number,
       work_start_date: input.work_start_date ?? null,
+      portal_slug: input.portal_slug,
+      ...(input.cedula ? { cedula: input.cedula } : {}),
       lead_id: leadId,
       status: 'pendiente',
     } as never)

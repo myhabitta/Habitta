@@ -14,8 +14,10 @@ export type {
   ClientWithRelations,
   ClientStats,
   ClientStatus,
+  ConstructionPhase,
   UpdateClientInput,
 } from './client';
+export { PHASE_LABELS, PHASE_SHORT_LABELS, PHASE_COLORS } from './client';
 export type { ClientPayment, CreateClientPaymentInput } from './payment';
 export type { Database, Tables, TablesInsert, TablesUpdate, Json } from './supabase';
 export type { Profile, UserRole } from './profile';

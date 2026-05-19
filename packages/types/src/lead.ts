@@ -47,4 +47,6 @@ export type ConvertLeadInput = {
   work_start_date?: string | null;
   tower: string;
   apartment_number: string;
+  portal_slug: string;
+  cedula?: string;
 };

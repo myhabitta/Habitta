@@ -1,6 +1,6 @@
-import type { Client, ClientStats, ClientWithRelations, UpdateClientInput } from '@habitta/types';
+import type { Client, ClientStats, ClientWithRelations, UpdateClientInput, ConstructionPhase } from '@habitta/types';
 
-import { createServerClient } from '../client';
+import { createServerClient, createAdminClient } from '../client';
 
 type ClientFilters = {
   project_id?: string;
@@ -105,4 +105,89 @@ export const getClientStats = async (): Promise<ClientStats> => {
   const thisMonth = rows.filter((r) => (r.created_at ?? '') >= firstDayOfMonth).length;
 
   return { total, totalRevenue, averageTicket, thisMonth };
+};
+
+export const checkSlugExists = async (slug: string): Promise<boolean> => {
+  const supabase = createAdminClient();
+  const { data } = await (supabase as unknown as ReturnType<typeof createServerClient>)
+    .from('clients')
+    .select('id')
+    .eq('portal_slug', slug)
+    .maybeSingle();
+  return !!data;
+};
+
+export const getClientByCedula = async (cedula: string, email: string): Promise<ClientWithRelations | null> => {
+  const supabase = createAdminClient();
+
+  const { data, error } = await (supabase as unknown as ReturnType<typeof createServerClient>)
+    .from('clients')
+    .select(
+      '*, project:projects(id, name, city), package:packages(id, name, price, delivery_days), lead:leads(id, short_id, notes), payments:client_payments(id, amount, paid_at, notes, created_at)'
+    )
+    .eq('cedula', cedula)
+    .eq('email', email)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null;
+    throw new Error(`getClientByCedula: ${error.message}`);
+  }
+
+  return data as ClientWithRelations;
+};
+
+export const getClientByCedulaOnly = async (cedula: string): Promise<ClientWithRelations | null> => {
+  const supabase = createAdminClient();
+
+  const { data, error } = await (supabase as unknown as ReturnType<typeof createServerClient>)
+    .from('clients')
+    .select(
+      '*, project:projects(id, name, city), package:packages(id, name, price, delivery_days), lead:leads(id, short_id, notes), payments:client_payments(id, amount, paid_at, notes, created_at)'
+    )
+    .eq('cedula', cedula)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null;
+    throw new Error(`getClientByCedulaOnly: ${error.message}`);
+  }
+
+  return data as ClientWithRelations;
+};
+
+export const getClientBySlug = async (slug: string): Promise<ClientWithRelations | null> => {
+  const supabase = createAdminClient();
+
+  const { data, error } = await (supabase as unknown as ReturnType<typeof createServerClient>)
+    .from('clients')
+    .select(
+      '*, project:projects(id, name, city), package:packages(id, name, price, delivery_days), lead:leads(id, short_id, notes), payments:client_payments(id, amount, paid_at, notes, created_at)'
+    )
+    .eq('portal_slug', slug)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null;
+    throw new Error(`getClientBySlug: ${error.message}`);
+  }
+
+  return data as ClientWithRelations;
+};
+
+export const updateClientPhase = async (
+  clientId: string,
+  phase: ConstructionPhase
+): Promise<Client> => {
+  const supabase = createAdminClient();
+
+  const { data, error } = await (supabase as unknown as ReturnType<typeof createServerClient>)
+    .from('clients')
+    .update({ construction_phase: phase, notified_at: new Date().toISOString() } as never)
+    .eq('id', clientId)
+    .select()
+    .single();
+
+  if (error) throw new Error(`updateClientPhase: ${error.message}`);
+  return data as Client;
 };

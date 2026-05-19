@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Phone, Calendar, Building2, Package as PackageIcon, Users } from 'lucide-react';
+import { Mail, Phone, Calendar, Building2, Package as PackageIcon, Users, CreditCard } from 'lucide-react';
 import type { ElementType } from 'react';
 import { getClientByShortId } from '@habitta/database';
 import { calculateDelivery } from '@habitta/utils';
@@ -9,9 +9,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import ClientNotesEditor from '@/components/clients/ClientNotesEditor';
-import ClientStatusSelector from '@/components/clients/ClientStatusSelector';
 import ClientWorkStartDatePicker from '@/components/clients/ClientWorkStartDatePicker';
 import ClientPaymentsSection from '@/components/clients/ClientPaymentsSection';
+import ConstructionPhaseStepper from '@/components/clients/ConstructionPhaseStepper';
+import ClientEditModal from '@/components/clients/ClientEditModal';
 import DeleteClientButton from '@/components/clients/DeleteClientButton';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -104,7 +105,7 @@ export default async function ClientDetailPage({
           <Card className="overflow-hidden">
             <div className="h-1 w-full" style={{ backgroundColor: 'var(--success)' }} />
             <CardContent className="p-6">
-              {/* Avatar + nombre + badge */}
+              {/* Avatar + nombre + badge + editar */}
               <div className="mb-6 flex items-start gap-4">
                 <div
                   className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl font-sans text-xl font-bold text-white shadow-sm"
@@ -113,16 +114,33 @@ export default async function ClientDetailPage({
                 >
                   {getInitials(client.first_name, client.last_name)}
                 </div>
-                <div>
-                  <h1 className="font-display text-2xl font-semibold">
-                    {client.first_name} {client.last_name}
-                  </h1>
-                  <span
-                    className="mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-xs font-semibold"
-                    style={{ backgroundColor: 'var(--success-tint)', color: 'var(--success)' }}
-                  >
-                    Cliente
-                  </span>
+                <div className="flex-1">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h2 className="font-display text-xl font-semibold">
+                        {client.first_name} {client.last_name}
+                      </h2>
+                      <span
+                        className="mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-xs font-semibold"
+                        style={{ backgroundColor: 'var(--success-tint)', color: 'var(--success)' }}
+                      >
+                        Cliente
+                      </span>
+                    </div>
+                    <ClientEditModal
+                      clientId={client.id}
+                      clientShortId={client.short_id}
+                      initialData={{
+                        first_name: client.first_name,
+                        last_name: client.last_name,
+                        email: client.email,
+                        phone: client.phone,
+                        cedula: client.cedula ?? null,
+                        tower: client.tower ?? null,
+                        apartment_number: client.apartment_number ?? null,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -130,6 +148,9 @@ export default async function ClientDetailPage({
               <div className="flex flex-col gap-4">
                 <InfoRow icon={Mail} label="Email" value={client.email} />
                 <InfoRow icon={Phone} label="Teléfono" value={client.phone} />
+                <InfoRow icon={CreditCard} label="Cédula" value={client.cedula} />
+                <InfoRow icon={Building2} label="Torre" value={client.tower} />
+                <InfoRow icon={Building2} label="Apartamento" value={client.apartment_number} />
                 <InfoRow
                   icon={Calendar}
                   label="Fecha de conversión"
@@ -224,14 +245,18 @@ export default async function ClientDetailPage({
 
         {/* ── Columna derecha (1/3) ────────────────────────────────────────── */}
         <div className="flex flex-col gap-6">
-          {/* Card: Estado del proceso */}
+          {/* Card: Estado de construcción */}
           <Card>
             <CardContent className="p-6">
-              <h2 className="mb-4 font-display text-lg font-semibold">Estado del proceso</h2>
-              <ClientStatusSelector
+              <h2 className="mb-1 font-display text-lg font-semibold">Estado del proceso</h2>
+              <p className="mb-4 font-sans text-xs text-muted-foreground">
+                Selecciona la fase y se notificará al cliente por correo.
+              </p>
+              <ConstructionPhaseStepper
                 clientId={client.id}
                 clientShortId={client.short_id}
-                currentStatus={client.status}
+                currentPhase={client.construction_phase}
+                clientName={client.first_name}
               />
             </CardContent>
           </Card>

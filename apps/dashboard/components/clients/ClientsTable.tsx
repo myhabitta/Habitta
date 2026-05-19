@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { Pencil, Trash2 } from 'lucide-react';
-import type { ClientWithRelations, ClientStatus } from '@habitta/types';
+import type { ClientWithRelations, ClientStatus, ConstructionPhase } from '@habitta/types';
+import { PHASE_SHORT_LABELS, PHASE_COLORS } from '@habitta/types';
 import { formatPrice, calculateDelivery } from '@habitta/utils';
 import type { DeliveryStatus } from '@habitta/utils';
 import {
@@ -52,6 +53,20 @@ const ClientStatusBadge = ({ status }: { status: ClientStatus }) => {
   return (
     <Badge variant="outline" style={config.style}>
       {config.label}
+    </Badge>
+  );
+};
+
+// ─── ConstructionPhaseBadge ───────────────────────────────────────────────────
+
+const ConstructionPhaseBadge = ({ phase }: { phase: ConstructionPhase }) => {
+  const colors = PHASE_COLORS[phase] ?? PHASE_COLORS[0];
+  return (
+    <Badge
+      variant="outline"
+      style={{ backgroundColor: colors.bg, color: colors.text, border: 'transparent' }}
+    >
+      {PHASE_SHORT_LABELS[phase]}
     </Badge>
   );
 };
@@ -144,16 +159,17 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
 
   return (
     <div className="overflow-x-auto rounded-lg border">
-      <Table className="min-w-[1200px]">
+      <Table className="min-w-[1320px]">
         <TableHeader>
           <TableRow>
             <TableHead className="min-w-[160px]">Nombre</TableHead>
             <TableHead className="min-w-[180px]">Contacto</TableHead>
+            <TableHead className="min-w-[120px]">Cédula</TableHead>
             <TableHead className="min-w-[140px]">Proyecto</TableHead>
             <TableHead className="min-w-[100px]">Apto</TableHead>
             <TableHead className="min-w-[130px]">Paquete</TableHead>
             <TableHead className="min-w-[130px]">Anticipos</TableHead>
-            <TableHead className="min-w-[110px]">Estado</TableHead>
+            <TableHead className="min-w-[110px]">Fase</TableHead>
             <TableHead className="min-w-[120px]">Fecha abono</TableHead>
             <TableHead className="min-w-[140px]">Entrega</TableHead>
             <TableHead className="w-[70px]" />
@@ -189,6 +205,13 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
                     <span className="font-sans text-xs text-muted-foreground">{client.phone}</span>
                   )}
                 </div>
+              </TableCell>
+
+              {/* Cédula */}
+              <TableCell>
+                <span className="font-sans text-sm">
+                  {client.cedula ?? <span className="text-muted-foreground">—</span>}
+                </span>
               </TableCell>
 
               {/* Proyecto */}
@@ -265,9 +288,9 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
                 })()}
               </TableCell>
 
-              {/* Estado */}
+              {/* Fase de construcción */}
               <TableCell>
-                <ClientStatusBadge status={client.status} />
+                <ConstructionPhaseBadge phase={client.construction_phase} />
               </TableCell>
 
               {/* Fecha abono */}

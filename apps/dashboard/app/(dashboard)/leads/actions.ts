@@ -9,8 +9,12 @@ import {
   convertLeadToClient,
   addClientPayment,
   getPackageById,
+  getProjectById,
+  checkSlugExists,
+  getLead,
 } from '@habitta/database';
 import type { LeadStatus, CreateLeadInput } from '@habitta/types';
+import { slugify, sendNotification, buildWelcomeEmail } from '@habitta/utils';
 
 export const updateLeadStatusAction = async (
   id: string,
@@ -101,6 +105,7 @@ export const convertLeadAction = async (
   const work_start_date = (formData.get('work_start_date') as string) || null;
   const tower = (formData.get('tower') as string)?.trim();
   const apartment_number = (formData.get('apartment_number') as string)?.trim();
+  const cedula = (formData.get('cedula') as string)?.trim() || undefined;
   const initialPaymentRaw = ((formData.get('initial_payment') as string) || '').replace(/\./g, '');
   const initial_payment = parseFloat(initialPaymentRaw);
 
@@ -121,6 +126,17 @@ export const convertLeadAction = async (
       return { error: 'El anticipo no puede superar el valor del paquete' };
     }
 
+    // Generate unique portal_slug from lead name
+    const lead = await getLead(leadId);
+    const baseName = lead?.first_name ?? 'cliente';
+    const lastName = lead?.last_name ?? '';
+    let portalSlug = slugify(`${baseName} ${lastName}`);
+    let suffix = 1;
+    while (await checkSlugExists(portalSlug)) {
+      suffix++;
+      portalSlug = slugify(`${baseName} ${lastName}`) + `-${suffix}`;
+    }
+
     const client = await convertLeadToClient(leadId, {
       project_id,
       package_id,
@@ -128,6 +144,8 @@ export const convertLeadAction = async (
       work_start_date,
       tower,
       apartment_number,
+      portal_slug: portalSlug,
+      ...(cedula ? { cedula } : {}),
     });
 
     // Crear el primer abono obligatorio
@@ -136,6 +154,29 @@ export const convertLeadAction = async (
       amount: initial_payment,
       paid_at: work_start_date || new Date().toISOString().split('T')[0]!,
       notes: 'Anticipo inicial',
+    });
+
+    // Send welcome email (non-blocking)
+    const project = await getProjectById(project_id);
+    const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://habitta.com';
+    const portalUrl = `${websiteUrl}/portal/${cedula ?? portalSlug}`;
+
+    sendNotification({
+      type: 'email',
+      clientId: client.id,
+      data: {
+        to: client.email,
+        subject: `¡Bienvenido a Habitta, ${client.first_name}!`,
+        html: buildWelcomeEmail({
+          clientName: `${client.first_name} ${client.last_name}`,
+          projectName: project?.name ?? 'Tu proyecto',
+          packageName: selectedPackage.name,
+          apartmentNumber: apartment_number,
+          portalUrl,
+        }),
+      },
+    }).catch((err) => {
+      console.error('[welcome-email] Error:', err);
     });
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Error al convertir el lead' };

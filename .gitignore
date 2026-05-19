@@ -7,6 +7,7 @@ dist/
 build/
 .next/
 .astro/
+.vercel/
 out/
 
 # Turbo

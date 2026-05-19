@@ -1,0 +1,188 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  phaseColor?: string;
+  phaseBg?: string;
+}
+
+const {
+  title,
+  description = 'Sigue el avance de tu apartamento',
+  phaseColor = '#E8703A',
+  phaseBg = '#f9f8f6',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Habitta</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+
+    <link rel="preload" href="/fonts/worksans/WorkSans-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/inter/Inter-Regular.ttf" as="font" type="font/ttf" crossorigin />
+
+    <style is:global define:vars={{ phaseColor, phaseBg }}>
+      @font-face {
+        font-family: 'Work Sans';
+        src: url('/fonts/worksans/WorkSans-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Work Sans';
+        src: url('/fonts/worksans/WorkSans-Medium.ttf') format('truetype');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Work Sans';
+        src: url('/fonts/worksans/WorkSans-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/inter/Inter-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/inter/Inter-Medium.ttf') format('truetype');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter';
+        src: url('/fonts/inter/Inter-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes progressFill {
+        from { width: 0%; }
+      }
+      @keyframes celebratePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      @keyframes confettiDrop {
+        0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(60px) rotate(360deg); opacity: 0; }
+      }
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+      }
+
+      .animate-fade-up {
+        animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+      .animate-fade-up-delay {
+        animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+      }
+      .animate-fade-up-delay-2 {
+        animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+      }
+      .animate-fade-up-delay-3 {
+        animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+      }
+      .animate-scale-in {
+        animation: scaleIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+      }
+      .animate-progress-fill {
+        animation: progressFill 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+      }
+      .animate-celebrate {
+        animation: celebratePulse 2s ease-in-out infinite;
+      }
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+      .animate-shimmer {
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen font-sans text-[#1e1a1b] antialiased transition-colors duration-1000"
+    style={`background: linear-gradient(145deg, ${phaseBg} 0%, ${phaseBg}ee 50%, ${phaseBg}dd 100%);`}
+  >
+    <!-- Decorative bg elements — color matches phase -->
+    <div class="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
+      <div
+        class="absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full opacity-[0.08] transition-colors duration-1000"
+        style={`background: radial-gradient(circle, ${phaseColor}, transparent 70%);`}
+      ></div>
+      <div
+        class="absolute -left-24 bottom-0 h-[400px] w-[400px] rounded-full opacity-[0.06] transition-colors duration-1000"
+        style={`background: radial-gradient(circle, ${phaseColor}, transparent 70%);`}
+      ></div>
+      <div
+        class="absolute left-1/2 top-1/3 h-[300px] w-[300px] -translate-x-1/2 rounded-full opacity-[0.03] transition-colors duration-1000"
+        style={`background: radial-gradient(circle, ${phaseColor}, transparent 70%);`}
+      ></div>
+    </div>
+
+    <div class="relative z-10">
+      <!-- Header -->
+      <header class="flex items-center justify-center pb-2 pt-8 animate-fade-up">
+        <a href="/" class="group flex items-center gap-2.5 transition-opacity hover:opacity-80">
+          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#424832]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-white" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <span class="font-display text-xl font-bold tracking-tight text-[#424832]">Habitta</span>
+        </a>
+      </header>
+
+      <!-- Content -->
+      <main class="mx-auto max-w-lg px-4 py-8">
+        <slot />
+      </main>
+
+      <!-- Footer -->
+      <footer class="pb-8 text-center animate-fade-up-delay-3">
+        <p class="font-sans text-[11px] tracking-wide text-[#9b9490]">
+          Habitta · Acabados que transforman tu hogar
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

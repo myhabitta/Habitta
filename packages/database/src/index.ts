@@ -33,7 +33,7 @@ export {
   getLeadStats,
 } from './queries/leads';
 
-export { getClients, getClient, getClientByShortId, updateClient, deleteClient, getClientStats } from './queries/clients';
+export { getClients, getClient, getClientByShortId, getClientBySlug, getClientByCedula, getClientByCedulaOnly, checkSlugExists, updateClient, updateClientPhase, deleteClient, getClientStats } from './queries/clients';
 export { getClientPayments, addClientPayment } from './queries/payments';
 
 export { getProfile, updateProfile, getProfiles } from './queries/profiles';

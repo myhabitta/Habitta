@@ -7,9 +7,9 @@
   "nav": [
     { "label": "Inicio", "href": "/" },
     { "label": "Nosotros", "href": "/nosotros" },
-    { "label": "Paquetes", "href": "#paquetes" },
-    { "label": "Proceso", "href": "#proceso" },
-    { "label": "Contacto", "href": "#contacto" },
+    { "label": "Proyectos", "href": "/proyectos" },
+    { "label": "Proceso", "href": "#proceso", "homeOnly": true },
+    { "label": "Contacto", "href": "#contacto", "homeOnly": true },
     { "label": "Mi apartamento", "href": "/portal" }
   ],
   "cta": {

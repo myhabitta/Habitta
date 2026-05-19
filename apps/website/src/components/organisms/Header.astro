@@ -8,7 +8,11 @@ import headerData from '@/data/header.json';
 
 const { logo, nav: navLinks, cta } = headerData;
 const isHome = Astro.url.pathname === '/';
-const filteredNavLinks = isHome ? navLinks.filter((link) => link.href !== '/') : navLinks;
+const filteredNavLinks = navLinks.filter((link) => {
+  if (isHome && link.href === '/') return false;
+  if (!isHome && link.homeOnly) return false;
+  return true;
+});
 ---
 
 <nav
@@ -41,12 +45,13 @@ const filteredNavLinks = isHome ? navLinks.filter((link) => link.href !== '/') :
   </ul>
 
   <!-- Desktop CTA -->
-  <button
+  <a
+    href={isHome ? cta.href : `/${cta.href}`}
     id="nav-cta"
-    class="hidden border border-brand/40 bg-transparent px-6 py-2 font-sans text-[0.66rem] font-bold uppercase tracking-[0.16em] text-brand transition-all duration-300 hover:bg-brand hover:text-white lg:block"
+    class="hidden border border-brand/40 bg-transparent px-6 py-2 font-sans text-[0.66rem] font-bold uppercase tracking-[0.16em] text-brand no-underline transition-all duration-300 hover:bg-brand hover:text-white lg:block"
   >
     {cta.label}
-  </button>
+  </a>
 
   <!-- Mobile Hamburger -->
   <button
@@ -90,7 +95,7 @@ const filteredNavLinks = isHome ? navLinks.filter((link) => link.href !== '/') :
     ))
   }
   <a
-    href={cta.href}
+    href={isHome ? cta.href : `/${cta.href}`}
     class="mobile-nav-link mt-4 border border-brand/40 px-8 py-3 font-sans text-xs font-bold uppercase tracking-[0.16em] text-brand no-underline opacity-0 transition-all duration-300 hover:bg-brand hover:text-white"
   >
     {cta.label}

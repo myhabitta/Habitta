@@ -1,0 +1,237 @@
+---
+// Organism: CompaniesSection
+// Tabbed showcase of the 3 partner companies behind Habitta.
+// DARK SECTION with interactive tabs (vanilla JS) and scroll-reveal animations.
+
+const companies = [
+  {
+    id: 'comfort',
+    name: 'Comfort Design',
+    logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1778725378/comfort-design_owkudc.webp',
+    url: 'https://comfortdesign.com.co/',
+    description:
+      'Comfort Design es una empresa especializada en diseño de interiores y acabados de alta gama. Con más de 10 años de experiencia, transformamos espacios en hogares únicos que reflejan el estilo de vida de cada familia.',
+    images: [
+      { src: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=400&fit=crop&q=80', alt: 'Diseño de interiores — sala moderna con acabados premium' },
+      { src: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=400&fit=crop&q=80', alt: 'Acabados de lujo — cocina contemporánea' },
+      { src: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&h=400&fit=crop&q=80', alt: 'Espacio residencial con diseño de interiores personalizado' },
+    ],
+  },
+  {
+    id: 'arkava',
+    name: 'Arkava',
+    logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1778725378/arkava_dgmsz5.webp',
+    url: 'https://www.arkava.com.co/',
+    description:
+      'Arkava es una constructora líder en proyectos residenciales de vivienda en Colombia. Desarrollamos edificios con los más altos estándares de calidad estructural y arquitectónica, creando comunidades que perduran.',
+    images: [
+      { src: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop&q=80', alt: 'Edificio residencial moderno construido por Arkava' },
+      { src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop&q=80', alt: 'Proyecto de vivienda con arquitectura contemporánea' },
+      { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop&q=80', alt: 'Conjunto residencial de alta calidad estructural' },
+    ],
+  },
+  {
+    id: 'forcon',
+    name: 'Forcon',
+    logo: 'https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1779123699/forcon.webp',
+    url: 'https://www.instagram.com/acabadosformasyestructuras71/',
+    description:
+      'Forcon se especializa en acabados estructurales y construcción de obra gris. Con un equipo experimentado en ingeniería civil, garantizamos la solidez y durabilidad de cada proyecto desde sus cimientos.',
+    images: [
+      { src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop&q=80', alt: 'Construcción de obra gris — estructura de edificio' },
+      { src: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&h=400&fit=crop&q=80', alt: 'Proceso de construcción estructural' },
+      { src: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop&q=80', alt: 'Acabados estructurales y cimientos de proyecto' },
+    ],
+  },
+];
+---
+
+<section
+  id="s-companies"
+  class="relative bg-dark px-6 py-24 md:px-12 md:py-32 lg:px-24 lg:py-40"
+  aria-labelledby="companies-heading"
+>
+  <div class="mx-auto max-w-6xl">
+    <!-- Eyebrow + heading -->
+    <div class="companies-el mb-16 text-center opacity-0 translate-y-6" style="transition: all 0.8s cubic-bezier(0.16,1,0.3,1);">
+      <div class="mb-6 flex items-center justify-center gap-3">
+        <span class="block h-px w-8 bg-brand"></span>
+        <span class="text-[0.6rem] uppercase tracking-[0.28em] text-brand">La alianza</span>
+        <span class="block h-px w-8 bg-brand"></span>
+      </div>
+      <h2
+        id="companies-heading"
+        class="font-display text-[clamp(2rem,5vw,3.5rem)] font-thin leading-[0.95] tracking-tight text-ink"
+      >
+        Nuestras <em class="italic text-sand">empresas</em>
+      </h2>
+      <p class="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-ink-muted">
+        Tres compañías especializadas que combinan construcción, diseño de interiores e ingeniería bajo un mismo propósito.
+      </p>
+    </div>
+
+    <!-- Tabs -->
+    <nav
+      class="companies-el mb-12 flex items-center justify-center gap-2 opacity-0 translate-y-6 sm:gap-3"
+      style="transition: all 0.8s cubic-bezier(0.16,1,0.3,1); transition-delay: 0.1s;"
+      role="tablist"
+      aria-label="Seleccionar empresa"
+    >
+      {companies.map((company, i) => (
+        <button
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`panel-${company.id}`}
+          id={`tab-${company.id}`}
+          data-company={company.id}
+          class:list={[
+            'company-tab relative rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.15em] transition-all duration-500 sm:px-7 sm:py-3 sm:text-[0.7rem]',
+            i === 0
+              ? 'bg-brand text-dark'
+              : 'bg-ink-faint text-ink-muted hover:bg-ink-ghost hover:text-ink',
+          ]}
+        >
+          {company.name}
+        </button>
+      ))}
+    </nav>
+
+    <!-- Panels -->
+    {companies.map((company, i) => (
+      <article
+        id={`panel-${company.id}`}
+        role="tabpanel"
+        aria-labelledby={`tab-${company.id}`}
+        data-panel={company.id}
+        class:list={[
+          'company-panel transition-all duration-500',
+          i === 0 ? 'block' : 'hidden',
+        ]}
+      >
+        <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <!-- Left: logo + description -->
+          <div class="companies-el opacity-0 translate-y-6" style={`transition: all 0.8s cubic-bezier(0.16,1,0.3,1); transition-delay: 0.2s;`}>
+            <a
+              href={company.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group mb-6 inline-flex items-center gap-3"
+            >
+              <img
+                src={company.logo}
+                alt={`Logo de ${company.name}`}
+                class="h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-105 lg:h-14"
+                loading="lazy"
+                width="160"
+                height="56"
+              />
+              <svg class="h-4 w-4 text-ink-subtle transition-colors duration-300 group-hover:text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+              </svg>
+            </a>
+            <p class="max-w-md text-sm leading-[1.8] text-ink-muted lg:text-[0.95rem]">
+              {company.description}
+            </p>
+          </div>
+
+          <!-- Right: image grid -->
+          <div class="grid grid-cols-2 gap-3 sm:gap-4">
+            <div class="companies-el col-span-2 overflow-hidden rounded-xl opacity-0 translate-y-6" style={`transition: all 0.8s cubic-bezier(0.16,1,0.3,1); transition-delay: 0.3s;`}>
+              <img
+                src={company.images[0].src}
+                alt={company.images[0].alt}
+                class="aspect-[16/9] w-full object-cover transition-transform duration-700 hover:scale-105"
+                loading="lazy"
+                width="600"
+                height="338"
+              />
+            </div>
+            <div class="companies-el overflow-hidden rounded-xl opacity-0 translate-y-6" style={`transition: all 0.8s cubic-bezier(0.16,1,0.3,1); transition-delay: 0.4s;`}>
+              <img
+                src={company.images[1].src}
+                alt={company.images[1].alt}
+                class="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-105"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+            </div>
+            <div class="companies-el overflow-hidden rounded-xl opacity-0 translate-y-6" style={`transition: all 0.8s cubic-bezier(0.16,1,0.3,1); transition-delay: 0.5s;`}>
+              <img
+                src={company.images[2].src}
+                alt={company.images[2].alt}
+                class="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-105"
+                loading="lazy"
+                width="600"
+                height="400"
+              />
+            </div>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<script>
+  function initCompaniesSection() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.company-tab');
+    const panels = document.querySelectorAll<HTMLElement>('.company-panel');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.company;
+        if (!target) return;
+
+        // Update tabs
+        tabs.forEach((t) => {
+          const isActive = t.dataset.company === target;
+          t.setAttribute('aria-selected', String(isActive));
+          t.classList.toggle('bg-brand', isActive);
+          t.classList.toggle('text-dark', isActive);
+          t.classList.toggle('bg-ink-faint', !isActive);
+          t.classList.toggle('text-ink-muted', !isActive);
+          t.classList.toggle('hover:bg-ink-ghost', !isActive);
+          t.classList.toggle('hover:text-ink', !isActive);
+        });
+
+        // Update panels
+        panels.forEach((panel) => {
+          const isTarget = panel.dataset.panel === target;
+          panel.classList.toggle('hidden', !isTarget);
+          panel.classList.toggle('block', isTarget);
+
+          // Re-trigger reveal for newly visible panel elements
+          if (isTarget) {
+            panel.querySelectorAll<HTMLElement>('.companies-el').forEach((el) => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+            });
+          }
+        });
+      });
+    });
+
+    // IntersectionObserver for scroll reveal
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).style.opacity = '1';
+            (entry.target as HTMLElement).style.transform = 'translateY(0)';
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    document.querySelectorAll('#s-companies .companies-el').forEach((el) => obs.observe(el));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCompaniesSection);
+  } else {
+    initCompaniesSection();
+  }
+</script>

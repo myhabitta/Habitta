@@ -5,6 +5,7 @@ import ProgressBar from '@/components/atoms/ProgressBar.astro';
 import Hero from '@/components/organisms/Hero.astro';
 import Manifesto from '@/components/organisms/Manifesto.astro';
 import ValueProps from '@/components/organisms/ValueProps.astro';
+import MiApartamento from '@/components/organisms/MiApartamento.astro';
 import Ticker from '@/components/molecules/Ticker.astro';
 import ProjectsShowcase from '@/components/organisms/ProjectsShowcase.astro';
 import PackagesSection from '@/components/organisms/PackagesSection.astro';
@@ -22,15 +23,19 @@ const { seo, ticker } = homeData;
 
   <Hero />
   <Manifesto />
+  <MiApartamento />
   <ValueProps />
 
-  <Ticker items={ticker.row1} />
+  <!-- OCULTO: se usara en otras paginas -->
+  <!-- <Ticker items={ticker.row1} /> -->
 
   <!-- <ProjectsShowcase /> -->
   <!-- <Ticker items={ticker.row2} reverse /> -->
 
-  <PackagesSection />
   <ProcessSection />
+
+  <!-- OCULTO: se usara en otras paginas -->
+  <!-- <PackagesSection /> -->
   <!-- <Testimonials /> -->
   <ContactSection />
 </Layout>

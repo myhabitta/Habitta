@@ -161,6 +161,23 @@ export const updateClientCedulaAction = async (
   return null;
 };
 
+export const toggleDeliveryAction = async (
+  clientId: string,
+  clientShortId: string,
+  isDelivered: boolean
+): Promise<{ error?: string; success?: string }> => {
+  try {
+    await updateClient(clientId, {
+      delivered_at: isDelivered ? new Date().toISOString() : null,
+    });
+    revalidatePath('/clients');
+    revalidatePath(`/clients/${clientShortId}`);
+    return { success: isDelivered ? 'Apartamento marcado como entregado' : 'Entrega desmarcada' };
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : 'Error al actualizar entrega' };
+  }
+};
+
 export const updateConstructionPhaseAction = async (
   clientId: string,
   clientShortId: string,

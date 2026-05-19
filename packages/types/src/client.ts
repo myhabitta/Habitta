@@ -23,12 +23,12 @@ export const PHASE_SHORT_LABELS: Record<ConstructionPhase, string> = {
 };
 
 export const PHASE_COLORS: Record<ConstructionPhase, { bg: string; text: string; solid: string }> = {
-  0: { bg: 'hsl(0 80% 95%)', text: 'hsl(0 70% 45%)', solid: 'hsl(0 70% 50%)' },
-  1: { bg: 'hsl(25 90% 94%)', text: 'hsl(25 80% 45%)', solid: 'hsl(25 80% 50%)' },
-  2: { bg: 'hsl(45 90% 93%)', text: 'hsl(45 80% 40%)', solid: 'hsl(45 80% 45%)' },
-  3: { bg: 'hsl(150 40% 92%)', text: 'hsl(150 45% 35%)', solid: 'hsl(150 45% 40%)' },
-  4: { bg: 'hsl(200 60% 93%)', text: 'hsl(200 60% 40%)', solid: 'hsl(200 60% 45%)' },
-  5: { bg: 'hsl(130 50% 92%)', text: 'hsl(130 50% 32%)', solid: 'hsl(130 50% 38%)' },
+  0: { bg: '#fde8e8', text: '#b91c1c', solid: '#dc2626' },
+  1: { bg: '#fff3e0', text: '#c2410c', solid: '#ea580c' },
+  2: { bg: '#fef9c3', text: '#a16207', solid: '#ca8a04' },
+  3: { bg: '#dcfce7', text: '#15803d', solid: '#22c55e' },
+  4: { bg: '#e0f2fe', text: '#0369a1', solid: '#0ea5e9' },
+  5: { bg: '#d1fae5', text: '#065f46', solid: '#10b981' },
 };
 
 export type Client = {
@@ -51,6 +51,7 @@ export type Client = {
   construction_phase: ConstructionPhase;
   portal_slug: string;
   notified_at: string | null;
+  delivered_at: string | null;
   created_at: string | null;
   updated_at: string | null;
 };
@@ -84,4 +85,5 @@ export type UpdateClientInput = {
   cedula?: string | null;
   construction_phase?: ConstructionPhase;
   notified_at?: string;
+  delivered_at?: string | null;
 };

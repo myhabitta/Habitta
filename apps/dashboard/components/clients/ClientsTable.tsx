@@ -1,7 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Pencil, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { Pencil, Trash2, PackageCheck, PackageX } from 'lucide-react';
 import type { ClientWithRelations, ClientStatus, ConstructionPhase } from '@habitta/types';
 import { PHASE_SHORT_LABELS, PHASE_COLORS } from '@habitta/types';
 import { formatPrice, calculateDelivery } from '@habitta/utils';
@@ -17,7 +18,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import DeleteConfirmDialog from '@/components/molecules/DeleteConfirmDialog';
-import { deleteClientAction } from '@/app/(dashboard)/clients/actions';
+import { deleteClientAction, toggleDeliveryAction } from '@/app/(dashboard)/clients/actions';
 
 // ─── ClientStatusBadge ────────────────────────────────────────────────────────
 
@@ -59,15 +60,59 @@ const ClientStatusBadge = ({ status }: { status: ClientStatus }) => {
 
 // ─── ConstructionPhaseBadge ───────────────────────────────────────────────────
 
-const ConstructionPhaseBadge = ({ phase }: { phase: ConstructionPhase }) => {
+const ConstructionPhaseBadge = ({
+  phase,
+  deliveredAt,
+  clientId,
+  clientShortId,
+}: {
+  phase: ConstructionPhase;
+  deliveredAt: string | null;
+  clientId: string;
+  clientShortId: string;
+}) => {
   const colors = PHASE_COLORS[phase] ?? PHASE_COLORS[0];
+  const [loading, setLoading] = useState(false);
+
+  const handleToggleDelivery = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLoading(true);
+    await toggleDeliveryAction(clientId, clientShortId, !deliveredAt);
+    setLoading(false);
+  };
+
   return (
-    <Badge
-      variant="outline"
-      style={{ backgroundColor: colors.bg, color: colors.text, border: 'transparent' }}
-    >
-      {PHASE_SHORT_LABELS[phase]}
-    </Badge>
+    <div className="flex flex-col gap-1">
+      <Badge
+        variant="outline"
+        style={{ backgroundColor: colors.bg, color: colors.text, border: 'transparent' }}
+      >
+        {PHASE_SHORT_LABELS[phase]}
+      </Badge>
+      {phase === 5 && (
+        <>
+          <button
+            onClick={handleToggleDelivery}
+            disabled={loading}
+            className="flex items-center gap-1 whitespace-nowrap rounded-md px-1.5 py-0.5 font-sans text-[10px] font-medium transition-colors hover:bg-muted disabled:opacity-50"
+            style={{ color: deliveredAt ? 'var(--success)' : 'var(--muted-foreground)' }}
+            title={deliveredAt ? 'Marcar como no entregado' : 'Marcar como entregado'}
+          >
+            {deliveredAt ? (
+              <PackageCheck className="h-3.5 w-3.5" />
+            ) : (
+              <PackageX className="h-3.5 w-3.5" />
+            )}
+            {deliveredAt ? 'Entregado' : 'Sin entregar'}
+          </button>
+          {deliveredAt && (
+            <span className="font-sans text-[11px] text-muted-foreground">
+              {formatDate(deliveredAt)}
+            </span>
+          )}
+        </>
+      )}
+    </div>
   );
 };
 
@@ -114,7 +159,7 @@ const DeliveryBadge = ({ workStartDate, deliveryDays }: DeliveryBadgeProps) => {
 
   return (
     <div className="flex flex-col gap-0.5">
-      <span className="font-sans text-sm font-medium">{DATE_FMT.format(deliveryDate)}</span>
+      <span className="font-sans text-xs font-medium">{formatDDMMMYYYY(deliveryDate)}</span>
       <Badge variant="outline" style={config.style} className="w-fit text-xs">
         {daysLabel}
       </Badge>
@@ -127,11 +172,12 @@ const DeliveryBadge = ({ workStartDate, deliveryDays }: DeliveryBadgeProps) => {
 const getInitials = (firstName: string, lastName: string): string =>
   `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase();
 
-const DATE_FMT = new Intl.DateTimeFormat('es-CO', {
-  day: '2-digit',
-  month: 'short',
-  year: 'numeric',
-});
+const formatDDMMMYYYY = (date: Date): string => {
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mmm = date.toLocaleString('es-CO', { month: 'short' }).replace('.', '');
+  const yyyy = date.getFullYear();
+  return `${dd}/${mmm}/${yyyy}`;
+};
 
 // Para fechas ISO "YYYY-MM-DD" (date only) usa parse local para evitar desfase UTC
 const formatLocalDate = (iso: string | null): string => {
@@ -139,13 +185,13 @@ const formatLocalDate = (iso: string | null): string => {
   const parts = iso.split('-').map(Number);
   if (parts.length !== 3) return '—';
   const [y, m, d] = parts as [number, number, number];
-  return DATE_FMT.format(new Date(y, m - 1, d));
+  return formatDDMMMYYYY(new Date(y, m - 1, d));
 };
 
 // Para timestamps ISO completos (created_at)
 const formatDate = (dateStr: string | null): string => {
   if (!dateStr) return '—';
-  return DATE_FMT.format(new Date(dateStr));
+  return formatDDMMMYYYY(new Date(dateStr));
 };
 
 // ─── ClientsTable ─────────────────────────────────────────────────────────────
@@ -191,7 +237,7 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
                   >
                     {getInitials(client.first_name, client.last_name)}
                   </div>
-                  <span className="font-sans text-sm font-medium">
+                  <span className="font-sans text-xs font-medium">
                     {client.first_name} {client.last_name}
                   </span>
                 </div>
@@ -290,7 +336,12 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
 
               {/* Fase de construcción */}
               <TableCell>
-                <ConstructionPhaseBadge phase={client.construction_phase} />
+                <ConstructionPhaseBadge
+                  phase={client.construction_phase}
+                  deliveredAt={client.delivered_at}
+                  clientId={client.id}
+                  clientShortId={client.short_id}
+                />
               </TableCell>
 
               {/* Fecha abono */}

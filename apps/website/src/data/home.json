@@ -89,6 +89,43 @@
       }
     ]
   },
+  "miApartamento": {
+    "eyebrow": "Solo en Habitta",
+    "heading": "Vive cada avance de tu hogar",
+    "headingAccent": "en tiempo real.",
+    "description": "Somos la única inmobiliaria en Colombia con un portal exclusivo para cada cliente. Desde tu celular, ves exactamente en qué fase está tu apartamento — sin llamadas, sin esperas. Transparencia total desde el primer ladrillo hasta la entrega de llaves.",
+    "features": [
+      {
+        "icon": "pulse",
+        "title": "Seguimiento en tiempo real",
+        "description": "Conoce el estado exacto de tu apartamento en cualquier momento."
+      },
+      {
+        "icon": "bell",
+        "title": "Notificaciones de avance",
+        "description": "Recibe alertas cuando tu proyecto alcanza un nuevo hito."
+      },
+      {
+        "icon": "layers",
+        "title": "Fases de construcción",
+        "description": "Visualiza cada fase: cimentación, estructura, acabados, entrega."
+      }
+    ],
+    "cta": { "label": "Conoce Mi Apartamento", "href": "/portal" },
+    "mockup": {
+      "projectName": "Reserva Ávila",
+      "unit": "Apto 802 · Torre B",
+      "phase": "Acabados interiores",
+      "progress": 72,
+      "notifications": 3,
+      "phases": [
+        { "name": "Cimentación", "status": "complete" },
+        { "name": "Estructura", "status": "complete" },
+        { "name": "Acabados", "status": "active" },
+        { "name": "Entrega", "status": "pending" }
+      ]
+    }
+  },
   "ticker": {
     "row1": [
       "Habitta",

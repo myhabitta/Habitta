@@ -28,14 +28,17 @@ const colors = PHASE_COLORS[currentPhase];
 const isTerminado = currentPhase === 5;
 const isSinIniciar = currentPhase === 0;
 
-const PHASE_MESSAGES: Record<ConstructionPhase, { title: string; subtitle: string }> = {
-  0: { title: 'Tu proyecto está por comenzar', subtitle: 'Pronto iniciaremos la transformación de tu apartamento' },
-  1: { title: '¡Ya estamos en obra!', subtitle: 'Los cimientos de tu hogar toman forma' },
-  2: { title: '¡Gran avance!', subtitle: 'Tu apartamento se transforma día a día' },
-  3: { title: '¡Ya casi!', subtitle: 'Los detalles que harán único tu hogar' },
-  4: { title: '¡Últimos toques!', subtitle: 'Estamos perfeccionando cada detalle' },
-  5: { title: '¡Felicitaciones!', subtitle: 'Tu apartamento está listo para ti' },
+// Phase celebration data — multiple emojis per phase that rotate
+const PHASE_CELEBRATION: Record<ConstructionPhase, { emojis: string[]; title: string; subtitle: string; accent: string }> = {
+  0: { emojis: ['🏗️', '📐', '📋', '🗺️'], title: 'Tu proyecto está por comenzar', subtitle: 'Pronto iniciaremos la transformación de tu apartamento', accent: 'Preparando todo' },
+  1: { emojis: ['⛏️', '🔩', '🪨'], title: '¡Ya estamos en obra!', subtitle: 'Los cimientos de tu hogar toman forma', accent: '¡Primer hito!' },
+  2: { emojis: ['🧱', '🪜', '🔨', '🏠'], title: '¡Gran avance!', subtitle: 'Tu apartamento se transforma día a día', accent: '¡Vamos con todo!' },
+  3: { emojis: ['🎨', '🪠', '🪟', '🚿', '💡'], title: '¡Los acabados llegan!', subtitle: 'Plomería, pintura, ventanas y más toman forma', accent: '¡Se ve increíble!' },
+  4: { emojis: ['✨', '🧹', '🔌', '🪞', '🚪'], title: '¡Últimos toques!', subtitle: 'Estamos perfeccionando cada detalle', accent: '¡Ya casi es tuyo!' },
+  5: { emojis: ['🎉', '🥂', '🏡', '🔑', '🎊'], title: '¡Felicitaciones!', subtitle: 'Tu apartamento está listo. Pronto nos pondremos en contacto contigo para coordinar la entrega de tu nuevo hogar.', accent: '¡Bienvenido a casa!' },
 };
+
+const celebration = PHASE_CELEBRATION[currentPhase];
 
 const formatDate = (dateStr: string | null): string => {
   if (!dateStr) return '—';
@@ -48,183 +51,215 @@ const formatDate = (dateStr: string | null): string => {
 ---
 
 <PortalLayout
-  title="Tu apartamento"
+  title="Mi Apartamento"
   phaseColor={colors.solid}
-  phaseBg={isTerminado ? '#f0f7ed' : isSinIniciar ? '#fef6f4' : colors.bg}
+  phaseBg={colors.bg}
 >
   <div class="space-y-5">
 
-    <!-- ══════ HERO: Progress showcase ══════ -->
-    <div class="animate-fade-up text-center">
-      <!-- Avatar -->
-      <div
-        class="animate-scale-in mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full shadow-xl"
-        style={`background: linear-gradient(135deg, ${colors.solid}, ${colors.text}); box-shadow: 0 8px 32px ${colors.solid}33;`}
-      >
-        <span class="font-display text-3xl font-bold text-white">
-          {client.first_name?.charAt(0)}{client.last_name?.charAt(0)}
-        </span>
+    <!-- HEADER: Mi Apartamento + Unit + Client name -->
+    <div class="animate-fade-up">
+      <p class="mb-4 font-display text-sm font-semibold tracking-wide text-[#0d9488]">Mi Apartamento</p>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-sans text-[0.65rem] font-medium uppercase tracking-[0.18em] text-[#9b9490]">
+            {client.tower ? `Apto ${client.apartment_number ?? '—'} · Torre ${client.tower}` : `Apto ${client.apartment_number ?? '—'}`}
+          </p>
+          <h1 class="mt-1 font-display text-2xl font-bold text-[#1e1a1b]">
+            {client.first_name} {client.last_name}
+          </h1>
+        </div>
+        <!-- Avatar -->
+        <div
+          class="animate-scale-in flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-lg"
+          style="background: linear-gradient(135deg, #0d9488, #0f766e); box-shadow: 0 4px 16px rgba(13,148,136,0.3);"
+        >
+          <span class="font-display text-lg font-bold text-white">
+            {client.first_name?.charAt(0)}{client.last_name?.charAt(0)}
+          </span>
+        </div>
       </div>
-
-      <!-- Greeting -->
-      <h1 class="font-display text-[28px] font-bold text-[#1e1a1b]">
-        Hola, {client.first_name}
-      </h1>
-      <p class="mt-1 font-sans text-sm text-[#6e6762]">
-        {PHASE_MESSAGES[currentPhase].subtitle}
-      </p>
     </div>
 
-    <!-- ══════ PROGRESS RING ══════ -->
+    <!-- CELEBRATION BANNER — phase-specific -->
+    <div
+      class="animate-fade-up-delay relative overflow-hidden rounded-2xl border p-5"
+      style={`background: linear-gradient(135deg, white 0%, ${colors.bg} 100%); border-color: ${colors.solid}20; box-shadow: 0 4px 24px ${colors.solid}12;`}
+    >
+      {isTerminado && (
+        <div class="animate-shimmer pointer-events-none absolute inset-0 rounded-2xl"></div>
+      )}
+
+      <div class="relative flex items-start gap-4">
+        <!-- Phase emojis — rotate every 2.5s -->
+        <div
+          id="phase-emoji-box"
+          class="animate-bounce-in relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl text-2xl"
+          style={`background: ${colors.bg}; box-shadow: inset 0 0 0 1px ${colors.solid}15; animation-delay: 0.3s;`}
+          data-emojis={JSON.stringify(celebration.emojis)}
+        >
+          {celebration.emojis.map((emoji, i) => (
+            <span
+              class:list={[
+                'phase-emoji absolute inset-0 flex items-center justify-center transition-all duration-500',
+                i === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-75',
+              ]}
+            >
+              {emoji}
+            </span>
+          ))}
+        </div>
+
+        <div class="flex-1 min-w-0">
+          <p class="font-display text-lg font-bold" style={`color: ${colors.text};`}>
+            {celebration.title}
+          </p>
+          <p class="mt-0.5 font-sans text-sm text-[#6b635d]">
+            {celebration.subtitle}
+          </p>
+          <!-- Accent chip -->
+          <span
+            class="mt-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-sans text-xs font-semibold"
+            style={`background: ${colors.bg}; color: ${colors.text}; border: 1px solid ${colors.solid}20;`}
+          >
+            {!isSinIniciar && !isTerminado && (
+              <span class="relative flex h-2 w-2">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={`background: ${colors.solid};`}></span>
+                <span class="relative inline-flex h-2 w-2 rounded-full" style={`background: ${colors.solid};`}></span>
+              </span>
+            )}
+            {celebration.accent}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESS CARD -->
     <div class="animate-fade-up-delay">
       <div
         class:list={[
-          'relative overflow-hidden rounded-3xl border p-6 shadow-xl backdrop-blur-sm',
+          'relative overflow-hidden rounded-2xl border bg-white/90 p-5 shadow-lg shadow-black/[0.03] backdrop-blur-sm',
           { 'animate-celebrate': isTerminado },
         ]}
-        style={`
-          background: linear-gradient(135deg, white 0%, ${colors.bg} 100%);
-          border-color: ${colors.solid}20;
-          box-shadow: 0 4px 24px ${colors.solid}15, 0 1px 3px rgba(0,0,0,0.04);
-        `}
+        style={`border-color: ${colors.solid}15;`}
       >
-        <!-- Shimmer overlay for completed -->
-        {isTerminado && (
-          <div class="animate-shimmer pointer-events-none absolute inset-0 rounded-3xl"></div>
-        )}
-
-        <div class="relative flex flex-col items-center gap-4">
-          <!-- Phase title -->
-          <p
-            class="font-display text-lg font-bold"
-            style={`color: ${colors.text};`}
-          >
-            {PHASE_MESSAGES[currentPhase].title}
-          </p>
-
-          <!-- Big percentage -->
-          <div class="relative flex h-32 w-32 items-center justify-center">
-            <!-- Background ring -->
-            <svg class="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="52" fill="none" stroke="#f3f1ed" stroke-width="8" />
-              <circle
-                cx="60" cy="60" r="52" fill="none"
-                stroke={colors.solid}
-                stroke-width="8"
-                stroke-linecap="round"
-                stroke-dasharray={`${progressPercent * 3.27} 327`}
-                class="transition-all duration-1000"
-                style="filter: drop-shadow(0 0 6px ${colors.solid}40);"
-              />
-            </svg>
-            <div class="text-center">
-              <span
-                class="font-display text-4xl font-bold"
-                style={`color: ${colors.text};`}
-              >
-                {progressPercent}
-              </span>
-              <span class="font-sans text-sm font-semibold text-[#9b9490]">%</span>
-            </div>
-          </div>
-
-          <!-- Current phase label -->
-          <div
-            class="rounded-full px-4 py-1.5"
-            style={`background-color: ${colors.bg}; border: 1px solid ${colors.solid}25;`}
-          >
-            <span class="font-sans text-sm font-bold" style={`color: ${colors.text};`}>
-              {isSinIniciar || isTerminado
-                ? PHASE_LABELS[currentPhase]
-                : `${PHASE_SHORT_LABELS[currentPhase]}: ${PHASE_LABELS[currentPhase]}`}
+        <div class="relative">
+          <!-- Label + percentage -->
+          <div class="flex items-center justify-between">
+            <span class="font-sans text-[0.65rem] font-medium uppercase tracking-[0.15em] text-[#9b9490]">Progreso general</span>
+            <span class="font-display text-3xl font-bold" style={`color: ${colors.text};`}>
+              {progressPercent}<span class="text-lg text-[#c5c0ba]">%</span>
             </span>
           </div>
 
-          <!-- Mini progress bar -->
-          <div class="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-[#f3f1ed]">
+          <!-- Progress bar -->
+          <div class="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-[#f3f1ed]">
             <div
-              class="animate-progress-fill h-full rounded-full"
+              class="animate-progress-fill h-full rounded-full transition-all"
               style={`width: ${progressPercent}%; background: linear-gradient(90deg, ${colors.solid}, ${colors.text});`}
             ></div>
+          </div>
+
+          <!-- Phase label + project -->
+          <div class="mt-3 flex items-center justify-between">
+            <div
+              class="rounded-full px-3 py-1"
+              style={`background: ${colors.bg}; border: 1px solid ${colors.solid}20;`}
+            >
+              <span class="font-sans text-xs font-semibold" style={`color: ${colors.text};`}>
+                {isSinIniciar || isTerminado
+                  ? PHASE_LABELS[currentPhase]
+                  : `${PHASE_SHORT_LABELS[currentPhase]}: ${PHASE_LABELS[currentPhase]}`}
+              </span>
+            </div>
+            <span class="font-sans text-[0.65rem] text-[#9b9490]">
+              {client.project.name}
+            </span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ══════ CONFETTI for Terminado ══════ -->
+    <!-- CONFETTI for Terminado -->
     {isTerminado && (
       <div class="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {Array.from({ length: 30 }).map((_, i) => (
           <div
             style={`
               position: absolute;
-              left: ${5 + (i * 4.7) % 90}%;
-              top: -20px;
-              width: ${6 + (i % 4) * 2}px;
-              height: ${6 + (i % 4) * 2}px;
-              border-radius: ${i % 3 === 0 ? '50%' : '2px'};
-              background: ${['hsl(130 50% 38%)', 'hsl(45 80% 50%)', 'hsl(200 60% 50%)', 'hsl(25 80% 50%)', 'hsl(0 70% 50%)'][i % 5]};
-              animation: confettiDrop ${1.5 + (i % 8) * 0.3}s ease-in ${(i % 10) * 0.15}s both;
+              left: ${3 + (i * 3.3) % 94}%;
+              top: -10px;
+              width: ${6 + (i % 5) * 2}px;
+              height: ${6 + (i % 5) * 2}px;
+              border-radius: ${i % 3 === 0 ? '50%' : i % 3 === 1 ? '2px' : '0'};
+              background: ${['#b08d57', '#d4af37', '#c9a84c', '#8a6d3b', '#e6c876', '#a07840'][i % 6]};
+              animation: confettiDrop ${2 + (i % 8) * 0.4}s ease-in ${(i % 12) * 0.12}s both;
             `}
           ></div>
         ))}
       </div>
     )}
 
-    <!-- ══════ INFO CARD ══════ -->
-    <div class="animate-fade-up-delay-2 rounded-2xl border border-[#e8e4de]/60 bg-white/90 p-6 shadow-lg shadow-black/[0.03] backdrop-blur-sm">
-      <div class="mb-4 flex items-center gap-2">
-        <div
-          class="flex h-8 w-8 items-center justify-center rounded-lg"
-          style={`background-color: ${colors.bg};`}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" style={`color: ${colors.text};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
+    <!-- COMING SOON: Entrega — only visible in phase 4 (Detalles) -->
+    {currentPhase === 4 && (
+      <div
+        class="animate-fade-up-delay-2 relative overflow-hidden rounded-2xl border p-5"
+        style={`background: linear-gradient(135deg, ${PHASE_COLORS[5].bg} 0%, white 100%); border-color: ${PHASE_COLORS[5].solid}20; box-shadow: 0 2px 16px ${PHASE_COLORS[5].solid}10;`}
+      >
+        <div class="flex items-center gap-3">
+          <div class="flex gap-1.5">
+            {['🎉', '🥂', '🔑'].map((e, i) => (
+              <span
+                class="flex h-9 w-9 items-center justify-center rounded-xl text-base"
+                style={`background: ${PHASE_COLORS[5].bg}; animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) ${0.5 + i * 0.1}s both;`}
+              >
+                {e}
+              </span>
+            ))}
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="font-display text-sm font-bold" style={`color: ${PHASE_COLORS[5].text};`}>
+              ¡La entrega se acerca!
+            </p>
+            <p class="mt-0.5 font-sans text-xs text-[#6b635d]">
+              Pronto recibirás las llaves de tu nuevo hogar
+            </p>
+          </div>
         </div>
-        <h2 class="font-display text-base font-bold text-[#1e1a1b]">Tu apartamento</h2>
       </div>
+    )}
 
-      <div class="flex flex-col gap-3.5">
-        <div class="flex items-center justify-between">
-          <span class="font-sans text-xs font-medium uppercase tracking-wider text-[#9b9490]">Proyecto</span>
-          <span class="font-sans text-sm font-semibold text-[#1e1a1b]">{client.project.name}</span>
-        </div>
-        <div class="h-px bg-gradient-to-r from-transparent via-[#e8e4de] to-transparent"></div>
-        <div class="flex items-center justify-between">
-          <span class="font-sans text-xs font-medium uppercase tracking-wider text-[#9b9490]">Paquete</span>
-          <span
-            class="inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-sm font-semibold"
-            style={`background-color: ${colors.bg}; color: ${colors.text};`}
-          >
-            {client.package.name}
-          </span>
-        </div>
-        <div class="h-px bg-gradient-to-r from-transparent via-[#e8e4de] to-transparent"></div>
-        <div class="flex items-center justify-between">
-          <span class="font-sans text-xs font-medium uppercase tracking-wider text-[#9b9490]">Apartamento</span>
-          <span class="font-sans text-sm font-semibold text-[#1e1a1b]">
-            {client.tower ? `Torre ${client.tower} · ` : ''}{client.apartment_number ?? '—'}
-          </span>
-        </div>
-        {client.work_start_date && (
-          <Fragment>
-            <div class="h-px bg-gradient-to-r from-transparent via-[#e8e4de] to-transparent"></div>
-            <div class="flex items-center justify-between">
-              <span class="font-sans text-xs font-medium uppercase tracking-wider text-[#9b9490]">Inicio de obra</span>
-              <span class="font-sans text-sm font-semibold text-[#1e1a1b]">{formatDate(client.work_start_date)}</span>
-            </div>
-          </Fragment>
-        )}
+    <!-- INFO ROW: Paquete + Fecha -->
+    <div class="animate-fade-up-delay-2 flex gap-3">
+      <div
+        class="flex-1 rounded-xl border bg-white/80 px-4 py-3 shadow-sm backdrop-blur-sm"
+        style={`border-color: ${colors.solid}10;`}
+      >
+        <span class="block font-sans text-[0.6rem] font-medium uppercase tracking-[0.15em] text-[#9b9490]">Paquete</span>
+        <span class="mt-1 block font-sans text-sm font-semibold" style={`color: ${colors.text};`}>{client.package.name}</span>
+      </div>
+      <div
+        class="flex-1 rounded-xl border bg-white/80 px-4 py-3 shadow-sm backdrop-blur-sm"
+        style={`border-color: ${colors.solid}10;`}
+      >
+        <span class="block font-sans text-[0.6rem] font-medium uppercase tracking-[0.15em] text-[#9b9490]">
+          {client.work_start_date ? 'Inicio de obra' : 'Ciudad'}
+        </span>
+        <span class="mt-1 block font-sans text-sm font-semibold text-[#1e1a1b]">
+          {client.work_start_date ? formatDate(client.work_start_date) : client.project.city}
+        </span>
       </div>
     </div>
 
-    <!-- ══════ TIMELINE ══════ -->
-    <div class="animate-fade-up-delay-3 rounded-2xl border border-[#e8e4de]/60 bg-white/90 p-6 shadow-lg shadow-black/[0.03] backdrop-blur-sm">
+    <!-- TIMELINE -->
+    <div
+      class="animate-fade-up-delay-3 rounded-2xl border bg-white/90 p-6 shadow-lg shadow-black/[0.03] backdrop-blur-sm"
+      style={`border-color: ${colors.solid}10;`}
+    >
       <div class="mb-5 flex items-center gap-2">
         <div
           class="flex h-8 w-8 items-center justify-center rounded-lg"
-          style={`background-color: ${colors.bg};`}
+          style={`background: ${colors.bg};`}
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" style={`color: ${colors.text};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -256,9 +291,9 @@ const formatDate = (dateStr: string | null): string => {
                   ]}
                   style={{
                     backgroundColor: isCompleted || isActive ? pc.solid : '#f3f1ed',
-                    color: isCompleted || isActive ? '#ffffff' : '#b5afa9',
-                    boxShadow: isActive ? `0 4px 20px ${pc.solid}40` : isCompleted ? `0 2px 8px ${pc.solid}25` : 'none',
-                    ringColor: isActive ? `${pc.solid}20` : 'transparent',
+                    color: isCompleted || isActive ? '#ffffff' : '#c5c0ba',
+                    boxShadow: isActive ? `0 4px 20px ${pc.solid}35` : isCompleted ? `0 2px 8px ${pc.solid}20` : 'none',
+                    ringColor: isActive ? `${pc.solid}18` : 'transparent',
                   }}
                 >
                   {isCompleted ? (
@@ -281,7 +316,7 @@ const formatDate = (dateStr: string | null): string => {
                   <div
                     class="w-0.5 flex-1 min-h-[24px] transition-colors"
                     style={{
-                      backgroundColor: isCompleted ? pc.solid : '#e8e4de',
+                      backgroundColor: isCompleted ? `${pc.solid}60` : '#ebe7e2',
                     }}
                   ></div>
                 )}
@@ -291,7 +326,7 @@ const formatDate = (dateStr: string | null): string => {
                 <p
                   class="font-sans text-sm font-semibold leading-[44px]"
                   style={{
-                    color: isActive || isCompleted ? pc.text : '#9b9490',
+                    color: isActive ? pc.text : isCompleted ? pc.text : '#c5c0ba',
                   }}
                 >
                   {phaseIsSinIniciar || phaseIsTerminado
@@ -311,7 +346,7 @@ const formatDate = (dateStr: string | null): string => {
                   </span>
                 )}
                 {isCompleted && (
-                  <span class="inline-flex items-center gap-1 font-sans text-xs font-medium" style={{ color: pc.text }}>
+                  <span class="inline-flex items-center gap-1 font-sans text-xs font-medium" style={{ color: pc.solid }}>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
@@ -330,11 +365,12 @@ const formatDate = (dateStr: string | null): string => {
       </div>
     </div>
 
-    <!-- ══════ CERRAR SESIÓN ══════ -->
+    <!-- CERRAR SESION -->
     <div class="animate-fade-up-delay-3 pt-3">
       <a
         href="/portal"
-        class="group flex w-full items-center justify-center gap-2.5 rounded-2xl bg-[#424832] px-5 py-3.5 font-sans text-sm font-semibold text-white shadow-md shadow-[#424832]/20 transition-all hover:bg-[#374028] hover:shadow-lg active:scale-[0.98]"
+        class="group flex w-full items-center justify-center gap-2.5 rounded-2xl px-5 py-3.5 font-sans text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.98]"
+        style="background: #334155; box-shadow: 0 4px 12px rgba(51,65,85,0.2);"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -344,3 +380,36 @@ const formatDate = (dateStr: string | null): string => {
     </div>
   </div>
 </PortalLayout>
+
+<script>
+  // Rotate phase emojis every 2.5s
+  const box = document.getElementById('phase-emoji-box');
+  if (box) {
+    const emojis = box.querySelectorAll('.phase-emoji');
+    if (emojis.length > 1) {
+      let current = 0;
+      setInterval(() => {
+        const prev = current;
+        current = (current + 1) % emojis.length;
+
+        const prevEl = emojis[prev] as HTMLElement;
+        const nextEl = emojis[current] as HTMLElement;
+
+        // Exit: scale up + fade out
+        prevEl.style.opacity = '0';
+        prevEl.style.transform = 'scale(1.3)';
+
+        // Enter: scale from small + fade in
+        nextEl.style.transform = 'scale(0.5)';
+        nextEl.style.opacity = '0';
+
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            nextEl.style.opacity = '1';
+            nextEl.style.transform = 'scale(1)';
+          }, 50);
+        });
+      }, 2500);
+    }
+  }
+</script>

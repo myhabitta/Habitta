@@ -9,7 +9,8 @@ import PortalLayout from '@/layouts/PortalLayout.astro';
     <!-- Welcome illustration -->
     <div class="mb-8 text-center">
       <div
-        class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-[#424832] to-[#5a6340] shadow-lg shadow-[#424832]/20"
+        class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl shadow-lg"
+        style="background: linear-gradient(135deg, #0d9488, #0f766e); box-shadow: 0 8px 24px rgba(13,148,136,0.2);"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,27 +30,25 @@ import PortalLayout from '@/layouts/PortalLayout.astro';
       <h1 class="font-display text-[28px] font-bold leading-tight text-[#1e1a1b]">
         Bienvenido a tu portal
       </h1>
-      <p class="mx-auto mt-2 max-w-xs font-sans text-sm leading-relaxed text-[#6e6762]">
+      <p class="mx-auto mt-2 max-w-xs font-sans text-sm leading-relaxed text-[#6b635d]">
         Consulta el estado y avance de los acabados de tu apartamento
       </p>
     </div>
 
     <!-- Login card -->
-    <div
-      class="rounded-2xl border border-[#e8e4de]/60 bg-white/80 p-7 shadow-lg shadow-black/[0.03] backdrop-blur-sm"
-    >
+    <div class="rounded-2xl border border-[#e8e4de]/60 bg-white/90 p-7 shadow-xl shadow-black/[0.04] backdrop-blur-sm">
       <form id="portal-form" class="flex flex-col gap-5">
         <div class="flex flex-col gap-1.5">
           <label
             for="email"
-            class="font-sans text-[13px] font-semibold uppercase tracking-wider text-[#6e6762]"
+            class="font-sans text-[13px] font-semibold uppercase tracking-wider text-[#9b9490]"
           >
             Correo electrónico
           </label>
           <div class="relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9b9490]"
+              class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#c5c0ba]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -67,7 +66,7 @@ import PortalLayout from '@/layouts/PortalLayout.astro';
               type="email"
               required
               placeholder="tu@correo.com"
-              class="h-12 w-full rounded-xl border border-[#e8e4de] bg-[#faf9f7] pl-11 pr-4 font-sans text-sm text-[#1e1a1b] outline-none transition-all placeholder:text-[#b5afa9] focus:border-[#424832] focus:bg-white focus:shadow-md focus:shadow-[#424832]/5 focus:ring-2 focus:ring-[#424832]/10"
+              class="h-12 w-full rounded-xl border border-[#e8e4de] bg-[#faf8f5] pl-11 pr-4 font-sans text-sm text-[#1e1a1b] outline-none transition-all placeholder:text-[#c5c0ba] focus:border-[#0d9488] focus:ring-2 focus:ring-[#0d9488]/10"
             />
           </div>
         </div>
@@ -75,14 +74,14 @@ import PortalLayout from '@/layouts/PortalLayout.astro';
         <div class="flex flex-col gap-1.5">
           <label
             for="cedula"
-            class="font-sans text-[13px] font-semibold uppercase tracking-wider text-[#6e6762]"
+            class="font-sans text-[13px] font-semibold uppercase tracking-wider text-[#9b9490]"
           >
             Número de cédula
           </label>
           <div class="relative">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9b9490]"
+              class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#c5c0ba]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -101,20 +100,21 @@ import PortalLayout from '@/layouts/PortalLayout.astro';
               required
               inputmode="numeric"
               placeholder="Ej: 1234567890"
-              class="h-12 w-full rounded-xl border border-[#e8e4de] bg-[#faf9f7] pl-11 pr-4 font-sans text-sm text-[#1e1a1b] outline-none transition-all placeholder:text-[#b5afa9] focus:border-[#424832] focus:bg-white focus:shadow-md focus:shadow-[#424832]/5 focus:ring-2 focus:ring-[#424832]/10"
+              class="h-12 w-full rounded-xl border border-[#e8e4de] bg-[#faf8f5] pl-11 pr-4 font-sans text-sm text-[#1e1a1b] outline-none transition-all placeholder:text-[#c5c0ba] focus:border-[#0d9488] focus:ring-2 focus:ring-[#0d9488]/10"
             />
           </div>
         </div>
 
         <div
           id="error-msg"
-          class="hidden rounded-xl border border-[#f5c6c6] bg-[#fef2f2] px-4 py-3 font-sans text-sm text-[#c53030]"
+          class="hidden rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-sans text-sm text-red-600"
         >
         </div>
 
         <button
           type="submit"
-          class="group mt-1 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#E8703A] to-[#d4612e] font-sans text-sm font-semibold text-white shadow-lg shadow-[#E8703A]/20 transition-all hover:shadow-xl hover:shadow-[#E8703A]/30 active:scale-[0.98] disabled:opacity-50 disabled:shadow-none"
+          class="group mt-1 flex h-12 w-full items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:shadow-none"
+          style="background: linear-gradient(to right, #0d9488, #0f766e); box-shadow: 0 4px 16px rgba(13,148,136,0.2);"
         >
           <span id="btn-text">Consultar mi apartamento</span>
           <svg
@@ -149,11 +149,9 @@ import PortalLayout from '@/layouts/PortalLayout.astro';
     </div>
 
     <!-- Help text -->
-    <p
-      class="animate-fade-up-delay mt-6 text-center font-sans text-xs leading-relaxed text-[#9b9490]"
-    >
+    <p class="animate-fade-up-delay mt-6 text-center font-sans text-xs leading-relaxed text-[#9b9490]">
       ¿Problemas para acceder? Contacta a tu asesor<br />
-      o escríbenos a <span class="font-medium text-[#6e6762]">myhabitta.sas@gmail.com</span>
+      o escríbenos a <span class="font-medium text-[#6b635d]">myhabitta.sas@gmail.com</span>
     </p>
   </div>
 

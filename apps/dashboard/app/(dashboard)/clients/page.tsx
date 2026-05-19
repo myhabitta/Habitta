@@ -3,8 +3,7 @@ import { getClients, getClientStats, getProjects } from '@habitta/database';
 import { formatPrice } from '@habitta/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import ClientsFilters from '@/components/clients/ClientsFilters';
-import ClientsTable from '@/components/clients/ClientsTable';
-import ClientsEmptyState from '@/components/clients/ClientsEmptyState';
+import ClientsTabs from '@/components/clients/ClientsTabs';
 import ClientConvertedSuccessModal from '@/components/clients/ClientConvertedSuccessModal';
 
 // ─── StatCard ─────────────────────────────────────────────────────────────────
@@ -57,7 +56,7 @@ export default async function ClientsPage({
       </div>
 
       {/* Stats cards */}
-      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         <StatCard
           icon={
             <UserCheck
@@ -100,12 +99,8 @@ export default async function ClientsPage({
         {...(params.project_id ? { currentProjectId: params.project_id } : {})}
       />
 
-      {/* Tabla o empty state */}
-      {clients.length === 0 ? (
-        <ClientsEmptyState hasFilters={!!projectFilter} />
-      ) : (
-        <ClientsTable clients={clients} />
-      )}
+      {/* Tabs: En proceso / Finalizados */}
+      <ClientsTabs clients={clients} hasFilters={!!projectFilter} />
     </div>
   );
 }

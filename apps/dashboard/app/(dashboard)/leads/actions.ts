@@ -159,7 +159,7 @@ export const convertLeadAction = async (
 
     // Send welcome email (non-blocking)
     const project = await getProjectById(project_id);
-    const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://habitta.com';
+    const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://myhabitta.co';
     const portalUrl = `${websiteUrl}/portal/${cedula ?? portalSlug}`;
 
     renderEmail(

@@ -20,7 +20,7 @@ interface SendEmailParams {
 export const sendEmail = async ({ to, subject, html }: SendEmailParams): Promise<{ error: string | null }> => {
   try {
     const resend = getResend();
-    const from = process.env.RESEND_FROM_EMAIL ?? 'Habitta <notificaciones@habitta.com>';
+    const from = process.env.RESEND_FROM_EMAIL ?? 'Habitta <notificaciones@myhabitta.co>';
 
     const { error } = await resend.emails.send({ from, to, subject, html });
 

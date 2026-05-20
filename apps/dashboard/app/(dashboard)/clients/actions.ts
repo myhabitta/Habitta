@@ -176,7 +176,7 @@ export const toggleDeliveryAction = async (
     if (isDelivered) {
       const client = await getClient(clientId);
       if (client) {
-        const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://habitta.com';
+        const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://myhabitta.co';
         const portalUrl = `${websiteUrl}/portal/${client.cedula ?? client.portal_slug}`;
 
         renderEmail(
@@ -227,7 +227,7 @@ export const updateConstructionPhaseAction = async (
     // Get full client for email data
     const client = await getClient(clientId);
     if (client) {
-      const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://habitta.com';
+      const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://myhabitta.co';
       const portalUrl = `${websiteUrl}/portal/${client.cedula ?? client.portal_slug}`;
 
       try {

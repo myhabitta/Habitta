@@ -44,3 +44,5 @@ export {
   getProjectPerformance,
   getDashboardMetrics,
 } from './queries/metrics';
+
+export { logEmail, getEmailLogsByClient } from './queries/emailLogs';

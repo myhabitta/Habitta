@@ -4,7 +4,8 @@ import { revalidatePath } from 'next/cache';
 import { updateClient, deleteClient, addClientPayment, updateClientPhase, getClient } from '@habitta/database';
 import type { ClientStatus, ConstructionPhase } from '@habitta/types';
 import { PHASE_LABELS } from '@habitta/types';
-import { sendNotification, buildPhaseUpdateEmail } from '@habitta/utils';
+import { sendNotification } from '@habitta/utils';
+import { renderEmail, PhaseUpdateEmail, DeliveryEmail, DELIVERY_SUBJECT } from '@habitta/email';
 
 export const deleteClientAction = async (
   id: string
@@ -170,6 +171,39 @@ export const toggleDeliveryAction = async (
     await updateClient(clientId, {
       delivered_at: isDelivered ? new Date().toISOString() : null,
     });
+
+    // Send delivery email when marking as delivered
+    if (isDelivered) {
+      const client = await getClient(clientId);
+      if (client) {
+        const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://habitta.com';
+        const portalUrl = `${websiteUrl}/portal/${client.cedula ?? client.portal_slug}`;
+
+        renderEmail(
+          DeliveryEmail({
+            clientName: `${client.first_name} ${client.last_name}`,
+            projectName: client.project.name,
+            packageName: client.package?.name ?? '',
+            apartmentNumber: client.apartment_number ?? undefined,
+            portalUrl,
+          })
+        ).then((html) =>
+          sendNotification({
+            type: 'email',
+            clientId: client.id,
+            template: 'delivery',
+            data: {
+              to: client.email,
+              subject: DELIVERY_SUBJECT,
+              html,
+            },
+          })
+        ).catch((err) => {
+          console.error('[delivery-email] Error:', err);
+        });
+      }
+    }
+
     revalidatePath('/clients');
     revalidatePath(`/clients/${clientShortId}`);
     return { success: isDelivered ? 'Apartamento marcado como entregado' : 'Entrega desmarcada' };
@@ -194,26 +228,37 @@ export const updateConstructionPhaseAction = async (
     const client = await getClient(clientId);
     if (client) {
       const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://habitta.com';
-      const portalUrl = `${websiteUrl}/${client.cedula ?? client.portal_slug}`;
+      const portalUrl = `${websiteUrl}/portal/${client.cedula ?? client.portal_slug}`;
 
-      sendNotification({
-        type: 'email',
-        clientId: client.id,
-        data: {
-          to: client.email,
-          subject: `Tu apartamento avanzó a: ${PHASE_LABELS[phase]}`,
-          html: buildPhaseUpdateEmail({
+      try {
+        console.log('[phase-email] Rendering email for:', client.email);
+        const html = await renderEmail(
+          PhaseUpdateEmail({
             clientName: `${client.first_name} ${client.last_name}`,
             projectName: client.project.name,
-            apartmentNumber: client.apartment_number ?? '',
-            phase,
-            phaseLabel: PHASE_LABELS[phase],
+            packageName: client.package?.name ?? '',
+            phaseName: PHASE_LABELS[phase],
+            phaseNumber: phase,
             portalUrl,
-          }),
-        },
-      }).catch((err) => {
+          })
+        );
+        console.log('[phase-email] HTML rendered, sending...');
+        const result = await sendNotification({
+          type: 'email',
+          clientId: client.id,
+          template: 'phase_update',
+          data: {
+            to: client.email,
+            subject: `Tu apartamento avanzó a: ${PHASE_LABELS[phase]}`,
+            html,
+          },
+        });
+        console.log('[phase-email] Result:', result);
+      } catch (err) {
         console.error('[phase-email] Error:', err);
-      });
+      }
+    } else {
+      console.error('[phase-email] Client not found:', clientId);
     }
 
     revalidatePath('/clients');

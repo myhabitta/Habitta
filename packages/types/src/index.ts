@@ -28,3 +28,4 @@ export type {
   ProjectPerformance,
   DashboardMetrics,
 } from './metrics';
+export type { EmailLog, EmailLogStatus } from './emailLog';

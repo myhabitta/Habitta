@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@habitta/database": "workspace:*",
+    "@habitta/email": "workspace:*",
     "@habitta/types": "workspace:*",
     "@habitta/ui": "workspace:*",
     "@habitta/utils": "workspace:*",

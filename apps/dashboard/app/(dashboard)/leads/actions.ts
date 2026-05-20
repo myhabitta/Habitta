@@ -14,7 +14,8 @@ import {
   getLead,
 } from '@habitta/database';
 import type { LeadStatus, CreateLeadInput } from '@habitta/types';
-import { slugify, sendNotification, buildWelcomeEmail } from '@habitta/utils';
+import { slugify, sendNotification } from '@habitta/utils';
+import { renderEmail, WelcomeEmail, WELCOME_SUBJECT } from '@habitta/email';
 
 export const updateLeadStatusAction = async (
   id: string,
@@ -161,21 +162,26 @@ export const convertLeadAction = async (
     const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL ?? 'https://habitta.com';
     const portalUrl = `${websiteUrl}/portal/${cedula ?? portalSlug}`;
 
-    sendNotification({
-      type: 'email',
-      clientId: client.id,
-      data: {
-        to: client.email,
-        subject: `¡Bienvenido a Habitta, ${client.first_name}!`,
-        html: buildWelcomeEmail({
-          clientName: `${client.first_name} ${client.last_name}`,
-          projectName: project?.name ?? 'Tu proyecto',
-          packageName: selectedPackage.name,
-          apartmentNumber: apartment_number,
-          portalUrl,
-        }),
-      },
-    }).catch((err) => {
+    renderEmail(
+      WelcomeEmail({
+        clientName: `${client.first_name} ${client.last_name}`,
+        projectName: project?.name ?? 'Tu proyecto',
+        packageName: selectedPackage.name,
+        apartmentNumber: apartment_number,
+        portalUrl,
+      })
+    ).then((html) =>
+      sendNotification({
+        type: 'email',
+        clientId: client.id,
+        template: 'welcome',
+        data: {
+          to: client.email,
+          subject: WELCOME_SUBJECT,
+          html,
+        },
+      })
+    ).catch((err) => {
       console.error('[welcome-email] Error:', err);
     });
   } catch (err) {

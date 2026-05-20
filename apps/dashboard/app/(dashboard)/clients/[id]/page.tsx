@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Mail, Phone, Calendar, Building2, Package as PackageIcon, Users, CreditCard } from 'lucide-react';
 import type { ElementType } from 'react';
-import { getClientByShortId } from '@habitta/database';
+import { getClientByShortId, getEmailLogsByClient } from '@habitta/database';
 import { calculateDelivery } from '@habitta/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,7 @@ import ClientPaymentsSection from '@/components/clients/ClientPaymentsSection';
 import ConstructionPhaseStepper from '@/components/clients/ConstructionPhaseStepper';
 import ClientEditModal from '@/components/clients/ClientEditModal';
 import DeleteClientButton from '@/components/clients/DeleteClientButton';
+import ClientEmailHistory from '@/components/clients/ClientEmailHistory';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -80,6 +81,8 @@ export default async function ClientDetailPage({
   const client = await getClientByShortId(shortId);
 
   if (!client) notFound();
+
+  const emailLogs = await getEmailLogsByClient(client.id);
 
   return (
     <div>
@@ -393,6 +396,16 @@ export default async function ClientDetailPage({
                   </dd>
                 </div>
               </dl>
+            </CardContent>
+          </Card>
+
+          {/* Card: Historial de correos */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="font-display text-base font-semibold">Correos enviados</CardTitle>
+            </CardHeader>
+            <CardContent className="px-6 pb-6">
+              <ClientEmailHistory emails={emailLogs} />
             </CardContent>
           </Card>
 

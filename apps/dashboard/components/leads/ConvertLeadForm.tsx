@@ -81,7 +81,7 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
   const [loadingPackages, setLoadingPackages] = useState(false);
   const [selectedPackageId, setSelectedPackageId] = useState(lead.package?.id ?? '');
   const [totalAmount, setTotalAmount] = useState<string>(
-    lead.package?.price ? String(lead.package.price) : ''
+    lead.package?.price ? formatCopNumber(String(lead.package.price)) : ''
   );
 
   const selectedPackage = packages.find((p) => p.id === selectedPackageId) ?? null;
@@ -103,7 +103,7 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
         const preselect = data.find((p) => p.id === lead.package?.id);
         if (preselect) {
           setSelectedPackageId(preselect.id);
-          setTotalAmount(String(preselect.price));
+          setTotalAmount(formatCopNumber(String(preselect.price)));
         }
       })
       .catch(() => setPackages([]))
@@ -113,7 +113,7 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
   const handlePackageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const pkg = packages.find((p) => p.id === e.target.value);
     setSelectedPackageId(e.target.value);
-    if (pkg) setTotalAmount(String(pkg.price));
+    if (pkg) setTotalAmount(formatCopNumber(String(pkg.price)));
   };
 
   const initialPaymentValue = parseCopNumber(initialPayment);
@@ -190,21 +190,15 @@ const ConvertLeadForm = ({ lead, projects }: ConvertLeadFormProps) => {
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="total_amount">Valor total de venta (COP) *</Label>
         <Input
-          id="total_amount"
-          name="total_amount"
-          type="number"
+          id="total_amount_display"
+          type="text"
+          inputMode="numeric"
           required
-          min={0}
-          step={1000000}
           value={totalAmount}
-          onChange={(e) => setTotalAmount(e.target.value)}
-          placeholder="Ej: 250000000"
+          onChange={(e) => setTotalAmount(formatCopNumber(e.target.value))}
+          placeholder="Ej: 250.000.000"
         />
-        {totalAmount && !isNaN(parseFloat(totalAmount)) && (
-          <p className="font-sans text-xs font-medium" style={{ color: 'var(--habitta-accent)' }}>
-            {formatPrice(parseFloat(totalAmount))}
-          </p>
-        )}
+        <input type="hidden" name="total_amount" value={parseCopNumber(totalAmount)} />
         <p className="font-sans text-xs text-muted-foreground">
           Puede diferir del precio base del paquete según negociación.
         </p>

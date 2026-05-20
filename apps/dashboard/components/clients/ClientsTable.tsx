@@ -17,6 +17,14 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import DeleteConfirmDialog from '@/components/molecules/DeleteConfirmDialog';
 import { deleteClientAction, toggleDeliveryAction } from '@/app/(dashboard)/clients/actions';
 
@@ -65,21 +73,35 @@ const ConstructionPhaseBadge = ({
   deliveredAt,
   clientId,
   clientShortId,
+  totalAmount,
+  totalPaid,
 }: {
   phase: ConstructionPhase;
   deliveredAt: string | null;
   clientId: string;
   clientShortId: string;
+  totalAmount: number;
+  totalPaid: number;
 }) => {
   const colors = PHASE_COLORS[phase] ?? PHASE_COLORS[0];
   const [loading, setLoading] = useState(false);
+  const [debtDialogOpen, setDebtDialogOpen] = useState(false);
 
   const handleToggleDelivery = async (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    // Si se intenta marcar como entregado y hay saldo pendiente, mostrar dialog
+    if (!deliveredAt && totalPaid < totalAmount) {
+      setDebtDialogOpen(true);
+      return;
+    }
+
     setLoading(true);
     await toggleDeliveryAction(clientId, clientShortId, !deliveredAt);
     setLoading(false);
   };
+
+  const pendingBalance = totalAmount - totalPaid;
 
   return (
     <div className="flex flex-col gap-1">
@@ -110,6 +132,27 @@ const ConstructionPhaseBadge = ({
               {formatDate(deliveredAt)}
             </span>
           )}
+
+          {/* Dialog de deuda pendiente */}
+          <Dialog open={debtDialogOpen} onOpenChange={setDebtDialogOpen}>
+            <DialogContent onClick={(e) => e.stopPropagation()}>
+              <DialogHeader>
+                <DialogTitle>No se puede entregar el apartamento</DialogTitle>
+                <DialogDescription>
+                  El cliente tiene un saldo pendiente de{' '}
+                  <span className="font-semibold text-foreground">
+                    {formatPrice(pendingBalance)}
+                  </span>
+                  . El anticipo debe cubrir el 100% del valor del paquete antes de la entrega.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setDebtDialogOpen(false)}>
+                  Entendido
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </>
       )}
     </div>
@@ -336,12 +379,20 @@ const ClientsTable = ({ clients }: ClientsTableProps) => {
 
               {/* Fase de construcción */}
               <TableCell>
-                <ConstructionPhaseBadge
-                  phase={client.construction_phase}
-                  deliveredAt={client.delivered_at}
-                  clientId={client.id}
-                  clientShortId={client.short_id}
-                />
+                {(() => {
+                  const paidTotal =
+                    client.payments?.reduce((sum, p) => sum + Number(p.amount), 0) ?? 0;
+                  return (
+                    <ConstructionPhaseBadge
+                      phase={client.construction_phase}
+                      deliveredAt={client.delivered_at}
+                      clientId={client.id}
+                      clientShortId={client.short_id}
+                      totalAmount={client.total_amount ?? 0}
+                      totalPaid={paidTotal}
+                    />
+                  );
+                })()}
               </TableCell>
 
               {/* Fecha abono */}

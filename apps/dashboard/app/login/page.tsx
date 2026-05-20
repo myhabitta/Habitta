@@ -18,10 +18,14 @@ const LoginPage = () => {
       <div className="w-full max-w-sm mx-auto px-6">
         {/* Logo / nombre */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-display font-bold text-foreground tracking-tight">
-            Habitta
-          </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <img
+            src="https://res.cloudinary.com/dcpkaidzl/image/upload/v1779285438/pngmesa_de_trabajo_39_copia_2_bufljc.png"
+            alt="Habitta"
+            width={180}
+            height={60}
+            className="mx-auto mb-3"
+          />
+          <p className="text-sm text-muted-foreground">
             Panel de administración
           </p>
         </div>

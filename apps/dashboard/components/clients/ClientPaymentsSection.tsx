@@ -39,6 +39,17 @@ const formatLocalDate = (iso: string): string => {
   return DATE_FMT.format(new Date(y, m - 1, d));
 };
 
+const formatCopNumber = (value: string): string => {
+  const digits = value.replace(/\D/g, '');
+  if (!digits) return '';
+  return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(Number(digits));
+};
+
+const parseCopNumber = (value: string): number => {
+  const digits = value.replace(/\D/g, '');
+  return digits ? Number(digits) : 0;
+};
+
 const ClientPaymentsSection = ({
   clientId,
   clientShortId,
@@ -62,7 +73,12 @@ const ClientPaymentsSection = ({
     e.preventDefault();
     setError(null);
 
-    const numericAmount = parseFloat(amount);
+    if (selectedDate > new Date()) {
+      setError('No se puede registrar un anticipo con fecha futura');
+      return;
+    }
+
+    const numericAmount = parseCopNumber(amount);
     if (isNaN(numericAmount) || numericAmount <= 0) {
       setError('Ingresa un monto válido');
       return;
@@ -165,12 +181,11 @@ const ClientPaymentsSection = ({
           <div className="flex flex-col gap-1">
             <label className="font-sans text-xs text-muted-foreground">Monto (COP)</label>
             <Input
-              type="number"
-              min="1"
-              step="1"
-              placeholder="Ej: 5000000"
+              type="text"
+              inputMode="numeric"
+              placeholder="Ej: 5.000.000"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => setAmount(formatCopNumber(e.target.value))}
               className="font-sans text-sm"
               disabled={isPending}
             />
@@ -199,6 +214,7 @@ const ClientPaymentsSection = ({
                     if (date) setSelectedDate(date);
                     setCalendarOpen(false);
                   }}
+                  disabled={(date) => date > new Date()}
                   defaultMonth={selectedDate}
                   initialFocus
                 />
@@ -233,7 +249,7 @@ const ClientPaymentsSection = ({
           <Button
             type="submit"
             disabled={isPending || !amount}
-            className="w-full gap-2"
+            className="w-full gap-2 text-white"
             size="sm"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />

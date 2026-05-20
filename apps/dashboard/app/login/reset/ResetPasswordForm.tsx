@@ -115,7 +115,7 @@ const ResetPasswordForm = () => {
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full text-white" disabled={loading}>
         {loading ? 'Actualizando...' : 'Actualizar contraseña'}
       </Button>
     </form>

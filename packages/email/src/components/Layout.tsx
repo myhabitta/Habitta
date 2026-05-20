@@ -21,7 +21,7 @@ interface LayoutProps {
 }
 
 const LOGO_URL =
-  'https://res.cloudinary.com/dcpkaidzl/image/upload/v1775692422/Imagotipo2-F2_pvxjv0_1cb309.webp';
+  'https://res.cloudinary.com/dcpkaidzl/image/upload/v1779285145/pngimagotipo2-f2_pvxjv0_1cb309.png';
 
 export const Layout = ({ children, previewText }: LayoutProps) => {
   return (
@@ -101,7 +101,7 @@ export const Layout = ({ children, previewText }: LayoutProps) => {
             <Row style={footerRow}>
               <Column style={footerLeft}>
                 <Img
-                  src="https://res.cloudinary.com/dcpkaidzl/image/upload/q_auto/f_auto/v1775692674/Mesa_de_trabajo_39_copia_2_bufljc.webp"
+                  src="https://res.cloudinary.com/dcpkaidzl/image/upload/v1779285438/pngmesa_de_trabajo_39_copia_2_bufljc.png"
                   alt="Habitta"
                   width="100"
                   height="auto"
@@ -158,7 +158,7 @@ const container: React.CSSProperties = {
 };
 
 const header: React.CSSProperties = {
-  backgroundColor: '#272626',
+  backgroundColor: '#242226',
   padding: '36px 40px 28px',
   textAlign: 'center' as const,
 };
